@@ -14,7 +14,7 @@ class PageViewController: UIPageViewController {
     let secondRocket = RocketViewController(color: .gray)
     let thirdRocket = RocketViewController(color: .darkGray)
     
-    //let network = NetworkManager()
+    let network = NetworkManager()
     
     var rocketsArray = [UIViewController]()
     
@@ -26,8 +26,8 @@ class PageViewController: UIPageViewController {
         rocketsArray.append(secondRocket)
         rocketsArray.append(thirdRocket)
 
-//        network.requestRocketInfo()
-//        network.requestLaunchesInfo()
+        network.requestRocketInfo()
+        network.requestLaunchesInfo()
         
     }
     

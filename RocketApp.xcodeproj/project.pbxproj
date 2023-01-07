@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F782969ABD600EEE8D2 /* RocketViewController.swift */; };
+		32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */; };
+		32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7D2969AD5800EEE8D2 /* RocketModel.swift */; };
+		32349F802969AD6300EEE8D2 /* LaunchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7F2969AD6300EEE8D2 /* LaunchModel.swift */; };
 		323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A9CCF2969A2C500A2A24B /* AppDelegate.swift */; };
 		323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A9CD12969A2C500A2A24B /* SceneDelegate.swift */; };
 		323A9CD42969A2C500A2A24B /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A9CD32969A2C500A2A24B /* PageViewController.swift */; };
@@ -37,6 +40,9 @@
 
 /* Begin PBXFileReference section */
 		32349F782969ABD600EEE8D2 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
+		32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		32349F7D2969AD5800EEE8D2 /* RocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketModel.swift; sourceTree = "<group>"; };
+		32349F7F2969AD6300EEE8D2 /* LaunchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchModel.swift; sourceTree = "<group>"; };
 		323A9CCC2969A2C500A2A24B /* RocketApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RocketApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		323A9CCF2969A2C500A2A24B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		323A9CD12969A2C500A2A24B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +85,9 @@
 		32349F7A2969AC6800EEE8D2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */,
+				32349F7D2969AD5800EEE8D2 /* RocketModel.swift */,
+				32349F7F2969AD6300EEE8D2 /* LaunchModel.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -291,6 +300,9 @@
 			files = (
 				32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */,
 				323A9CD42969A2C500A2A24B /* PageViewController.swift in Sources */,
+				32349F802969AD6300EEE8D2 /* LaunchModel.swift in Sources */,
+				32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */,
+				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,
 			);
