@@ -7,16 +7,16 @@
 
 import UIKit
 
-class PageViewController: UIPageViewController {
+final class PageViewController: UIPageViewController {
 
     
-    let firstRocket = RocketViewController(color: .lightGray)
-    let secondRocket = RocketViewController(color: .gray)
-    let thirdRocket = RocketViewController(color: .darkGray)
+    private let firstRocket = RocketViewController(color: .lightGray)
+    private let secondRocket = RocketViewController(color: .gray)
+    private let thirdRocket = RocketViewController(color: .darkGray)
     
-    let network = NetworkManager()
+    private let network = NetworkManager()
     
-    var rocketsArray = [UIViewController]()
+    private var rocketsArray = [UIViewController]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +26,22 @@ class PageViewController: UIPageViewController {
         rocketsArray.append(secondRocket)
         rocketsArray.append(thirdRocket)
 
-        network.requestRocketInfo()
-        network.requestLaunchesInfo()
+        network.getRockets(from: API.rockets) { result in
+            switch result {
+            case .success(let rockets):
+                print(rockets[0].id)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+        network.getLaunches(from: API.launches) { result in
+            switch result {
+            case .success(let launches):
+                print(launches.docs.count)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
         
     }
     
@@ -35,7 +49,6 @@ class PageViewController: UIPageViewController {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         view.backgroundColor = .black
         self.dataSource = self
-        self.delegate = self
         setViewControllers([rocketsArray[0]], direction: .forward, animated: true)
     }
     
@@ -44,7 +57,9 @@ class PageViewController: UIPageViewController {
     }
 }
 
-extension PageViewController: UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+//MARK: - UIPageViewControllerDataSource
+
+extension PageViewController: UIPageViewControllerDataSource {
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
@@ -68,11 +83,11 @@ extension PageViewController: UIPageViewControllerDataSource, UIPageViewControll
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        return rocketsArray.count
+        rocketsArray.count
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
-        return 0
+        0
     }
 
 }
