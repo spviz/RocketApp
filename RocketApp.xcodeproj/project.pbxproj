@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3205E7C6296ACC9800844EAE /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205E7C5296ACC9800844EAE /* API.swift */; };
+		3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205E7C7296B12E000844EAE /* LaunchRequest.swift */; };
 		32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F782969ABD600EEE8D2 /* RocketViewController.swift */; };
 		32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */; };
 		32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7D2969AD5800EEE8D2 /* RocketModel.swift */; };
@@ -40,7 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3205E7C5296ACC9800844EAE /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		3205E7C7296B12E000844EAE /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
 		32349F782969ABD600EEE8D2 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
 		32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		32349F7D2969AD5800EEE8D2 /* RocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketModel.swift; sourceTree = "<group>"; };
@@ -90,6 +90,7 @@
 				32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */,
 				32349F7D2969AD5800EEE8D2 /* RocketModel.swift */,
 				32349F7F2969AD6300EEE8D2 /* LaunchModel.swift */,
+				3205E7C7296B12E000844EAE /* LaunchRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -121,7 +122,6 @@
 				323A9D002969A34800A2A24B /* App */,
 				323A9D012969A34F00A2A24B /* ViewControllers */,
 				323A9CFF2969A33E00A2A24B /* Support */,
-				3205E7C5296ACC9800844EAE /* API.swift */,
 			);
 			path = RocketApp;
 			sourceTree = "<group>";
@@ -307,8 +307,8 @@
 				32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */,
 				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
-				3205E7C6296ACC9800844EAE /* API.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,
+				3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

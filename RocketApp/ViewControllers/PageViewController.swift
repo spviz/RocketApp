@@ -9,7 +9,6 @@ import UIKit
 
 final class PageViewController: UIPageViewController {
 
-    
     private let firstRocket = RocketViewController(color: .lightGray)
     private let secondRocket = RocketViewController(color: .gray)
     private let thirdRocket = RocketViewController(color: .darkGray)
@@ -21,20 +20,20 @@ final class PageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         rocketsArray.append(firstRocket)
         rocketsArray.append(secondRocket)
         rocketsArray.append(thirdRocket)
 
-        network.getRockets(from: API.rockets) { result in
+        network.getRockets(){ result in
             switch result {
             case .success(let rockets):
-                print(rockets[0].id)
+                print(rockets.count)
             case .failure(let failure):
                 print(failure)
             }
         }
-        network.getLaunches(from: API.launches) { result in
+        
+        network.getLaunches(for: "5e9d0d96eda699382d09d1ee") { result in
             switch result {
             case .success(let launches):
                 print(launches.docs.count)
@@ -42,7 +41,6 @@ final class PageViewController: UIPageViewController {
                 print(failure)
             }
         }
-        
     }
     
     override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey : Any]? = nil) {
@@ -63,23 +61,18 @@ extension PageViewController: UIPageViewControllerDataSource {
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
-        if let index = rocketsArray.firstIndex(of: viewController) {
-            if index > 0 {
+        if let index = rocketsArray.firstIndex(of: viewController), index > 0 {
                 return rocketsArray[index - 1]
             }
-        }
         return nil
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
-        if let index = rocketsArray.firstIndex(of: viewController) {
-            if index < rocketsArray.count - 1 {
+        if let index = rocketsArray.firstIndex(of: viewController), index < rocketsArray.count - 1 {
                 return rocketsArray[index + 1]
             }
-        }
         return nil
-
     }
     
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
