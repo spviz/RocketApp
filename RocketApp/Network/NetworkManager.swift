@@ -19,25 +19,24 @@ private enum NetworkError: Error {
 
 final class NetworkManager {
     
-    private let decoder = JSONDecoder()
-    
-    private let formatterFirstFlight: DateFormatter = {
+    private let getRocketsDecoder : JSONDecoder = {
+        let decoder = JSONDecoder()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        return formatter
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        return decoder
     }()
     
-    private let formatterLaunchDate: DateFormatter = {
+    private let getLaunchesDecoder : JSONDecoder = {
+        let decoder = JSONDecoder()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        return formatter
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        return decoder
     }()
     
-    init() {
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-    }
-    
-    //MARK: - getRockets
     func getRockets(completionHandler: @escaping (Result<[Rocket], Error>) -> Void) {
         
         guard let url = URL(string: API.rockets) else {
@@ -48,10 +47,8 @@ final class NetworkManager {
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            self.decoder.dateDecodingStrategy = .formatted(self.formatterFirstFlight)
-            
-            if let data = data, let rocket = try? self.decoder.decode([Rocket].self, from: data) {
+                        
+            if let data = data, let rocket = try? self.getRocketsDecoder.decode([Rocket].self, from: data) {
                 completionHandler(.success(rocket))
             } else {
                 completionHandler(.failure(NetworkError.invalidState))
@@ -59,8 +56,7 @@ final class NetworkManager {
         }
         task.resume()
     }
-    
-    //MARK: - getLaunches
+
     func getLaunches(for rocketID: String, completionHandler: @escaping (Result<Launch, Error>) -> Void) {
         
         guard let url = URL(string: API.launches) else {
@@ -77,10 +73,8 @@ final class NetworkManager {
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            self.decoder.dateDecodingStrategy = .formatted(self.formatterLaunchDate)
-           
-            if let data = data, let launches = try? self.decoder.decode(Launch.self, from: data) {
+                       
+            if let data = data, let launches = try? self.getLaunchesDecoder.decode(Launch.self, from: data) {
                 completionHandler(.success(launches))
             } else {
                 completionHandler(.failure(NetworkError.invalidState))
