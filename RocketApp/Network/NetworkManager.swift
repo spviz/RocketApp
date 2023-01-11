@@ -50,7 +50,9 @@ final class NetworkManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if error != nil {
-                completionHandler(.failure(error!))
+                if let error = error {
+                    completionHandler(.failure(error))
+                }
             }
                         
             if let data = data, let rocket = try? self.rocketsDecoder.decode([Rocket].self, from: data) {
@@ -80,7 +82,9 @@ final class NetworkManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if error != nil {
-                completionHandler(.failure(error!))
+                if let error = error {
+                    completionHandler(.failure(error))
+                }
             }
                        
             if let data = data, let launches = try? self.launchesDecoder.decode(Launch.self, from: data) {
