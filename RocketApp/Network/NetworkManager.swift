@@ -15,6 +15,7 @@ private enum API {
 private enum NetworkError: Error {
     case invalidURL
     case invalidState
+    case serverError
 }
 
 final class NetworkManager {
@@ -47,6 +48,10 @@ final class NetworkManager {
         let request = URLRequest(url: url)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            if error != nil {
+                completionHandler(.failure(NetworkError.serverError))
+            }
                         
             if let data = data, let rocket = try? self.getRocketsDecoder.decode([Rocket].self, from: data) {
                 completionHandler(.success(rocket))
@@ -73,6 +78,10 @@ final class NetworkManager {
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            if error != nil {
+                completionHandler(.failure(NetworkError.serverError))
+            }
                        
             if let data = data, let launches = try? self.getLaunchesDecoder.decode(Launch.self, from: data) {
                 completionHandler(.success(launches))
