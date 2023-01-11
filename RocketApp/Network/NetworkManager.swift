@@ -20,7 +20,7 @@ private enum NetworkError: Error {
 
 final class NetworkManager {
     
-    private let getRocketsDecoder : JSONDecoder = {
+    private let rocketsDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
@@ -29,7 +29,7 @@ final class NetworkManager {
         return decoder
     }()
     
-    private let getLaunchesDecoder : JSONDecoder = {
+    private let launchesDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -50,10 +50,10 @@ final class NetworkManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if error != nil {
-                completionHandler(.failure(NetworkError.serverError))
+                completionHandler(.failure(error!))
             }
                         
-            if let data = data, let rocket = try? self.getRocketsDecoder.decode([Rocket].self, from: data) {
+            if let data = data, let rocket = try? self.rocketsDecoder.decode([Rocket].self, from: data) {
                 completionHandler(.success(rocket))
             } else {
                 completionHandler(.failure(NetworkError.invalidState))
@@ -80,10 +80,10 @@ final class NetworkManager {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             
             if error != nil {
-                completionHandler(.failure(NetworkError.serverError))
+                completionHandler(.failure(error!))
             }
                        
-            if let data = data, let launches = try? self.getLaunchesDecoder.decode(Launch.self, from: data) {
+            if let data = data, let launches = try? self.launchesDecoder.decode(Launch.self, from: data) {
                 completionHandler(.success(launches))
             } else {
                 completionHandler(.failure(NetworkError.invalidState))
