@@ -178,6 +178,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 323A9CF62969A2C500A2A24B /* Build configuration list for PBXNativeTarget "RocketApp" */;
 			buildPhases = (
+				32226E0A296F43B500FCF0CB /* Run SwiftLint */,
 				323A9CC82969A2C500A2A24B /* Sources */,
 				323A9CC92969A2C500A2A24B /* Frameworks */,
 				323A9CCA2969A2C500A2A24B /* Resources */,
@@ -295,6 +296,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32226E0A296F43B500FCF0CB /* Run SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint > /dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		323A9CC82969A2C500A2A24B /* Sources */ = {
