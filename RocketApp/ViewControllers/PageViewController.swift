@@ -9,9 +9,9 @@ import UIKit
 
 final class PageViewController: UIPageViewController {
 
-    private let firstRocket = RocketViewController(color: .lightGray)
-    private let secondRocket = RocketViewController(color: .gray)
-    private let thirdRocket = RocketViewController(color: .darkGray)
+    private let firstRocket = RocketViewController(color: .black)
+    private let secondRocket = RocketViewController(color: .darkGray)
+    private let thirdRocket = RocketViewController(color: .gray)
 
     private let network = NetworkManager()
 
