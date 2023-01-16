@@ -9,34 +9,41 @@ import UIKit
 
 final class SettingsCell: UITableViewCell {
 
-    static let identifier = "SettingsCell"
-
-    var unitsSelector = UISegmentedControl()
-    private var label = UILabel()
+    private var unitsSelector = UISegmentedControl()
+    var label = UILabel()
+    var onChangeUnitsSelector: ((Int) -> Void)?
 
     override func layoutSubviews() {
         super.layoutSubviews()
+        configureCell()
         createSwitcherConstraints()
         createLabelConstraints()
     }
 
+    @objc func tapUnitsSelector(sender: UISegmentedControl) {
+        onChangeUnitsSelector?(sender.selectedSegmentIndex)
+    }
+
     // MARK: - Configure UI
-    public func configureParameterName(with settings: Settings) {
+    private func configureCell() {
+
+        unitsSelector.addTarget(self, action: #selector(tapUnitsSelector), for: .valueChanged)
+        contentView.backgroundColor = .black
+        contentView.addSubview(unitsSelector)
+        contentView.addSubview(label)
+    }
+
+    func configureElements(with settings: Settings, selectedIndex: Int) {
+
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = settings.parameterName.rawValue
         label.textColor = .white
-    }
 
-    public func configureUnits(with settings: Settings) {
         unitsSelector = UISegmentedControl(items: [settings.units[0].rawValue, settings.units[1].rawValue])
         unitsSelector.tintColor = .white
         unitsSelector.backgroundColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 1)
         unitsSelector.translatesAutoresizingMaskIntoConstraints = false
-    }
-    public func configureCell() {
-        contentView.backgroundColor = .black
-        contentView.addSubview(unitsSelector)
-        contentView.addSubview(label)
+        unitsSelector.selectedSegmentIndex = selectedIndex
     }
 
     // MARK: - Create Constraints
@@ -47,6 +54,7 @@ final class SettingsCell: UITableViewCell {
         unitsSelector.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -28).isActive = true
         unitsSelector.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
+
     private func createLabelConstraints() {
         label.heightAnchor.constraint(equalToConstant: 24).isActive = true
         label.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 28).isActive = true

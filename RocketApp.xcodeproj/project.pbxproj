@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205E7C7296B12E000844EAE /* LaunchRequest.swift */; };
+		32197AA92974801000DAC758 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32197AA82974801000DAC758 /* Extensions.swift */; };
 		32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F782969ABD600EEE8D2 /* RocketViewController.swift */; };
 		32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */; };
 		32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7D2969AD5800EEE8D2 /* RocketModel.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		3205E7C7296B12E000844EAE /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
+		32197AA82974801000DAC758 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		32349F782969ABD600EEE8D2 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
 		32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		32349F7D2969AD5800EEE8D2 /* RocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketModel.swift; sourceTree = "<group>"; };
@@ -124,11 +126,12 @@
 		323A9CCE2969A2C500A2A24B /* RocketApp */ = {
 			isa = PBXGroup;
 			children = (
-				327240D92974500800557E0E /* DataManager */,
-				32AAD8642970591300B28AB1 /* SettingsModule */,
-				32349F7A2969AC6800EEE8D2 /* Network */,
 				323A9D002969A34800A2A24B /* App */,
+				327240D92974500800557E0E /* DataManager */,
+				32349F7A2969AC6800EEE8D2 /* Network */,
+				32AAD8642970591300B28AB1 /* SettingsModule */,
 				323A9D012969A34F00A2A24B /* ViewControllers */,
+				32BAE17F2975C14D00C0016B /* Extensions */,
 				323A9CFF2969A33E00A2A24B /* Support */,
 			);
 			path = RocketApp;
@@ -229,6 +232,14 @@
 				32AAD8672970599F00B28AB1 /* SettingsCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		32BAE17F2975C14D00C0016B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				32197AA82974801000DAC758 /* Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -392,6 +403,7 @@
 				32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */,
 				32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */,
 				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
+				32197AA92974801000DAC758 /* Extensions.swift in Sources */,
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,
 				3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */,
@@ -570,9 +582,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UIRequiresFullScreen = NO;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -599,9 +612,10 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UIRequiresFullScreen = NO;
-				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

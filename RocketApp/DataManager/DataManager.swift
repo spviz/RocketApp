@@ -9,22 +9,22 @@ import Foundation
 
 protocol DataManagerProtocol {
     var settings: [Settings] { get }
-    func setSettings(for tag: Int, selectedIndex: Int)
-    func getSettings(for tag: Int) -> Int
+    func setSettings(for indexPath: Int, selectedIndex: Int)
+    func getSelectedIndex(for indexPath: Int) -> Int
 }
 
-class DataManager: DataManagerProtocol {
+final class DataManager: DataManagerProtocol {
 
     var settings = [Settings(parameterName: .height, units: [.m, .ft]),
                     Settings(parameterName: .diameter, units: [.m, .ft]),
                     Settings(parameterName: .mass, units: [.kg, .lb]),
                     Settings(parameterName: .payloadWeights, units: [.kg, .lb])]
 
-    func setSettings(for tag: Int, selectedIndex: Int) {
-        UserDefaults.standard.set(selectedIndex, forKey: settings[tag].parameterName.rawValue)
+    func setSettings(for indexPath: Int, selectedIndex: Int) {
+        UserDefaults.standard.set(selectedIndex, forKey: settings[indexPath].parameterName.rawValue)
     }
 
-    func getSettings(for tag: Int) -> Int {
-        return UserDefaults.standard.integer(forKey: settings[tag].parameterName.rawValue)
+    func getSelectedIndex(for indexPath: Int) -> Int {
+        return UserDefaults.standard.integer(forKey: settings[indexPath].parameterName.rawValue)
     }
 }

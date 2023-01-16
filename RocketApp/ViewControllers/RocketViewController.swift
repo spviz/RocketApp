@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RocketViewController: UIViewController {
+final class RocketViewController: UIViewController {
 
     let settingsButton = UIButton()
 

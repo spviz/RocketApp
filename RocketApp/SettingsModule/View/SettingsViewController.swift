@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+final class SettingsViewController: UIViewController {
 
     private enum Constants: String {
         case headerLabel = "Настройки"
@@ -40,14 +40,10 @@ class SettingsViewController: UIViewController {
         createCloseButtonConstraints()
     }
 
-    @objc
-    private func closeButtonPressed() {
+    @objc private func closeButtonPressed() {
         dismiss(animated: true)
     }
-    @objc
-    private func setSettings(sender: UISegmentedControl) {
-        dataManager.setSettings(for: sender.tag, selectedIndex: sender.selectedSegmentIndex)
-    }
+
 }
 
 // MARK: - UITableViewDataSource
@@ -62,14 +58,10 @@ extension SettingsViewController: UITableViewDataSource {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.identifier, for: indexPath) as? SettingsCell else { return UITableViewCell()}
 
-        cell.configureParameterName(with: dataManager.settings[indexPath.row])
-        cell.configureUnits(with: dataManager.settings[indexPath.row])
-        cell.configureCell()
-
-        cell.unitsSelector.tag = indexPath.row
-        cell.unitsSelector.addTarget(self, action: #selector(setSettings), for: .valueChanged)
-        cell.unitsSelector.selectedSegmentIndex = dataManager.getSettings(for: indexPath.row)
-
+        cell.configureElements(with: dataManager.settings[indexPath.row], selectedIndex: dataManager.getSelectedIndex(for: indexPath.row))
+        cell.onChangeUnitsSelector = { index in
+            self.dataManager.setSettings(for: indexPath.row, selectedIndex: index)
+        }
         return cell
     }
 }
@@ -120,11 +112,13 @@ extension SettingsViewController {
         headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18).isActive = true
     }
+
     private func createTableViewConstraints() {
         tableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20).isActive = true
         tableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
+
     private func createCloseButtonConstraints() {
         closeButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
         closeButton.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor).isActive = true
