@@ -14,7 +14,7 @@ final class SettingsViewController: UIViewController {
         case closeButton = "Закрыть"
     }
 
-    private var headerLabel = UILabel()
+    private let headerLabel = UILabel()
     private let closeButton = UIButton()
     private let tableView = UITableView()
     private let dataManager: DataManagerProtocol
@@ -31,13 +31,6 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-    }
-
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        createHeaderLabelConstrains()
-        createTableViewConstraints()
-        createCloseButtonConstraints()
     }
 
     @objc private func closeButtonPressed() {
@@ -101,25 +94,23 @@ extension SettingsViewController {
         view.addSubview(tableView)
         view.addSubview(headerLabel)
         view.addSubview(closeButton)
+
+        createConstraints()
     }
 }
 
 // MARK: - Create Constraints
 
 extension SettingsViewController {
-    private func createHeaderLabelConstrains() {
+    private func createConstraints() {
         headerLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
         headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18).isActive = true
-    }
 
-    private func createTableViewConstraints() {
         tableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20).isActive = true
         tableView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
 
-    private func createCloseButtonConstraints() {
         closeButton.heightAnchor.constraint(equalToConstant: 22).isActive = true
         closeButton.centerYAnchor.constraint(equalTo: headerLabel.centerYAnchor).isActive = true
         closeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
