@@ -49,10 +49,10 @@ extension SettingsCell {
     func configureElements(with settings: Settings, selectedIndex: Int) {
 
         label.text = settings.parameterName.rawValue
-        if unitsSelector.numberOfSegments == 0 {
-            unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
-            unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
-        }
+
+        unitsSelector.removeAllSegments()
+        unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
+        unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
         unitsSelector.selectedSegmentIndex = selectedIndex
     }
 
