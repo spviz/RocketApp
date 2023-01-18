@@ -11,7 +11,7 @@ final class SettingsCell: UITableViewCell {
 
     private let unitsSelector = UISegmentedControl()
     private let label = UILabel()
-    var onChangeUnitsSelector: ((Int) -> Void)?
+    var onChangeUnits: ((Int) -> Void)?
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,7 +23,7 @@ final class SettingsCell: UITableViewCell {
     }
 
     @objc func tapUnitsSelector(sender: UISegmentedControl) {
-        onChangeUnitsSelector?(sender.selectedSegmentIndex)
+        onChangeUnits?(sender.selectedSegmentIndex)
     }
 }
 
@@ -49,8 +49,10 @@ extension SettingsCell {
     func configureElements(with settings: Settings, selectedIndex: Int) {
 
         label.text = settings.parameterName.rawValue
-        unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
-        unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
+        if unitsSelector.numberOfSegments == 0 {
+            unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
+            unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
+        }
         unitsSelector.selectedSegmentIndex = selectedIndex
     }
 
@@ -58,8 +60,8 @@ extension SettingsCell {
 
 // MARK: - Create Constraints
 
-extension SettingsCell {
-    private func createConstraints() {
+private extension SettingsCell {
+    func createConstraints() {
 
         unitsSelector.widthAnchor.constraint(equalToConstant: 115).isActive = true
         unitsSelector.heightAnchor.constraint(equalToConstant: 40).isActive = true

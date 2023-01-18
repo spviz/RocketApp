@@ -52,7 +52,7 @@ extension SettingsViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.identifier, for: indexPath) as? SettingsCell else { return UITableViewCell()}
 
         cell.configureElements(with: dataManager.settings[indexPath.row], selectedIndex: dataManager.getSelectedIndex(for: indexPath.row))
-        cell.onChangeUnitsSelector = { index in
+        cell.onChangeUnits = { index in
             self.dataManager.setSettings(for: indexPath.row, selectedIndex: index)
         }
         return cell
@@ -70,8 +70,8 @@ extension SettingsViewController: UITableViewDelegate {
 
 // MARK: - Configure UI
 
-extension SettingsViewController {
-    private func configureUI() {
+private extension SettingsViewController {
+    func configureUI() {
         tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.identifier)
         tableView.separatorStyle = .none
         tableView.backgroundColor = .black
@@ -101,8 +101,8 @@ extension SettingsViewController {
 
 // MARK: - Create Constraints
 
-extension SettingsViewController {
-    private func createConstraints() {
+private extension SettingsViewController {
+    func createConstraints() {
         headerLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
         headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 18).isActive = true

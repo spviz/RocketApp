@@ -15,7 +15,7 @@ protocol DataManagerProtocol {
 
 final class DataManager: DataManagerProtocol {
 
-    var settings = [Settings(parameterName: .height, units: [.m, .ft]),
+    let settings = [Settings(parameterName: .height, units: [.m, .ft]),
                     Settings(parameterName: .diameter, units: [.m, .ft]),
                     Settings(parameterName: .mass, units: [.kg, .lb]),
                     Settings(parameterName: .payloadWeights, units: [.kg, .lb])]
