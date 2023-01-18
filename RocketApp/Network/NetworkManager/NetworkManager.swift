@@ -19,7 +19,7 @@ private enum NetworkError: Error {
 }
 
 final class NetworkManager {
-    
+
     private let rocketsDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         let formatter = DateFormatter()
@@ -28,7 +28,7 @@ final class NetworkManager {
         decoder.dateDecodingStrategy = .formatted(formatter)
         return decoder
     }()
-    
+
     private let launchesDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
         let formatter = DateFormatter()
@@ -37,24 +37,24 @@ final class NetworkManager {
         decoder.dateDecodingStrategy = .formatted(formatter)
         return decoder
     }()
-    
+
     func getRockets(completionHandler: @escaping (Result<[Rocket], Error>) -> Void) {
-        
+
         guard let url = URL(string: API.rockets) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }
-        
+
         let request = URLRequest(url: url)
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
+
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+
             if error != nil {
                 if let error = error {
                     completionHandler(.failure(error))
                 }
             }
-                        
+
             if let data = data, let rocket = try? self.rocketsDecoder.decode([Rocket].self, from: data) {
                 completionHandler(.success(rocket))
             } else {
@@ -65,28 +65,28 @@ final class NetworkManager {
     }
 
     func getLaunches(for rocketID: String, completionHandler: @escaping (Result<Launch, Error>) -> Void) {
-        
+
         guard let url = URL(string: API.launches) else {
             completionHandler(.failure(NetworkError.invalidURL))
             return
         }
-        
+
         let body = LaunchRequest(query: .init(rocket: rocketID, upcoming: false))
         let bodyData = try? JSONEncoder().encode(body)
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.httpBody = bodyData
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
+
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+
             if error != nil {
                 if let error = error {
                     completionHandler(.failure(error))
                 }
             }
-                       
+
             if let data = data, let launches = try? self.launchesDecoder.decode(Launch.self, from: data) {
                 completionHandler(.success(launches))
             } else {
