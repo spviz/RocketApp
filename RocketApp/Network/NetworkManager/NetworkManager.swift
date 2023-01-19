@@ -7,6 +7,11 @@
 
 import Foundation
 
+protocol NetworkManagerProtocol {
+    func getRockets(completionHandler: @escaping (Result<[Rocket], Error>) -> Void)
+    func getLaunches(for rocketID: String, completionHandler: @escaping (Result<Launch, Error>) -> Void)
+}
+
 private enum API {
     static let rockets = "https://api.spacexdata.com/v4/rockets"
     static let launches = "https://api.spacexdata.com/v4/launches/query/"
@@ -18,7 +23,7 @@ private enum NetworkError: Error {
     case serverError
 }
 
-final class NetworkManager {
+final class NetworkManager: NetworkManagerProtocol {
 
     private let rocketsDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -71,7 +76,7 @@ final class NetworkManager {
             return
         }
 
-        let body = LaunchRequest(query: .init(rocket: rocketID, upcoming: false))
+        let body = LaunchRequest(query: .init(rocket: rocketID, upcoming: false), options: .init(limit: 200, sort: "-date_local"))
         let bodyData = try? JSONEncoder().encode(body)
 
         var request = URLRequest(url: url)
