@@ -51,14 +51,6 @@ final class LaunchesViewController: UIViewController {
                 }
             case .failure(let failure):
                 print(failure)
-                DispatchQueue.main.async {
-                    self.activityIndicator.stopAnimating()
-                }
-                let alert = UIAlertController(title: "Error", message: "\(failure.localizedDescription)", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Back", style: .cancel, handler: { _ in
-                        self.navigationController?.popViewController(animated: true)
-                }))
-                self.present(alert, animated: true, completion: nil)
             }
         }
     }
@@ -74,11 +66,9 @@ extension LaunchesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LaunchesCell.identifier, for: indexPath) as? LaunchesCell else { return UICollectionViewCell() }
-        cell.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
-        cell.layer.cornerRadius = 24
         if let launches = launches {
             DispatchQueue.main.async {
-                cell.configureValues(for: launches, indexPath: indexPath.row)
+                cell.configureValues(for: launches.docs[indexPath.row])
             }
         }
         return cell

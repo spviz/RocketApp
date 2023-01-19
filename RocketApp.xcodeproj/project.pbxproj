@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205E7C7296B12E000844EAE /* LaunchRequest.swift */; };
-		32197AA92974801000DAC758 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32197AA82974801000DAC758 /* Extensions.swift */; };
+		3214D13E2979958100DCDE5E /* UICollectionViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3214D13D2979958100DCDE5E /* UICollectionViewCellExtension.swift */; };
+		32197AA92974801000DAC758 /* UITableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32197AA82974801000DAC758 /* UITableViewCellExtension.swift */; };
 		32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F782969ABD600EEE8D2 /* RocketViewController.swift */; };
 		32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */; };
 		32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7D2969AD5800EEE8D2 /* RocketModel.swift */; };
@@ -48,7 +49,8 @@
 
 /* Begin PBXFileReference section */
 		3205E7C7296B12E000844EAE /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
-		32197AA82974801000DAC758 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		3214D13D2979958100DCDE5E /* UICollectionViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICollectionViewCellExtension.swift; sourceTree = "<group>"; };
+		32197AA82974801000DAC758 /* UITableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtension.swift; sourceTree = "<group>"; };
 		32349F782969ABD600EEE8D2 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
 		32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		32349F7D2969AD5800EEE8D2 /* RocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketModel.swift; sourceTree = "<group>"; };
@@ -259,7 +261,8 @@
 		32BAE17F2975C14D00C0016B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				32197AA82974801000DAC758 /* Extensions.swift */,
+				32197AA82974801000DAC758 /* UITableViewCellExtension.swift */,
+				3214D13D2979958100DCDE5E /* UICollectionViewCellExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3214D13E2979958100DCDE5E /* UICollectionViewCellExtension.swift in Sources */,
 				32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */,
 				327240D82974369300557E0E /* DataManager.swift in Sources */,
 				327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */,
@@ -426,7 +430,7 @@
 				32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */,
 				32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */,
 				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
-				32197AA92974801000DAC758 /* Extensions.swift in Sources */,
+				32197AA92974801000DAC758 /* UITableViewCellExtension.swift in Sources */,
 				327DE6EB297828CF007BC885 /* LaunchesViewController.swift in Sources */,
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,

@@ -12,7 +12,6 @@ final class LaunchesCell: UICollectionViewCell {
     private let name = UILabel()
     private let date = UILabel()
     private let rocketImage = UIImageView()
-    private let successImage = UIImageView()
     private let dateFormatter = DateFormatter()
 
     override init(frame: CGRect) {
@@ -33,7 +32,9 @@ extension LaunchesCell {
         name.translatesAutoresizingMaskIntoConstraints = false
         date.translatesAutoresizingMaskIntoConstraints = false
         rocketImage.translatesAutoresizingMaskIntoConstraints = false
-        successImage.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
+        contentView.layer.cornerRadius = 24
 
         name.textColor = .white
         name.font = .systemFont(ofSize: 20)
@@ -42,26 +43,22 @@ extension LaunchesCell {
         date.font = .systemFont(ofSize: 16)
         dateFormatter.dateFormat = "d MMMM, yyyy"
 
-        rocketImage.addSubview(successImage)
         contentView.addSubview(name)
         contentView.addSubview(date)
         contentView.addSubview(rocketImage)
 
         createConstraints()
     }
-    func configureValues(for launch: Launch, indexPath: Int) {
 
-        name.text = launch.docs[indexPath].name
-        date.text = dateFormatter.string(from: launch.docs[indexPath].dateUtc)
+    func configureValues(for launch: Launch.Doc) {
 
-        if launch.docs[indexPath].success ?? false {
-            rocketImage.image = UIImage(named: "rocket")?.withTintColor(.lightGray)
-            successImage.image = UIImage(systemName: "checkmark.circle.fill")
-            successImage.tintColor = .systemGreen
+        name.text = launch.name
+        date.text = dateFormatter.string(from: launch.dateUtc)
+
+        if launch.success ?? false {
+            rocketImage.image = UIImage(named: "rocket_true")
         } else {
-            rocketImage.image = UIImage(named: "rocket")?.withTintColor(.lightGray).rotate(radians: .pi)
-            successImage.image = UIImage(systemName: "xmark.circle.fill")
-            successImage.tintColor = .systemRed
+            rocketImage.image = UIImage(named: "rocket_false")
         }
     }
 }
@@ -86,10 +83,5 @@ private extension LaunchesCell {
         rocketImage.heightAnchor.constraint(equalToConstant: 32).isActive = true
         rocketImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         rocketImage.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -33).isActive = true
-
-        successImage.widthAnchor.constraint(equalToConstant: 12).isActive = true
-        successImage.heightAnchor.constraint(equalToConstant: 12).isActive = true
-        successImage.rightAnchor.constraint(equalTo: rocketImage.rightAnchor, constant: 0).isActive = true
-        successImage.bottomAnchor.constraint(equalTo: rocketImage.bottomAnchor, constant: 0).isActive = true
     }
 }
