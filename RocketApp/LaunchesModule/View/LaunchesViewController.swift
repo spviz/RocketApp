@@ -50,7 +50,10 @@ final class LaunchesViewController: UIViewController {
                     self.collectionView.reloadData()
                 }
             case .failure(let failure):
-                print(failure)
+                let alert = UIAlertController(title: "Error", message: failure.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .destructive))
+                self.present(alert, animated: true, completion: nil)
+                self.activityIndicator.stopAnimating()
             }
         }
     }
