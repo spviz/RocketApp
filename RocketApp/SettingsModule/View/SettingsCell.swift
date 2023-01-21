@@ -35,11 +35,11 @@ extension SettingsCell {
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        unitsSelector.backgroundColor = UIColor(red: 33/255, green: 33/255, blue: 33/255, alpha: 1)
+        unitsSelector.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
         unitsSelector.addTarget(self, action: #selector(tapUnitsSelector), for: .valueChanged)
         unitsSelector.translatesAutoresizingMaskIntoConstraints = false
 
-        contentView.backgroundColor = .black
+        contentView.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
         contentView.addSubview(unitsSelector)
         contentView.addSubview(label)
 

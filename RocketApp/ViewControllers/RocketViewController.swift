@@ -10,6 +10,10 @@ import UIKit
 final class RocketViewController: UIViewController {
 
     let settingsButton = UIButton()
+    let launchesButton = UIButton()
+    var rocket: String?
+    var rocketName: String?
+    var networkManager = NetworkManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,13 +24,22 @@ final class RocketViewController: UIViewController {
         settingsButton.addTarget(self, action: #selector(presentSettings), for: .touchUpInside)
         settingsButton.center = view.center
 
+        launchesButton.frame = CGRect(x: view.center.x - 100, y: 100, width: 200, height: 50)
+        launchesButton.setTitle("Посмотреть запуски", for: .normal)
+        launchesButton.backgroundColor = .lightGray
+        launchesButton.layer.cornerRadius = 10
+        launchesButton.addTarget(self, action: #selector(pushLaunches), for: .touchUpInside)
+
         view.backgroundColor = .white
         view.addSubview(settingsButton)
+        view.addSubview(launchesButton)
     }
 
-    init(color: UIColor) {
+    init(color: UIColor, rocket: String, name: String) {
         super .init(nibName: nil, bundle: nil)
         self.view.backgroundColor = color
+        self.rocket = rocket
+        self.rocketName = name
     }
 
     required init?(coder: NSCoder) {
@@ -35,6 +48,13 @@ final class RocketViewController: UIViewController {
 
     @objc func presentSettings() {
         present(SettingsViewController(dataManager: DataManager()), animated: true)
+    }
+
+    @objc func pushLaunches() {
+        let launchesViewController = LaunchesViewController(network: networkManager)
+        launchesViewController.selectedRocketID = rocket
+        launchesViewController.selectedRocketName = rocketName
+        self.navigationController?.pushViewController(launchesViewController, animated: true)
     }
 
 }

@@ -9,9 +9,9 @@ import UIKit
 
 final class PageViewController: UIPageViewController {
 
-    private let firstRocket = RocketViewController(color: .black)
-    private let secondRocket = RocketViewController(color: .darkGray)
-    private let thirdRocket = RocketViewController(color: .gray)
+    private let firstRocket = RocketViewController(color: .black, rocket: "5e9d0d95eda69955f709d1eb", name: "Falcon 1")
+    private let secondRocket = RocketViewController(color: .darkGray, rocket: "5e9d0d95eda69973a809d1ec", name: "Falcon 9")
+    private let thirdRocket = RocketViewController(color: .gray, rocket: "5e9d0d95eda69974db09d1ed", name: "Falcon Heavy")
 
     private let network = NetworkManager()
 
@@ -33,7 +33,7 @@ final class PageViewController: UIPageViewController {
             }
         }
 
-        network.getLaunches(for: "5e9d0d95eda69955f709d1eb") { result in
+        network.getLaunches(for: "5e9d0d95eda69973a809d1ec") { result in
             switch result {
             case .success(let launches):
                 print(launches.docs.count)

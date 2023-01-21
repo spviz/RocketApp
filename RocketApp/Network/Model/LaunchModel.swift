@@ -14,7 +14,7 @@ struct Launch: Decodable {
 extension Launch {
     struct Doc: Decodable {
         let rocket: String
-        let success: Bool
+        let success: Bool?
         let name: String
         let dateUtc: Date
     }

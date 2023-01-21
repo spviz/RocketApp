@@ -74,7 +74,7 @@ private extension SettingsViewController {
     func configureUI() {
         tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.identifier)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isScrollEnabled = false
@@ -90,7 +90,7 @@ private extension SettingsViewController {
         closeButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
         view.addSubview(tableView)
         view.addSubview(headerLabel)
         view.addSubview(closeButton)
