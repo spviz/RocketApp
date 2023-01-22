@@ -14,6 +14,7 @@ final class SettingsViewController: UIViewController {
         case closeButton = "Закрыть"
     }
 
+    weak var delegate: RocketViewControllerDelegate?
     private let headerLabel = UILabel()
     private let closeButton = UIButton()
     private let tableView = UITableView()
@@ -51,9 +52,10 @@ extension SettingsViewController: UITableViewDataSource {
 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.identifier, for: indexPath) as? SettingsCell else { return UITableViewCell()}
 
-        cell.configureElements(with: dataManager.settings[indexPath.row], selectedIndex: dataManager.getSelectedIndex(for: indexPath.row))
+        cell.configureElements(with: dataManager.settings[indexPath.row], selectedUnit: dataManager.getSelectedIndex(for: indexPath.row))
         cell.onChangeUnits = { index in
             self.dataManager.setSettings(for: indexPath.row, selectedIndex: index)
+            self.delegate?.reloadCollectionView()
         }
         return cell
     }

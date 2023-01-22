@@ -46,14 +46,14 @@ extension SettingsCell {
         createConstraints()
     }
 
-    func configureElements(with settings: Settings, selectedIndex: Int) {
+    func configureElements(with settings: Settings, selectedUnit: SelectedUnit) {
 
         label.text = settings.parameterName.rawValue
 
         unitsSelector.removeAllSegments()
         unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
         unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
-        unitsSelector.selectedSegmentIndex = selectedIndex
+        unitsSelector.selectedSegmentIndex = selectedUnit.rawValue
     }
 
 }

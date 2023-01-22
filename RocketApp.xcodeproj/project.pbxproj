@@ -28,6 +28,9 @@
 		32AAD8662970593D00B28AB1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD8652970593D00B28AB1 /* SettingsViewController.swift */; };
 		32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD8672970599F00B28AB1 /* SettingsCell.swift */; };
 		32AAD86A297059E200B28AB1 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD869297059E200B28AB1 /* SettingsModel.swift */; };
+		32F22054297C3F3300E1633B /* RocketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22053297C3F3300E1633B /* RocketViewModel.swift */; };
+		32F22056297C423A00E1633B /* ParametersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22055297C423A00E1633B /* ParametersCell.swift */; };
+		32F22058297C424500E1633B /* RocketInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22057297C424500E1633B /* RocketInfoCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +76,9 @@
 		32AAD8652970593D00B28AB1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		32AAD8672970599F00B28AB1 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		32AAD869297059E200B28AB1 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		32F22053297C3F3300E1633B /* RocketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewModel.swift; sourceTree = "<group>"; };
+		32F22055297C423A00E1633B /* ParametersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersCell.swift; sourceTree = "<group>"; };
+		32F22057297C424500E1633B /* RocketInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketInfoCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,12 +147,12 @@
 		323A9CCE2969A2C500A2A24B /* RocketApp */ = {
 			isa = PBXGroup;
 			children = (
+				32F22050297C26F100E1633B /* RocketModule */,
 				323A9D002969A34800A2A24B /* App */,
 				32AAD8642970591300B28AB1 /* SettingsModule */,
 				327DE6E929781CB4007BC885 /* LaunchesModule */,
 				327240D92974500800557E0E /* DataManager */,
 				32349F7A2969AC6800EEE8D2 /* Network */,
-				323A9D012969A34F00A2A24B /* ViewControllers */,
 				32BAE17F2975C14D00C0016B /* Extensions */,
 				323A9CFF2969A33E00A2A24B /* Support */,
 			);
@@ -187,15 +193,6 @@
 				323A9CD12969A2C500A2A24B /* SceneDelegate.swift */,
 			);
 			path = App;
-			sourceTree = "<group>";
-		};
-		323A9D012969A34F00A2A24B /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				323A9CD32969A2C500A2A24B /* PageViewController.swift */,
-				32349F782969ABD600EEE8D2 /* RocketViewController.swift */,
-			);
-			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 		327240D92974500800557E0E /* DataManager */ = {
@@ -265,6 +262,34 @@
 				3214D13D2979958100DCDE5E /* UICollectionViewCellExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		32F22050297C26F100E1633B /* RocketModule */ = {
+			isa = PBXGroup;
+			children = (
+				32F22051297C3EFD00E1633B /* Model */,
+				32F22052297C3F0F00E1633B /* View */,
+			);
+			path = RocketModule;
+			sourceTree = "<group>";
+		};
+		32F22051297C3EFD00E1633B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				32F22053297C3F3300E1633B /* RocketViewModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		32F22052297C3F0F00E1633B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				323A9CD32969A2C500A2A24B /* PageViewController.swift */,
+				32349F782969ABD600EEE8D2 /* RocketViewController.swift */,
+				32F22055297C423A00E1633B /* ParametersCell.swift */,
+				32F22057297C424500E1633B /* RocketInfoCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -425,7 +450,9 @@
 				327240D82974369300557E0E /* DataManager.swift in Sources */,
 				327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */,
 				323A9CD42969A2C500A2A24B /* PageViewController.swift in Sources */,
+				32F22056297C423A00E1633B /* ParametersCell.swift in Sources */,
 				32AAD86A297059E200B28AB1 /* SettingsModel.swift in Sources */,
+				32F22054297C3F3300E1633B /* RocketViewModel.swift in Sources */,
 				32349F802969AD6300EEE8D2 /* LaunchModel.swift in Sources */,
 				32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */,
 				32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */,
@@ -435,6 +462,7 @@
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,
 				3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */,
+				32F22058297C424500E1633B /* RocketInfoCell.swift in Sources */,
 				32AAD8662970593D00B28AB1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

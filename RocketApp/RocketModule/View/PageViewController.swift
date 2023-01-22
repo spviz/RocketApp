@@ -9,34 +9,24 @@ import UIKit
 
 final class PageViewController: UIPageViewController {
 
-    private let firstRocket = RocketViewController(color: .black, rocket: "5e9d0d95eda69955f709d1eb", name: "Falcon 1")
-    private let secondRocket = RocketViewController(color: .darkGray, rocket: "5e9d0d95eda69973a809d1ec", name: "Falcon 9")
-    private let thirdRocket = RocketViewController(color: .gray, rocket: "5e9d0d95eda69974db09d1ed", name: "Falcon Heavy")
-
-    private let network = NetworkManager()
-
-    private var rocketsArray = [UIViewController]()
+    private let networkManager = NetworkManager()
+    private let dataManager = DataManager()
+    private var rocketViewControllersArray = [UIViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
 
-        rocketsArray.append(firstRocket)
-        rocketsArray.append(secondRocket)
-        rocketsArray.append(thirdRocket)
-
-        network.getRockets { result in
+    func getRockets() {
+        networkManager.getRockets { result in
             switch result {
             case .success(let rockets):
-                print(rockets.count)
-            case .failure(let failure):
-                print(failure)
-            }
-        }
-
-        network.getLaunches(for: "5e9d0d95eda69973a809d1ec") { result in
-            switch result {
-            case .success(let launches):
-                print(launches.docs.count)
+                DispatchQueue.main.async {
+                for i in 0...rockets.count - 1 {
+                    self.rocketViewControllersArray.append(RocketViewController(rocket: rockets[i], networkManager: self.networkManager, dataManager: self.dataManager))
+                }
+                    self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
+                }
             case .failure(let failure):
                 print(failure)
             }
@@ -45,9 +35,10 @@ final class PageViewController: UIPageViewController {
 
     override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey: Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        view.backgroundColor = .black
+        view.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
         self.dataSource = self
-        setViewControllers([rocketsArray[0]], direction: .forward, animated: true)
+        getRockets()
+//        setViewControllers([rocketViewControllersArray[0]], direction: .forward, animated: true)
     }
 
     required init?(coder: NSCoder) {
@@ -61,22 +52,22 @@ extension PageViewController: UIPageViewControllerDataSource {
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
-        if let index = rocketsArray.firstIndex(of: viewController), index > 0 {
-                return rocketsArray[index - 1]
+        if let index = rocketViewControllersArray.firstIndex(of: viewController), index > 0 {
+                return rocketViewControllersArray[index - 1]
             }
         return nil
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
-        if let index = rocketsArray.firstIndex(of: viewController), index < rocketsArray.count - 1 {
-                return rocketsArray[index + 1]
+        if let index = rocketViewControllersArray.firstIndex(of: viewController), index < rocketViewControllersArray.count - 1 {
+                return rocketViewControllersArray[index + 1]
             }
         return nil
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        rocketsArray.count
+        rocketViewControllersArray.count
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {

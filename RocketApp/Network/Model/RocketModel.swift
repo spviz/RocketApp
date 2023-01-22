@@ -30,7 +30,7 @@ extension Rocket {
     struct FirstStage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
-        let burnTimeSEC: Int?
+        let burnTimeSec: Int?
     }
 
     struct Mass: Decodable {
@@ -45,6 +45,6 @@ extension Rocket {
     struct SecondStage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
-        let burnTimeSEC: Int?
+        let burnTimeSec: Int?
     }
 }
