@@ -22,15 +22,19 @@
 		323A9CE72969A2C500A2A24B /* RocketAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A9CE62969A2C500A2A24B /* RocketAppTests.swift */; };
 		323A9CF12969A2C500A2A24B /* RocketAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A9CF02969A2C500A2A24B /* RocketAppUITests.swift */; };
 		323A9CF32969A2C500A2A24B /* RocketAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323A9CF22969A2C500A2A24B /* RocketAppUITestsLaunchTests.swift */; };
+		323B02192981582300B29CCC /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B02182981582300B29CCC /* SectionHeader.swift */; };
+		323B021C298170D000B29CCC /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 323B021B298170D000B29CCC /* Kingfisher */; };
 		327240D82974369300557E0E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327240D72974369300557E0E /* DataManager.swift */; };
 		327DE6EB297828CF007BC885 /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EA297828CF007BC885 /* LaunchesViewController.swift */; };
 		327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EC29784A0E007BC885 /* LaunchesCell.swift */; };
+		328E3383297EC3FD00247722 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E3382297EC3FD00247722 /* HeaderCell.swift */; };
+		328E3385297EC41100247722 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 328E3384297EC41100247722 /* ButtonCell.swift */; };
 		32AAD8662970593D00B28AB1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD8652970593D00B28AB1 /* SettingsViewController.swift */; };
 		32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD8672970599F00B28AB1 /* SettingsCell.swift */; };
 		32AAD86A297059E200B28AB1 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD869297059E200B28AB1 /* SettingsModel.swift */; };
-		32F22054297C3F3300E1633B /* RocketViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22053297C3F3300E1633B /* RocketViewModel.swift */; };
-		32F22056297C423A00E1633B /* ParametersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22055297C423A00E1633B /* ParametersCell.swift */; };
-		32F22058297C424500E1633B /* RocketInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22057297C424500E1633B /* RocketInfoCell.swift */; };
+		32F22054297C3F3300E1633B /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22053297C3F3300E1633B /* Model.swift */; };
+		32F22056297C423A00E1633B /* HorizontalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22055297C423A00E1633B /* HorizontalCell.swift */; };
+		32F22058297C424500E1633B /* VerticalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22057297C424500E1633B /* VerticalCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,15 +74,18 @@
 		323A9CEC2969A2C500A2A24B /* RocketAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RocketAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		323A9CF02969A2C500A2A24B /* RocketAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketAppUITests.swift; sourceTree = "<group>"; };
 		323A9CF22969A2C500A2A24B /* RocketAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		323B02182981582300B29CCC /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		327240D72974369300557E0E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		327DE6EA297828CF007BC885 /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
 		327DE6EC29784A0E007BC885 /* LaunchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesCell.swift; sourceTree = "<group>"; };
+		328E3382297EC3FD00247722 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
+		328E3384297EC41100247722 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		32AAD8652970593D00B28AB1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		32AAD8672970599F00B28AB1 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		32AAD869297059E200B28AB1 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
-		32F22053297C3F3300E1633B /* RocketViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewModel.swift; sourceTree = "<group>"; };
-		32F22055297C423A00E1633B /* ParametersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersCell.swift; sourceTree = "<group>"; };
-		32F22057297C424500E1633B /* RocketInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketInfoCell.swift; sourceTree = "<group>"; };
+		32F22053297C3F3300E1633B /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		32F22055297C423A00E1633B /* HorizontalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCell.swift; sourceTree = "<group>"; };
+		32F22057297C424500E1633B /* VerticalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				323B021C298170D000B29CCC /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -229,6 +237,27 @@
 			path = LaunchesModule;
 			sourceTree = "<group>";
 		};
+		328E3386297EC45500247722 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				328E3382297EC3FD00247722 /* HeaderCell.swift */,
+				32F22055297C423A00E1633B /* HorizontalCell.swift */,
+				32F22057297C424500E1633B /* VerticalCell.swift */,
+				328E3384297EC41100247722 /* ButtonCell.swift */,
+				323B02182981582300B29CCC /* SectionHeader.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		328E3387297EC45E00247722 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				323A9CD32969A2C500A2A24B /* PageViewController.swift */,
+				32349F782969ABD600EEE8D2 /* RocketViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		32AAD8642970591300B28AB1 /* SettingsModule */ = {
 			isa = PBXGroup;
 			children = (
@@ -276,7 +305,7 @@
 		32F22051297C3EFD00E1633B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				32F22053297C3F3300E1633B /* RocketViewModel.swift */,
+				32F22053297C3F3300E1633B /* Model.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -284,10 +313,8 @@
 		32F22052297C3F0F00E1633B /* View */ = {
 			isa = PBXGroup;
 			children = (
-				323A9CD32969A2C500A2A24B /* PageViewController.swift */,
-				32349F782969ABD600EEE8D2 /* RocketViewController.swift */,
-				32F22055297C423A00E1633B /* ParametersCell.swift */,
-				32F22057297C424500E1633B /* RocketInfoCell.swift */,
+				328E3387297EC45E00247722 /* ViewControllers */,
+				328E3386297EC45500247722 /* Cells */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -309,6 +336,9 @@
 			dependencies = (
 			);
 			name = RocketApp;
+			packageProductDependencies = (
+				323B021B298170D000B29CCC /* Kingfisher */,
+			);
 			productName = RocketApp;
 			productReference = 323A9CCC2969A2C500A2A24B /* RocketApp.app */;
 			productType = "com.apple.product-type.application";
@@ -381,6 +411,9 @@
 				Base,
 			);
 			mainGroup = 323A9CC32969A2C500A2A24B;
+			packageReferences = (
+				323B021A298170D000B29CCC /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			productRefGroup = 323A9CCD2969A2C500A2A24B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -450,20 +483,23 @@
 				327240D82974369300557E0E /* DataManager.swift in Sources */,
 				327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */,
 				323A9CD42969A2C500A2A24B /* PageViewController.swift in Sources */,
-				32F22056297C423A00E1633B /* ParametersCell.swift in Sources */,
+				32F22056297C423A00E1633B /* HorizontalCell.swift in Sources */,
 				32AAD86A297059E200B28AB1 /* SettingsModel.swift in Sources */,
-				32F22054297C3F3300E1633B /* RocketViewModel.swift in Sources */,
+				32F22054297C3F3300E1633B /* Model.swift in Sources */,
 				32349F802969AD6300EEE8D2 /* LaunchModel.swift in Sources */,
 				32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */,
 				32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */,
 				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
+				323B02192981582300B29CCC /* SectionHeader.swift in Sources */,
 				32197AA92974801000DAC758 /* UITableViewCellExtension.swift in Sources */,
 				327DE6EB297828CF007BC885 /* LaunchesViewController.swift in Sources */,
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,
+				328E3383297EC3FD00247722 /* HeaderCell.swift in Sources */,
 				3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */,
-				32F22058297C424500E1633B /* RocketInfoCell.swift in Sources */,
+				32F22058297C424500E1633B /* VerticalCell.swift in Sources */,
 				32AAD8662970593D00B28AB1 /* SettingsViewController.swift in Sources */,
+				328E3385297EC41100247722 /* ButtonCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -801,6 +837,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		323B021A298170D000B29CCC /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		323B021B298170D000B29CCC /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 323B021A298170D000B29CCC /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 323A9CC42969A2C500A2A24B /* Project object */;
 }

@@ -36,6 +36,7 @@ final class SettingsViewController: UIViewController {
 
     @objc private func closeButtonPressed() {
         dismiss(animated: true)
+        delegate?.reloadCollectionView()
     }
 
 }

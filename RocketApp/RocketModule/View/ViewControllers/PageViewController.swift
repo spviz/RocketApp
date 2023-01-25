@@ -17,7 +17,7 @@ final class PageViewController: UIPageViewController {
         super.viewDidLoad()
     }
 
-    func getRockets() {
+    private func getRocketScreens() {
         networkManager.getRockets { result in
             switch result {
             case .success(let rockets):
@@ -37,8 +37,7 @@ final class PageViewController: UIPageViewController {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         view.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
         self.dataSource = self
-        getRockets()
-//        setViewControllers([rocketViewControllersArray[0]], direction: .forward, animated: true)
+        getRocketScreens()
     }
 
     required init?(coder: NSCoder) {
