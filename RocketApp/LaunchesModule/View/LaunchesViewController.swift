@@ -28,8 +28,6 @@ final class LaunchesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureCollectionView()
-        configureActivityIndicator()
         getLaunches()
     }
 
@@ -38,7 +36,7 @@ final class LaunchesViewController: UIViewController {
         activityIndicator.startAnimating()
     }
 
-    func getLaunches() {
+    private func getLaunches() {
         guard let selectedRocket = selectedRocketID else { return }
 
         networkManager.getLaunches(for: selectedRocket) { result in
@@ -96,22 +94,18 @@ private extension LaunchesViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.barTintColor = UIColor(white: 0, alpha: 0)
         navigationItem.title = selectedRocketName
-    }
 
-    func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .black
-        view.addSubview(collectionView)
-
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(LaunchesCell.self, forCellWithReuseIdentifier: LaunchesCell.identifier)
-    }
 
-    func configureActivityIndicator() {
         activityIndicator.center = view.center
         activityIndicator.style = .large
         activityIndicator.color = .white
+
+        view.addSubview(collectionView)
         view.addSubview(activityIndicator)
     }
 }

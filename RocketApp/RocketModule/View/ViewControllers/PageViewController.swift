@@ -22,21 +22,25 @@ final class PageViewController: UIPageViewController {
             switch result {
             case .success(let rockets):
                 DispatchQueue.main.async {
-                for i in 0...rockets.count - 1 {
-                    self.rocketViewControllersArray.append(RocketViewController(rocket: rockets[i], networkManager: self.networkManager, dataManager: self.dataManager))
-                }
+                    self.rocketViewControllersArray.append(contentsOf: rockets.map({ rocket in
+                        let rocketVC = RocketViewController(rocket: rocket, dataManager: self.dataManager)
+                        return rocketVC
+                    }))
                     self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
                 }
             case .failure(let failure):
-                print(failure)
+                let alert = UIAlertController(title: "Error", message: failure.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .destructive))
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
 
     override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey: Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
-        view.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
+        view.backgroundColor = Colors.settingsBackgroundColor
         self.dataSource = self
+        self.delegate = self
         getRocketScreens()
     }
 
@@ -48,20 +52,19 @@ final class PageViewController: UIPageViewController {
 // MARK: - UIPageViewControllerDataSource
 
 extension PageViewController: UIPageViewControllerDataSource {
-
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
         if let index = rocketViewControllersArray.firstIndex(of: viewController), index > 0 {
-                return rocketViewControllersArray[index - 1]
-            }
+            return rocketViewControllersArray[index - 1]
+        }
         return nil
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
         if let index = rocketViewControllersArray.firstIndex(of: viewController), index < rocketViewControllersArray.count - 1 {
-                return rocketViewControllersArray[index + 1]
-            }
+            return rocketViewControllersArray[index + 1]
+        }
         return nil
     }
 
@@ -72,5 +75,12 @@ extension PageViewController: UIPageViewControllerDataSource {
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         0
     }
+}
 
+// MARK: - UIPageViewControllerDelegate
+extension PageViewController: UIPageViewControllerDelegate {
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        let pendingViewController = pendingViewControllers[0] as? RocketViewController
+        pendingViewController?.reloadCollectionView()
+    }
 }

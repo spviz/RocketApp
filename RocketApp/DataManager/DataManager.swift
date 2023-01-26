@@ -28,6 +28,7 @@ final class DataManager: DataManagerProtocol {
     }
 
     func getSelectedIndex(for indexPath: Int) -> SelectedUnit {
-        return selectedUnit[UserDefaults.standard.integer(forKey: settings[indexPath].parameterName.rawValue)]
+        let unitIndex = UserDefaults.standard.integer(forKey: settings[indexPath].parameterName.rawValue)
+        return selectedUnit[unitIndex]
     }
 }

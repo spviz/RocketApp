@@ -26,7 +26,6 @@ extension Settings {
         case m
         case ft
     }
-
 }
 
 enum SelectedUnit: Int {

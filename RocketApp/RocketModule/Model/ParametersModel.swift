@@ -1,36 +1,21 @@
 //
-//  Model.swift
+//  ParametersModel.swift
 //  RocketApp
 //
-//  Created by Podgainy Sergei on 21.01.2023.
+//  Created by Podgainy Sergei on 27.01.2023.
 //
 
 import Foundation
 
-struct Section: Hashable {
-    let title: String?
-    let type: SectionType
-    let items: [ItemType]
-}
-
-enum ItemType: Hashable {
-    case header(URL, String)
-    case info(ParametersName, String, UUID)
-    case button
-}
-
-enum SectionType {
-    case header
-    case horizontal
-    case vertical
-    case button
-}
-
 enum ParametersName: String {
-    case height = "Высота"
-    case diameter = "Диаметр"
-    case mass = "Масса"
-    case payloadWeights = "Нагрузка"
+    case heightMetric = "Высота, m"
+    case heightImperial = "Высота, ft"
+    case diameterMetric = "Диаметр, m"
+    case diameterImperial = "Диаметр, ft"
+    case massMetric = "Масса, kg"
+    case massImperial = "Масса, lb"
+    case payloadWeightsMetric = "Нагрузка, kg"
+    case payloadWeightsImperial = "Нагрузка, lb"
     case firstFlight = "Первый запуск"
     case country = "Cтрана"
     case costPerLaunch = "Стоимость запуска"

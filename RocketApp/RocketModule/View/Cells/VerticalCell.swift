@@ -15,49 +15,43 @@ final class VerticalCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()
+        createConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func configure(with name: String, value: String) {
+        nameLabel.text = name
+        valueLabel.text = value
+    }
 }
 
-// MARK: - Configure Cell
-extension VerticalCell {
-    func configure(for item: ItemType) {
-        switch item {
-        case .info(let name, let value, _):
-            nameLabel.text = name.rawValue
-            valueLabel.text = value
-        default: break
-        }
-    }
+// MARK: - Configure UI
 
-    private func configureCell() {
-
+private extension VerticalCell {
+    func configureCell() {
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         valueLabel.translatesAutoresizingMaskIntoConstraints = false
 
         valueLabel.textAlignment = .right
         valueLabel.textColor = .white
-        nameLabel.textColor = UIColor(red: 0.792, green: 0.792, blue: 0.792, alpha: 1)
+        nameLabel.textColor = Colors.verticalCellNameColor
 
         contentView.addSubview(nameLabel)
         contentView.addSubview(valueLabel)
-
-        createConstraints()
     }
-}
 
-// MARK: - Create Constraints
-private extension VerticalCell {
     func createConstraints() {
         nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        nameLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        nameLabel.rightAnchor.constraint(equalTo: valueLabel.leftAnchor).isActive = true
+        nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width * 0.8).isActive = true
 
         valueLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         valueLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        valueLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        valueLabel.leftAnchor.constraint(equalTo: nameLabel.rightAnchor).isActive = true
+        valueLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width * 0.8).isActive = true
     }
 }

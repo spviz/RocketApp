@@ -14,11 +14,12 @@ final class SettingsViewController: UIViewController {
         case closeButton = "Закрыть"
     }
 
-    weak var delegate: RocketViewControllerDelegate?
     private let headerLabel = UILabel()
     private let closeButton = UIButton()
     private let tableView = UITableView()
     private let dataManager: DataManagerProtocol
+
+    var reloadData: (() -> Void)?
 
     init(dataManager: DataManagerProtocol) {
         self.dataManager = dataManager
@@ -32,11 +33,12 @@ final class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        createConstraints()
     }
 
     @objc private func closeButtonPressed() {
         dismiss(animated: true)
-        delegate?.reloadCollectionView()
+        reloadData?()
     }
 
 }
@@ -56,7 +58,6 @@ extension SettingsViewController: UITableViewDataSource {
         cell.configureElements(with: dataManager.settings[indexPath.row], selectedUnit: dataManager.getSelectedIndex(for: indexPath.row))
         cell.onChangeUnits = { index in
             self.dataManager.setSettings(for: indexPath.row, selectedIndex: index)
-            self.delegate?.reloadCollectionView()
         }
         return cell
     }
@@ -77,7 +78,7 @@ private extension SettingsViewController {
     func configureUI() {
         tableView.register(SettingsCell.self, forCellReuseIdentifier: SettingsCell.identifier)
         tableView.separatorStyle = .none
-        tableView.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
+        tableView.backgroundColor = Colors.settingsBackgroundColor
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isScrollEnabled = false
@@ -93,18 +94,12 @@ private extension SettingsViewController {
         closeButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
 
-        view.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
+        view.backgroundColor = Colors.settingsBackgroundColor
         view.addSubview(tableView)
         view.addSubview(headerLabel)
         view.addSubview(closeButton)
-
-        createConstraints()
     }
-}
 
-// MARK: - Create Constraints
-
-private extension SettingsViewController {
     func createConstraints() {
         headerLabel.heightAnchor.constraint(equalToConstant: 22).isActive = true
         headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

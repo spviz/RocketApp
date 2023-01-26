@@ -8,45 +8,38 @@
 import UIKit
 import Kingfisher
 
-protocol HeaderCellDelegate: AnyObject {
-    func presentSettings()
-}
-
 final class HeaderCell: UICollectionViewCell {
 
     private let rocketImage = UIImageView()
     private let blackView = UIView()
     private let rocketName = UILabel()
     private let settingsButton = UIButton()
-    var delegate: HeaderCellDelegate?
+    var onPresentSettings: (() -> Void)?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()
+        createConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func configure(with url: URL, name: String) {
+        rocketImage.kf.setImage(with: url)
+        rocketName.text = name
+    }
+
     @objc func presentSettings() {
-        delegate?.presentSettings()
+        onPresentSettings?()
     }
 }
 
-// MARK: - Configure Cell
-extension HeaderCell {
-    func configure(item: ItemType) {
-        switch item {
-        case .header(let url, let name):
-            rocketImage.kf.setImage(with: url)
-            rocketName.text = name
-        default:
-            break
-        }
-    }
+// MARK: - Configure UI
 
-    private func configureCell() {
+private extension HeaderCell {
+    func configureCell() {
         rocketImage.translatesAutoresizingMaskIntoConstraints = false
         blackView.translatesAutoresizingMaskIntoConstraints = false
         rocketName.translatesAutoresizingMaskIntoConstraints = false
@@ -72,13 +65,8 @@ extension HeaderCell {
         contentView.addSubview(blackView)
         blackView.addSubview(rocketName)
         blackView.addSubview(settingsButton)
-
-        createConstraints()
     }
-}
 
-// MARK: - Create Constraints
-private extension HeaderCell {
     func createConstraints() {
         rocketImage.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         rocketImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true

@@ -16,34 +16,11 @@ final class SettingsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCell()
+        createConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    @objc func tapUnitsSelector(sender: UISegmentedControl) {
-        onChangeUnits?(sender.selectedSegmentIndex)
-    }
-}
-
-// MARK: - Configure UI
-
-extension SettingsCell {
-    private func configureCell() {
-
-        label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        unitsSelector.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
-        unitsSelector.addTarget(self, action: #selector(tapUnitsSelector), for: .valueChanged)
-        unitsSelector.translatesAutoresizingMaskIntoConstraints = false
-
-        contentView.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
-        contentView.addSubview(unitsSelector)
-        contentView.addSubview(label)
-
-        createConstraints()
     }
 
     func configureElements(with settings: Settings, selectedUnit: SelectedUnit) {
@@ -56,13 +33,28 @@ extension SettingsCell {
         unitsSelector.selectedSegmentIndex = selectedUnit.rawValue
     }
 
+    @objc func tapUnitsSelector(sender: UISegmentedControl) {
+        onChangeUnits?(sender.selectedSegmentIndex)
+    }
 }
 
-// MARK: - Create Constraints
+// MARK: - Configure UI
 
 private extension SettingsCell {
-    func createConstraints() {
+    func configureCell() {
+        label.textColor = .white
+        label.translatesAutoresizingMaskIntoConstraints = false
 
+        unitsSelector.backgroundColor = Colors.horizontalCellColor
+        unitsSelector.addTarget(self, action: #selector(tapUnitsSelector), for: .valueChanged)
+        unitsSelector.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.backgroundColor = Colors.settingsBackgroundColor
+        contentView.addSubview(unitsSelector)
+        contentView.addSubview(label)
+    }
+
+    func createConstraints() {
         unitsSelector.widthAnchor.constraint(equalToConstant: 115).isActive = true
         unitsSelector.heightAnchor.constraint(equalToConstant: 40).isActive = true
         unitsSelector.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -28).isActive = true

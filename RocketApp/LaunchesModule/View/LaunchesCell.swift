@@ -17,37 +17,11 @@ final class LaunchesCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()
+        createConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - Configure UI
-
-extension LaunchesCell {
-    private func configureCell() {
-
-        name.translatesAutoresizingMaskIntoConstraints = false
-        date.translatesAutoresizingMaskIntoConstraints = false
-        rocketImage.translatesAutoresizingMaskIntoConstraints = false
-
-        contentView.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
-        contentView.layer.cornerRadius = 24
-
-        name.textColor = .white
-        name.font = .systemFont(ofSize: 20)
-
-        date.textColor = .lightGray
-        date.font = .systemFont(ofSize: 16)
-        dateFormatter.dateFormat = "d MMMM, yyyy"
-
-        contentView.addSubview(name)
-        contentView.addSubview(date)
-        contentView.addSubview(rocketImage)
-
-        createConstraints()
     }
 
     func configureValues(for launch: Launch.Doc) {
@@ -63,9 +37,29 @@ extension LaunchesCell {
     }
 }
 
-// MARK: - Create Constraints
-
+// MARK: - Configure UI
 private extension LaunchesCell {
+
+    func configureCell() {
+        name.translatesAutoresizingMaskIntoConstraints = false
+        date.translatesAutoresizingMaskIntoConstraints = false
+        rocketImage.translatesAutoresizingMaskIntoConstraints = false
+
+        contentView.backgroundColor = Colors.horizontalCellColor
+        contentView.layer.cornerRadius = 24
+
+        name.textColor = .white
+        name.font = .systemFont(ofSize: 20)
+
+        date.textColor = .lightGray
+        date.font = .systemFont(ofSize: 16)
+        dateFormatter.dateFormat = "d MMMM, yyyy"
+
+        contentView.addSubview(name)
+        contentView.addSubview(date)
+        contentView.addSubview(rocketImage)
+    }
+
     func createConstraints() {
         name.widthAnchor.constraint(equalToConstant: 200).isActive = true
         name.heightAnchor.constraint(equalToConstant: 28).isActive = true

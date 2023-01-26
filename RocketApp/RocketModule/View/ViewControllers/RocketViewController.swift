@@ -7,30 +7,31 @@
 
 import UIKit
 
-protocol RocketViewControllerDelegate: AnyObject {
-    func reloadCollectionView()
-}
+final class RocketViewController: UIViewController {
 
-final class RocketViewController: UIViewController, RocketViewControllerDelegate {
+    enum Constants: String {
+        case noData = "Нет данных"
+        case firstStage = "ПЕРВАЯ СТУПЕНЬ"
+        case secondStage = "ВТОРАЯ СТУПЕНЬ"
+    }
 
     private let rocket: Rocket
-    private let networkManager: NetworkManagerProtocol
     private let dataManager: DataManagerProtocol
     private let dateFormatter = DateFormatter()
 
-    private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Section, ItemType>!
-    private var sections: [Section]!
+    private lazy var collectionView = UICollectionView()
+    private lazy var dataSource = setupDataSource()
+    private var sections = [Section]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupData()
         setupCollectionView()
+        applySnapshot()
     }
 
-    init(rocket: Rocket, networkManager: NetworkManagerProtocol, dataManager: DataManagerProtocol) {
+    init(rocket: Rocket, dataManager: DataManagerProtocol) {
         self.rocket = rocket
-        self.networkManager = networkManager
         self.dataManager = dataManager
         super .init(nibName: nil, bundle: nil)
     }
@@ -40,100 +41,82 @@ final class RocketViewController: UIViewController, RocketViewControllerDelegate
     }
 
     func reloadCollectionView() {
-        collectionView.reloadData()
+        setupData()
+        applySnapshot()
     }
 }
 
 // MARK: - Configure Data
-extension RocketViewController {
-    func fetchData(for item: Parameters) -> String {
+
+private extension RocketViewController {
+    func setupData() {
 
         dateFormatter.dateFormat = "d MMMM, yyyy"
 
-        switch item {
-        case .height:
-            guard let rocketHeightMeters = rocket.height.meters, let rocketHeightFeet = rocket.height.feet  else {
-                return "Нет данных"
-            }
-            switch dataManager.getSelectedIndex(for: 0) {
-            case .metric: return String(rocketHeightMeters)
-            case .imperial: return String(rocketHeightFeet)
-            }
-        case .diameter:
-            guard let rocketDiameterMeters = rocket.diameter.meters, let rocketDiameterFeet = rocket.diameter.feet  else {
-                return "Нет данных"
-            }
-            switch dataManager.getSelectedIndex(for: 1) {
-            case .metric: return String(rocketDiameterMeters)
-            case .imperial: return String(rocketDiameterFeet)
-            }
-        case .mass:
-            switch dataManager.getSelectedIndex(for: 2) {
-            case .metric: return String(rocket.mass.kg)
-            case .imperial: return String(rocket.mass.lb)
-            }
-        case .payloadWeights:
-            switch dataManager.getSelectedIndex(for: 3) {
-            case .metric: return String(rocket.mass.kg)
-            case .imperial: return String(rocket.mass.lb)
-            }
-        case .firstFlight:
-            return dateFormatter.string(from: rocket.firstFlight)
-        case .costPerLaunch:
-            return String(rocket.costPerLaunch)
-        case .enginesFirstStage:
-            return String(rocket.firstStage.engines)
-        case .fuelAmountTonsFirstStage:
-            return String(rocket.firstStage.fuelAmountTons)
-        case .burnTimeSecFirstStage:
-            guard let burnTime = rocket.firstStage.burnTimeSec else { return "Нет данных" }
-            return String(burnTime)
-        case .enginesSecondStage:
-            return String(rocket.secondStage.engines)
-        case .fuelAmountTonsSecondStage:
-            return String(rocket.secondStage.fuelAmountTons)
-        case .burnTimeSecSecondStage:
-            guard let burnTime = rocket.secondStage.burnTimeSec else { return "Нет данных" }
-            return String(burnTime)
+        let height = dataManager.getSelectedIndex(for: 0) == .metric
+        ? String(rocket.height.meters)
+        : String(rocket.height.feet)
 
-        default: return "Нет данных"
+        let diameter = dataManager.getSelectedIndex(for: 1) == .metric
+        ? String(rocket.diameter.meters)
+        : String(rocket.diameter.feet)
+
+        let mass = dataManager.getSelectedIndex(for: 2) == .metric
+        ? String(rocket.mass.kg)
+        : String(rocket.mass.lb)
+
+        let payloadWeights = dataManager.getSelectedIndex(for: 3) == .metric
+        ? String(rocket.payloadWeights[0].kg)
+        : String(rocket.payloadWeights[0].lb)
+
+        let burnTimeFirstStage: String
+        let burnTimeSecondStage: String
+
+        if let burnTime = rocket.firstStage.burnTimeSec {
+            burnTimeFirstStage = String(burnTime)
+        } else {
+            burnTimeFirstStage = Constants.noData.rawValue
         }
-    }
 
-    func setupData() {
+        if let burnTime = rocket.secondStage.burnTimeSec {
+            burnTimeSecondStage = String(burnTime)
+        } else {
+            burnTimeSecondStage = Constants.noData.rawValue
+        }
 
-        let headSection = Section(title: nil, type: .header, items: [
-            .header(rocket.flickrImages[Int.random(in: 0...1)], rocket.name)])
+        let headSection = Section(type: .header, items: [
+            .header(rocket.flickrImages[Int.random(in: 0...rocket.flickrImages.count - 1)], rocket.name)])
 
-        let horizontalSection = Section(title: nil, type: .horizontal, items: [
-            .info(.height, fetchData(for: .height), UUID()),
-            .info(.diameter, fetchData(for: .diameter), UUID()),
-            .info(.mass, fetchData(for: .mass), UUID()),
-            .info(.payloadWeights, fetchData(for: .payloadWeights), UUID())])
+        let horizontalSection = Section(type: .horizontal, items: [
+            .info(dataManager.getSelectedIndex(for: 0) == .metric ? .heightMetric : .heightImperial, height),
+            .info(dataManager.getSelectedIndex(for: 1) == .metric ? .diameterMetric : .diameterImperial, diameter),
+            .info(dataManager.getSelectedIndex(for: 2) == .metric ? .massMetric : .massImperial, mass),
+            .info(dataManager.getSelectedIndex(for: 3) == .metric ? .payloadWeightsMetric : .payloadWeightsImperial, payloadWeights)])
 
-        let infoSection = Section(title: nil, type: .vertical, items: [
-            .info(.firstFlight, fetchData(for: .firstFlight), UUID()),
-            .info(.country, rocket.country, UUID()),
-            .info(.costPerLaunch, fetchData(for: .costPerLaunch), UUID())])
+        let infoSection = Section(type: .vertical, items: [
+            .info(.firstFlight, dateFormatter.string(from: rocket.firstFlight)),
+            .info(.country, rocket.country),
+            .info(.costPerLaunch, String(rocket.costPerLaunch))])
 
-        let firstStageSection = Section(title: "ПЕРВАЯ СТУПЕНЬ", type: .vertical, items: [
-            .info(.engines, fetchData(for: .enginesFirstStage), UUID()),
-            .info(.fuelAmountTons, fetchData(for: .fuelAmountTonsFirstStage), UUID()),
-            .info(.burnTimeSec, fetchData(for: .burnTimeSecFirstStage), UUID())])
+        let firstStageSection = Section(title: Constants.firstStage.rawValue, type: .vertical, items: [
+            .info(.engines, String(rocket.firstStage.engines)),
+            .info(.fuelAmountTons, String(rocket.firstStage.fuelAmountTons)),
+            .info(.burnTimeSec, burnTimeFirstStage)])
 
-        let secondStageSection = Section(title: "ВТОРАЯ СТУПЕНЬ", type: .vertical, items: [
-            .info(.engines, fetchData(for: .enginesSecondStage), UUID()),
-            .info(.fuelAmountTons, fetchData(for: .fuelAmountTonsSecondStage), UUID()),
-            .info(.burnTimeSec, fetchData(for: .burnTimeSecSecondStage), UUID())])
+        let secondStageSection = Section(title: Constants.secondStage.rawValue, type: .vertical, items: [
+            .info(.engines, String(rocket.secondStage.engines)),
+            .info(.fuelAmountTons, String(rocket.secondStage.fuelAmountTons)),
+            .info(.burnTimeSec, burnTimeSecondStage)])
 
-        let buttonSection = Section(title: nil, type: .button, items: [.button])
+        let buttonSection = Section(type: .button, items: [.button])
 
         sections = [headSection, horizontalSection, infoSection, firstStageSection, secondStageSection, buttonSection]
     }
 }
 
 // MARK: - Configure CollectionView
-extension RocketViewController {
+
+private extension RocketViewController {
     func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.backgroundColor = .black
@@ -146,50 +129,54 @@ extension RocketViewController {
         collectionView.register(HorizontalCell.self, forCellWithReuseIdentifier: HorizontalCell.identifier)
         collectionView.register(VerticalCell.self, forCellWithReuseIdentifier: VerticalCell.identifier)
         collectionView.register(ButtonCell.self, forCellWithReuseIdentifier: ButtonCell.identifier)
-
         collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.identifier)
-
-        setupDataSource()
-        createSnapshot()
     }
 
-    func setupDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Section, ItemType>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            switch self.sections![indexPath.section].type {
-            case .header:
+    func setupDataSource() -> UICollectionViewDiffableDataSource<Section, ItemType> {
+        let dataSource = UICollectionViewDiffableDataSource<Section, ItemType>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            switch itemIdentifier {
+
+            case let .header(url, name):
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCell.identifier, for: indexPath) as? HeaderCell else { return nil }
-                cell.configure(item: itemIdentifier)
-                cell.delegate = self
+                cell.configure(with: url, name: name)
+                cell.onPresentSettings = {
+                    self.presentSettings()
+                }
                 return cell
-            case .horizontal:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell else { return nil }
-                cell.configure(with: itemIdentifier)
-                return cell
-            case .vertical:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCell.identifier, for: indexPath) as? VerticalCell else { return nil }
-                cell.configure(for: itemIdentifier)
-                return cell
+
+            case let .info(name, value, _):
+                if self.sections[indexPath.section].type == .horizontal {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell else { return nil }
+                    cell.configure(with: name.rawValue, value: value)
+                    return cell
+                } else {
+                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCell.identifier, for: indexPath) as? VerticalCell else { return nil }
+                    cell.configure(with: name.rawValue, value: value)
+                    return cell
+                }
+
             case .button:
                 guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell else { return nil }
-                cell.delegate = self
+                cell.onPushLaunches = {
+                    self.pushLaunches()
+                }
                 return cell
             }
         })
 
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.identifier, for: indexPath) as? SectionHeader else { return nil }
-            guard let item = self.dataSource.itemIdentifier(for: indexPath) else { return nil }
-            guard let section = self.dataSource.snapshot().sectionIdentifier(containingItem: item) else { return nil }
+            let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             if let title = section.title {
-                sectionHeader.configureHeader(with: title)
+                sectionHeader.configure(with: title)
             }
             return sectionHeader
         }
+        return dataSource
     }
 
-    func createSnapshot() {
+    func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ItemType>()
-        guard let sections = sections else { return }
         snapshot.appendSections(sections)
         for section in sections {
             snapshot.appendItems(section.items, toSection: section)
@@ -199,7 +186,8 @@ extension RocketViewController {
 }
 
 // MARK: - Create Layouts
-extension RocketViewController {
+
+private extension RocketViewController {
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
             switch self.sections[sectionIndex].type {
@@ -266,21 +254,21 @@ extension RocketViewController {
                                                                               alignment: .top)
         return layoutSectionHeader
     }
-
 }
 
 // MARK: - Novigation Methods
 
-extension RocketViewController: HeaderCellDelegate {
+extension RocketViewController {
     func presentSettings() {
         let settingsViewController = SettingsViewController(dataManager: dataManager)
-        settingsViewController.delegate = self
+        settingsViewController.reloadData = {
+            self.reloadCollectionView()
+        }
         present(settingsViewController, animated: true)
     }
-}
-extension RocketViewController: ButtonCellDelegate {
+
     func pushLaunches() {
-        let launchesViewController = LaunchesViewController(network: networkManager)
+        let launchesViewController = LaunchesViewController(network: NetworkManager())
         launchesViewController.selectedRocketID = rocket.id
         launchesViewController.selectedRocketName = rocket.name
         self.navigationController?.pushViewController(launchesViewController, animated: true)
