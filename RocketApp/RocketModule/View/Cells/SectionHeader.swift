@@ -20,6 +20,9 @@ final class SectionHeader: UICollectionReusableView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        headerText.text = nil
+    }
     func configure(with title: String) {
         headerText.text = title
     }
