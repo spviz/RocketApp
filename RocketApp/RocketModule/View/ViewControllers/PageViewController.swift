@@ -22,10 +22,10 @@ final class PageViewController: UIPageViewController {
             switch result {
             case .success(let rockets):
                 DispatchQueue.main.async {
-                    self.rocketViewControllersArray.append(contentsOf: rockets.map({ rocket in
+                    self.rocketViewControllersArray = rockets.map({ rocket in
                         let rocketVC = RocketViewController(rocket: rocket, dataManager: self.dataManager)
                         return rocketVC
-                    }))
+                    })
                     self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
                 }
             case .failure(let failure):
@@ -36,7 +36,11 @@ final class PageViewController: UIPageViewController {
         }
     }
 
-    override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey: Any]? = nil) {
+    override init(
+        transitionStyle style: UIPageViewController.TransitionStyle,
+        navigationOrientation: UIPageViewController.NavigationOrientation,
+        options: [UIPageViewController.OptionsKey: Any]? = nil
+    ) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         view.backgroundColor = Colors.settingsBackgroundColor
         self.dataSource = self

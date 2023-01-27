@@ -129,43 +129,55 @@ private extension RocketViewController {
         collectionView.register(HorizontalCell.self, forCellWithReuseIdentifier: HorizontalCell.identifier)
         collectionView.register(VerticalCell.self, forCellWithReuseIdentifier: VerticalCell.identifier)
         collectionView.register(ButtonCell.self, forCellWithReuseIdentifier: ButtonCell.identifier)
-        collectionView.register(SectionHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: SectionHeader.identifier)
+        collectionView.register(
+            SectionHeader.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SectionHeader.identifier
+        )
     }
 
     func setupDataSource() -> UICollectionViewDiffableDataSource<Section, ItemType> {
-        let dataSource = UICollectionViewDiffableDataSource<Section, ItemType>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        let dataSource = UICollectionViewDiffableDataSource<Section, ItemType>(
+            collectionView: collectionView,
+            cellProvider: { collectionView, indexPath, itemIdentifier in
+
             switch itemIdentifier {
 
             case let .header(url, name):
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCell.identifier, for: indexPath) as? HeaderCell else { return nil }
-                cell.configure(with: url, name: name)
-                cell.onPresentSettings = {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCell.identifier, for: indexPath) as? HeaderCell
+                cell?.configure(with: url, name: name)
+                cell?.onPresentSettings = {
                     self.presentSettings()
                 }
                 return cell
 
             case let .info(name, value, _):
                 if self.sections[indexPath.section].type == .horizontal {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell else { return nil }
-                    cell.configure(with: name.rawValue, value: value)
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell
+                    cell?.configure(with: name.rawValue, value: value)
                     return cell
                 } else {
-                    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCell.identifier, for: indexPath) as? VerticalCell else { return nil }
-                    cell.configure(with: name.rawValue, value: value)
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCell.identifier, for: indexPath) as? VerticalCell
+                    cell?.configure(with: name.rawValue, value: value)
                     return cell
                 }
 
             case .button:
-                guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell else { return nil }
-                cell.onPushLaunches = {
-                    self.pushLaunches()
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell
+                cell?.onPushLaunches = { [weak self] in
+                    self?.pushLaunches()
                 }
                 return cell
             }
         })
 
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: SectionHeader.identifier, for: indexPath) as? SectionHeader else { return nil }
+            guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(
+                ofKind: kind,
+                withReuseIdentifier: SectionHeader.identifier,
+                for: indexPath
+            ) as? SectionHeader else { return nil }
+
             let section = self.dataSource.snapshot().sectionIdentifiers[indexPath.section]
             if let title = section.title {
                 sectionHeader.configure(with: title)
@@ -256,13 +268,13 @@ private extension RocketViewController {
     }
 }
 
-// MARK: - Novigation Methods
+// MARK: - Navigation Methods
 
 extension RocketViewController {
     func presentSettings() {
         let settingsViewController = SettingsViewController(dataManager: dataManager)
-        settingsViewController.reloadData = {
-            self.reloadCollectionView()
+        settingsViewController.reloadData = { [weak self] in
+            self?.reloadCollectionView()
         }
         present(settingsViewController, animated: true)
     }

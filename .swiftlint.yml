@@ -1,4 +1,6 @@
 disabled_rules:
  - identifier_name
- - line_length
- - cyclomatic_complexity
+
+line_length:
+ warning: 160
+ error: 180

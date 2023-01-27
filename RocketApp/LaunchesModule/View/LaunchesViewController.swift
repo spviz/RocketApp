@@ -66,10 +66,20 @@ extension LaunchesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LaunchesCell.identifier, for: indexPath) as? LaunchesCell else { return UICollectionViewCell() }
-        if let launches = launches {
-            DispatchQueue.main.async {
-                cell.configureValues(for: launches.docs[indexPath.row])
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: LaunchesCell.identifier,
+            for: indexPath
+        ) as? LaunchesCell else { return UICollectionViewCell() }
+
+        if let launch = launches?.docs[indexPath.row] {
+            if let image = UIImage(named: (launch.success ?? false) ? "rocket_true": "rocket_false") {
+                DispatchQueue.main.async {
+                    cell.configureValues(
+                        for: launch.name,
+                        date: launch.dateUtc,
+                        image: image
+                    )
+                }
             }
         }
         return cell

@@ -53,7 +53,10 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingsCell.identifier, for: indexPath) as? SettingsCell else { return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: SettingsCell.identifier,
+            for: indexPath
+        ) as? SettingsCell else { return UITableViewCell()}
 
         cell.configureElements(with: dataManager.settings[indexPath.row], selectedUnit: dataManager.getSelectedIndex(for: indexPath.row))
         cell.onChangeUnits = { index in

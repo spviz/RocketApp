@@ -26,6 +26,11 @@ final class HeaderCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func prepareForReuse() {
+        rocketImage.kf.cancelDownloadTask()
+        rocketImage.image = nil
+    }
+
     func configure(with url: URL, name: String) {
         rocketImage.kf.setImage(with: url)
         rocketName.text = name

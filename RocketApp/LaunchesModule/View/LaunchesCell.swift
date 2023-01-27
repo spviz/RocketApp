@@ -9,8 +9,8 @@ import UIKit
 
 final class LaunchesCell: UICollectionViewCell {
 
-    private let name = UILabel()
-    private let date = UILabel()
+    private let nameLabel = UILabel()
+    private let dateLabel = UILabel()
     private let rocketImage = UIImageView()
     private let dateFormatter = DateFormatter()
 
@@ -24,16 +24,12 @@ final class LaunchesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureValues(for launch: Launch.Doc) {
+    func configureValues(for name: String, date: Date, image: UIImage) {
 
-        name.text = launch.name
-        date.text = dateFormatter.string(from: launch.dateUtc)
+        nameLabel.text = name
+        dateLabel.text = dateFormatter.string(from: date)
+        rocketImage.image = image
 
-        if launch.success ?? false {
-            rocketImage.image = UIImage(named: "rocket_true")
-        } else {
-            rocketImage.image = UIImage(named: "rocket_false")
-        }
     }
 }
 
@@ -41,37 +37,37 @@ final class LaunchesCell: UICollectionViewCell {
 private extension LaunchesCell {
 
     func configureCell() {
-        name.translatesAutoresizingMaskIntoConstraints = false
-        date.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
         rocketImage.translatesAutoresizingMaskIntoConstraints = false
 
         contentView.backgroundColor = Colors.horizontalCellColor
         contentView.layer.cornerRadius = 24
 
-        name.textColor = .white
-        name.font = .systemFont(ofSize: 20)
+        nameLabel.textColor = .white
+        nameLabel.font = .systemFont(ofSize: 20)
 
-        date.textColor = .lightGray
-        date.font = .systemFont(ofSize: 16)
+        dateLabel.textColor = .lightGray
+        dateLabel.font = .systemFont(ofSize: 16)
         dateFormatter.dateFormat = "d MMMM, yyyy"
 
-        contentView.addSubview(name)
-        contentView.addSubview(date)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(dateLabel)
         contentView.addSubview(rocketImage)
     }
 
     func createConstraints() {
-        name.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        name.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24).isActive = true
-        name.bottomAnchor.constraint(equalTo: date.topAnchor).isActive = true
-        name.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
+        nameLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24).isActive = true
+        nameLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
 
-        date.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        date.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        date.topAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
-        date.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
-        date.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+        dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
+        dateLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
 
         rocketImage.widthAnchor.constraint(equalToConstant: 32).isActive = true
         rocketImage.heightAnchor.constraint(equalToConstant: 32).isActive = true
