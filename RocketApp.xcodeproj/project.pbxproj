@@ -27,6 +27,7 @@
 		323B0220298315F000B29CCC /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B021F298315F000B29CCC /* Colors.swift */; };
 		323B022229831B0C00B29CCC /* ParametersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B022129831B0C00B29CCC /* ParametersModel.swift */; };
 		323B02282986B0B000B29CCC /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B02272986B0B000B29CCC /* SettingsPresenter.swift */; };
+		323B022A2986E73400B29CCC /* RocketPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B02292986E73400B29CCC /* RocketPresenter.swift */; };
 		327240D82974369300557E0E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327240D72974369300557E0E /* DataManager.swift */; };
 		327DE6EB297828CF007BC885 /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EA297828CF007BC885 /* LaunchesViewController.swift */; };
 		327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EC29784A0E007BC885 /* LaunchesCell.swift */; };
@@ -81,6 +82,7 @@
 		323B021F298315F000B29CCC /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		323B022129831B0C00B29CCC /* ParametersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersModel.swift; sourceTree = "<group>"; };
 		323B02272986B0B000B29CCC /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
+		323B02292986E73400B29CCC /* RocketPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketPresenter.swift; sourceTree = "<group>"; };
 		327240D72974369300557E0E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		327DE6EA297828CF007BC885 /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
 		327DE6EC29784A0E007BC885 /* LaunchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesCell.swift; sourceTree = "<group>"; };
@@ -210,6 +212,7 @@
 		323B02232986AEC600B29CCC /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				323B02292986E73400B29CCC /* RocketPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
 				323B02192981582300B29CCC /* SectionHeader.swift in Sources */,
 				32197AA92974801000DAC758 /* UITableViewCellExtension.swift in Sources */,
+				323B022A2986E73400B29CCC /* RocketPresenter.swift in Sources */,
 				323B022229831B0C00B29CCC /* ParametersModel.swift in Sources */,
 				323B0220298315F000B29CCC /* Colors.swift in Sources */,
 				323B021E2982AB9400B29CCC /* UICollectionReusableViewExtension.swift in Sources */,

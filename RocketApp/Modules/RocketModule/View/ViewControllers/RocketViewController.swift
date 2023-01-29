@@ -9,33 +9,19 @@ import UIKit
 
 final class RocketViewController: UIViewController {
 
-    enum Constants: String {
-        case noData = "Нет данных"
-        case firstStage = "ПЕРВАЯ СТУПЕНЬ"
-        case secondStage = "ВТОРАЯ СТУПЕНЬ"
-        case million = "млн"
-        case ton = "ton"
-        case sec = "sec"
-    }
-
-    private let rocket: Rocket
-    private let dataManager: DataManagerProtocol
-    private let dateFormatter = DateFormatter()
-
+    private let presenter: RocketPresenterProtocol
     private lazy var collectionView = UICollectionView()
     private lazy var dataSource = setupDataSource()
-    private var sections = [Section]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupData()
+        presenter.setupData()
         setupCollectionView()
         applySnapshot()
     }
 
-    init(rocket: Rocket, dataManager: DataManagerProtocol) {
-        self.rocket = rocket
-        self.dataManager = dataManager
+    init(presenter: RocketPresenterProtocol) {
+        self.presenter = presenter
         super .init(nibName: nil, bundle: nil)
     }
 
@@ -44,78 +30,8 @@ final class RocketViewController: UIViewController {
     }
 
     func reloadCollectionView() {
-        setupData()
+        presenter.setupData()
         applySnapshot()
-    }
-}
-
-// MARK: - Configure Data
-
-private extension RocketViewController {
-    func setupData() {
-
-        dateFormatter.dateFormat = "d MMMM, yyyy"
-
-        let height = dataManager.getSelectedIndex(for: 0) == .metric
-        ? String(rocket.height.meters)
-        : String(rocket.height.feet)
-
-        let diameter = dataManager.getSelectedIndex(for: 1) == .metric
-        ? String(rocket.diameter.meters)
-        : String(rocket.diameter.feet)
-
-        let mass = dataManager.getSelectedIndex(for: 2) == .metric
-        ? String(rocket.mass.kg)
-        : String(rocket.mass.lb)
-
-        let payloadWeights = dataManager.getSelectedIndex(for: 3) == .metric
-        ? String(rocket.payloadWeights[0].kg)
-        : String(rocket.payloadWeights[0].lb)
-
-        let burnTimeFirstStage: String
-        let burnTimeSecondStage: String
-
-        if let burnTime = rocket.firstStage.burnTimeSec {
-            burnTimeFirstStage = String(burnTime) + " " + Constants.sec.rawValue
-        } else {
-            burnTimeFirstStage = Constants.noData.rawValue
-        }
-
-        if let burnTime = rocket.secondStage.burnTimeSec {
-            burnTimeSecondStage = String(burnTime) + " " + Constants.sec.rawValue
-        } else {
-            burnTimeSecondStage = Constants.noData.rawValue
-        }
-
-        let headSection = Section(type: .header, items: [
-            .header(rocket.flickrImages[Int.random(in: 0...rocket.flickrImages.count - 1)], rocket.name)])
-
-        let horizontalSection = Section(type: .horizontal, items: [
-            .info(dataManager.getSelectedIndex(for: 0) == .metric ? .heightMetric : .heightImperial, height),
-            .info(dataManager.getSelectedIndex(for: 1) == .metric ? .diameterMetric : .diameterImperial, diameter),
-            .info(dataManager.getSelectedIndex(for: 2) == .metric ? .massMetric : .massImperial, mass),
-            .info(dataManager.getSelectedIndex(for: 3) == .metric ? .payloadWeightsMetric : .payloadWeightsImperial, payloadWeights)])
-
-        let infoSection = Section(type: .vertical, items: [
-            .info(.firstFlight, dateFormatter.string(from: rocket.firstFlight)),
-            .info(.country, rocket.country),
-            .info(.costPerLaunch,
-                  "$" + String(format: "%.0f", Double(rocket.costPerLaunch) / 1000000) + " " + Constants.million.rawValue
-                 )])
-
-        let firstStageSection = Section(title: Constants.firstStage.rawValue, type: .vertical, items: [
-            .info(.engines, String(rocket.firstStage.engines)),
-            .info(.fuelAmountTons, String(format: "%.0f", rocket.firstStage.fuelAmountTons) + " " + Constants.ton.rawValue),
-            .info(.burnTimeSec, burnTimeFirstStage)])
-
-        let secondStageSection = Section(title: Constants.secondStage.rawValue, type: .vertical, items: [
-            .info(.engines, String(rocket.secondStage.engines)),
-            .info(.fuelAmountTons, String(format: "%.0f", rocket.secondStage.fuelAmountTons) + " " + Constants.ton.rawValue),
-            .info(.burnTimeSec, burnTimeSecondStage)])
-
-        let buttonSection = Section(type: .button, items: [.button])
-
-        sections = [headSection, horizontalSection, infoSection, firstStageSection, secondStageSection, buttonSection]
     }
 }
 
@@ -157,7 +73,7 @@ private extension RocketViewController {
                 return cell
 
             case let .info(name, value, _):
-                if self.sections[indexPath.section].type == .horizontal {
+                if self.presenter.getSections()[indexPath.section].type == .horizontal {
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell
                     cell?.configure(with: name.rawValue, value: value)
                     return cell
@@ -194,8 +110,8 @@ private extension RocketViewController {
 
     func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, ItemType>()
-        snapshot.appendSections(sections)
-        for section in sections {
+        snapshot.appendSections(presenter.getSections())
+        for section in presenter.getSections() {
             snapshot.appendItems(section.items, toSection: section)
         }
         dataSource.apply(snapshot)
@@ -207,7 +123,7 @@ private extension RocketViewController {
 private extension RocketViewController {
     func createLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
-            switch self.sections[sectionIndex].type {
+            switch self.presenter.getSections()[sectionIndex].type {
             case .header:
                 return self.createHeaderLayout()
             case .horizontal:
@@ -277,7 +193,8 @@ private extension RocketViewController {
 
 extension RocketViewController {
     func presentSettings() {
-        let settingsViewController = SettingsViewController(dataManager: dataManager)
+        let settingsPresenter = SettingsPresenter()
+        let settingsViewController = SettingsViewController(presenter: settingsPresenter)
         settingsViewController.reloadData = { [weak self] in
             self?.reloadCollectionView()
         }
@@ -286,8 +203,8 @@ extension RocketViewController {
 
     func pushLaunches() {
         let launchesViewController = LaunchesViewController(network: NetworkManager())
-        launchesViewController.selectedRocketID = rocket.id
-        launchesViewController.selectedRocketName = rocket.name
+        launchesViewController.selectedRocketID = presenter.getRocketInfo().id
+        launchesViewController.selectedRocketName = presenter.getRocketInfo().name
         self.navigationController?.pushViewController(launchesViewController, animated: true)
     }
 }

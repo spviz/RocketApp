@@ -17,12 +17,12 @@ final class SettingsViewController: UIViewController {
     private let headerLabel = UILabel()
     private let closeButton = UIButton()
     private let tableView = UITableView()
-    private let dataManager: DataManagerProtocol
+    private let presenter: SettingsPresenterProtocol
 
     var reloadData: (() -> Void)?
 
-    init(dataManager: DataManagerProtocol) {
-        self.dataManager = dataManager
+    init(presenter: SettingsPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -48,7 +48,7 @@ final class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataManager.settings.count
+        presenter.getSettings().count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,9 +58,9 @@ extension SettingsViewController: UITableViewDataSource {
             for: indexPath
         ) as? SettingsCell else { return UITableViewCell()}
 
-        cell.configureElements(with: dataManager.settings[indexPath.row], selectedUnit: dataManager.getSelectedIndex(for: indexPath.row))
+        cell.configureElements(with: presenter.getSettings()[indexPath.row], selectedUnit: presenter.getSelectedIndex(index: indexPath.row))
         cell.onChangeUnits = { index in
-            self.dataManager.setSettings(for: indexPath.row, selectedIndex: index)
+            self.presenter.setSettings(for: indexPath.row, selectedIndex: index)
         }
         return cell
     }
