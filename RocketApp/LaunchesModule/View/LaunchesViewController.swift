@@ -49,9 +49,7 @@ final class LaunchesViewController: UIViewController {
             case .success(let launches):
                 self.launches = launches
                 DispatchQueue.main.async {
-                    if launches.docs.isEmpty {
-                        self.noLaunchesLabel.isHidden = false
-                    }
+                    self.noLaunchesLabel.isHidden = !launches.docs.isEmpty
                     self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
                 }
