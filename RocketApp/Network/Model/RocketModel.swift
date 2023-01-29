@@ -24,13 +24,13 @@ struct Rocket: Decodable {
 
 extension Rocket {
     struct Diameter: Decodable {
-        let meters, feet: Double?
+        let meters, feet: Double
     }
 
     struct FirstStage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
-        let burnTimeSEC: Int?
+        let burnTimeSec: Int?
     }
 
     struct Mass: Decodable {
@@ -38,13 +38,12 @@ extension Rocket {
     }
 
     struct PayloadWeight: Decodable {
-        let id, name: String
         let kg, lb: Int
     }
 
     struct SecondStage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
-        let burnTimeSEC: Int?
+        let burnTimeSec: Int?
     }
 }

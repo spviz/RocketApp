@@ -9,12 +9,15 @@ import UIKit
 
 final class LaunchesViewController: UIViewController {
 
-    private let networkManager: NetworkManagerProtocol
+    private lazy var collectionView = UICollectionView()
     private let activityIndicator = UIActivityIndicatorView()
-    private var collectionView: UICollectionView!
+    private let dateFormatter = DateFormatter()
+    private let networkManager: NetworkManagerProtocol
     private var launches: Launch?
     var selectedRocketID: String?
     var selectedRocketName: String?
+
+    private let noLaunchesLabel = UILabel()
 
     init(network: NetworkManagerProtocol) {
         self.networkManager = network
@@ -27,9 +30,9 @@ final class LaunchesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        dateFormatter.dateFormat = "d MMMM, yyyy"
         configureUI()
-        configureCollectionView()
-        configureActivityIndicator()
+        createConstraints()
         getLaunches()
     }
 
@@ -38,7 +41,7 @@ final class LaunchesViewController: UIViewController {
         activityIndicator.startAnimating()
     }
 
-    func getLaunches() {
+    private func getLaunches() {
         guard let selectedRocket = selectedRocketID else { return }
 
         networkManager.getLaunches(for: selectedRocket) { result in
@@ -46,6 +49,7 @@ final class LaunchesViewController: UIViewController {
             case .success(let launches):
                 self.launches = launches
                 DispatchQueue.main.async {
+                    self.noLaunchesLabel.isHidden = !launches.docs.isEmpty
                     self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
                 }
@@ -68,12 +72,20 @@ extension LaunchesViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LaunchesCell.identifier, for: indexPath) as? LaunchesCell else { return UICollectionViewCell() }
-        if let launches = launches {
-            DispatchQueue.main.async {
-                cell.configureValues(for: launches.docs[indexPath.row])
-            }
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: LaunchesCell.identifier,
+            for: indexPath
+        ) as? LaunchesCell else { return UICollectionViewCell() }
+
+        guard let launch = launches?.docs[indexPath.row],
+              let image = UIImage(named: (launch.success ?? false) ? "rocket_true": "rocket_false") else {
+            return UICollectionViewCell()
         }
+        cell.configureValues(
+            for: launch.name,
+            date: self.dateFormatter.string(from: launch.dateUtc),
+            image: image
+        )
         return cell
     }
 }
@@ -96,22 +108,36 @@ private extension LaunchesViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.barTintColor = UIColor(white: 0, alpha: 0)
         navigationItem.title = selectedRocketName
-    }
 
-    func configureCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .black
-        view.addSubview(collectionView)
-
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(LaunchesCell.self, forCellWithReuseIdentifier: LaunchesCell.identifier)
-    }
 
-    func configureActivityIndicator() {
         activityIndicator.center = view.center
         activityIndicator.style = .large
         activityIndicator.color = .white
+
+        noLaunchesLabel.text = "There are no launches for \(selectedRocketName ?? "selected rocket") yet..."
+        noLaunchesLabel.layer.backgroundColor = CGColor(gray: 0.1, alpha: 1)
+        noLaunchesLabel.numberOfLines = 0
+        noLaunchesLabel.font = .systemFont(ofSize: 20)
+        noLaunchesLabel.textColor = .white
+        noLaunchesLabel.translatesAutoresizingMaskIntoConstraints = false
+        noLaunchesLabel.layer.cornerRadius = 20
+        noLaunchesLabel.textAlignment = .center
+        noLaunchesLabel.isHidden = true
+
+        view.addSubview(collectionView)
         view.addSubview(activityIndicator)
+        view.addSubview(noLaunchesLabel)
+    }
+
+    func createConstraints() {
+        noLaunchesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        noLaunchesLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
+        noLaunchesLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        noLaunchesLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }

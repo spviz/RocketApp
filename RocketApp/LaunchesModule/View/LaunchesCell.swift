@@ -9,75 +9,61 @@ import UIKit
 
 final class LaunchesCell: UICollectionViewCell {
 
-    private let name = UILabel()
-    private let date = UILabel()
+    private let nameLabel = UILabel()
+    private let dateLabel = UILabel()
     private let rocketImage = UIImageView()
-    private let dateFormatter = DateFormatter()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureCell()
+        createConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func configureValues(for name: String, date: String, image: UIImage) {
+        nameLabel.text = name
+        dateLabel.text = date
+        rocketImage.image = image
+    }
 }
 
 // MARK: - Configure UI
+private extension LaunchesCell {
 
-extension LaunchesCell {
-    private func configureCell() {
-
-        name.translatesAutoresizingMaskIntoConstraints = false
-        date.translatesAutoresizingMaskIntoConstraints = false
+    func configureCell() {
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
         rocketImage.translatesAutoresizingMaskIntoConstraints = false
 
-        contentView.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
+        contentView.backgroundColor = Colors.horizontalCellColor
         contentView.layer.cornerRadius = 24
 
-        name.textColor = .white
-        name.font = .systemFont(ofSize: 20)
+        nameLabel.textColor = .white
+        nameLabel.font = .systemFont(ofSize: 20)
 
-        date.textColor = .lightGray
-        date.font = .systemFont(ofSize: 16)
-        dateFormatter.dateFormat = "d MMMM, yyyy"
+        dateLabel.textColor = .lightGray
+        dateLabel.font = .systemFont(ofSize: 16)
 
-        contentView.addSubview(name)
-        contentView.addSubview(date)
+        contentView.addSubview(nameLabel)
+        contentView.addSubview(dateLabel)
         contentView.addSubview(rocketImage)
-
-        createConstraints()
     }
 
-    func configureValues(for launch: Launch.Doc) {
-
-        name.text = launch.name
-        date.text = dateFormatter.string(from: launch.dateUtc)
-
-        if launch.success ?? false {
-            rocketImage.image = UIImage(named: "rocket_true")
-        } else {
-            rocketImage.image = UIImage(named: "rocket_false")
-        }
-    }
-}
-
-// MARK: - Create Constraints
-
-private extension LaunchesCell {
     func createConstraints() {
-        name.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        name.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        name.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24).isActive = true
-        name.bottomAnchor.constraint(equalTo: date.topAnchor).isActive = true
-        name.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
+        nameLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        nameLabel.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24).isActive = true
+        nameLabel.bottomAnchor.constraint(equalTo: dateLabel.topAnchor).isActive = true
+        nameLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
 
-        date.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        date.heightAnchor.constraint(equalToConstant: 24).isActive = true
-        date.topAnchor.constraint(equalTo: name.bottomAnchor).isActive = true
-        date.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
-        date.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
+        dateLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        dateLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor).isActive = true
+        dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
+        dateLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
 
         rocketImage.widthAnchor.constraint(equalToConstant: 32).isActive = true
         rocketImage.heightAnchor.constraint(equalToConstant: 32).isActive = true

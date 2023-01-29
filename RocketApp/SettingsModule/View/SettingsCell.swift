@@ -16,10 +16,21 @@ final class SettingsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureCell()
+        createConstraints()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func configureElements(with settings: Settings, selectedUnit: SelectedUnit) {
+
+        label.text = settings.parameterName.rawValue
+
+        unitsSelector.removeAllSegments()
+        unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
+        unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
+        unitsSelector.selectedSegmentIndex = selectedUnit.rawValue
     }
 
     @objc func tapUnitsSelector(sender: UISegmentedControl) {
@@ -29,40 +40,21 @@ final class SettingsCell: UITableViewCell {
 
 // MARK: - Configure UI
 
-extension SettingsCell {
-    private func configureCell() {
-
+private extension SettingsCell {
+    func configureCell() {
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
 
-        unitsSelector.backgroundColor = UIColor(red: 0.129, green: 0.129, blue: 0.129, alpha: 1)
+        unitsSelector.backgroundColor = Colors.horizontalCellColor
         unitsSelector.addTarget(self, action: #selector(tapUnitsSelector), for: .valueChanged)
         unitsSelector.translatesAutoresizingMaskIntoConstraints = false
 
-        contentView.backgroundColor = UIColor(red: 0.071, green: 0.071, blue: 0.071, alpha: 1)
+        contentView.backgroundColor = Colors.settingsBackgroundColor
         contentView.addSubview(unitsSelector)
         contentView.addSubview(label)
-
-        createConstraints()
     }
 
-    func configureElements(with settings: Settings, selectedIndex: Int) {
-
-        label.text = settings.parameterName.rawValue
-
-        unitsSelector.removeAllSegments()
-        unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
-        unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
-        unitsSelector.selectedSegmentIndex = selectedIndex
-    }
-
-}
-
-// MARK: - Create Constraints
-
-private extension SettingsCell {
     func createConstraints() {
-
         unitsSelector.widthAnchor.constraint(equalToConstant: 115).isActive = true
         unitsSelector.heightAnchor.constraint(equalToConstant: 40).isActive = true
         unitsSelector.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -28).isActive = true

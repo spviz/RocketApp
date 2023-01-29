@@ -27,3 +27,8 @@ extension Settings {
         case ft
     }
 }
+
+enum SelectedUnit: Int {
+    case metric
+    case imperial
+}
