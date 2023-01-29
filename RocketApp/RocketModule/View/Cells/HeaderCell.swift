@@ -86,6 +86,7 @@ private extension HeaderCell {
         rocketName.heightAnchor.constraint(equalToConstant: 32).isActive = true
         rocketName.leftAnchor.constraint(equalTo: blackView.leftAnchor, constant: 32).isActive = true
         rocketName.topAnchor.constraint(equalTo: blackView.topAnchor, constant: 48).isActive = true
+        rocketName.rightAnchor.constraint(equalTo: settingsButton.leftAnchor).isActive = true
 
         settingsButton.heightAnchor.constraint(equalToConstant: 32).isActive = true
         settingsButton.widthAnchor.constraint(equalToConstant: 32).isActive = true

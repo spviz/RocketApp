@@ -13,6 +13,9 @@ final class RocketViewController: UIViewController {
         case noData = "Нет данных"
         case firstStage = "ПЕРВАЯ СТУПЕНЬ"
         case secondStage = "ВТОРАЯ СТУПЕНЬ"
+        case million = "млн"
+        case ton = "ton"
+        case sec = "sec"
     }
 
     private let rocket: Rocket
@@ -73,13 +76,13 @@ private extension RocketViewController {
         let burnTimeSecondStage: String
 
         if let burnTime = rocket.firstStage.burnTimeSec {
-            burnTimeFirstStage = String(burnTime)
+            burnTimeFirstStage = String(burnTime) + " " + Constants.sec.rawValue
         } else {
             burnTimeFirstStage = Constants.noData.rawValue
         }
 
         if let burnTime = rocket.secondStage.burnTimeSec {
-            burnTimeSecondStage = String(burnTime)
+            burnTimeSecondStage = String(burnTime) + " " + Constants.sec.rawValue
         } else {
             burnTimeSecondStage = Constants.noData.rawValue
         }
@@ -96,16 +99,18 @@ private extension RocketViewController {
         let infoSection = Section(type: .vertical, items: [
             .info(.firstFlight, dateFormatter.string(from: rocket.firstFlight)),
             .info(.country, rocket.country),
-            .info(.costPerLaunch, String(rocket.costPerLaunch))])
+            .info(.costPerLaunch,
+                  "$" + String(format: "%.0f", Double(rocket.costPerLaunch) / 1000000) + " " + Constants.million.rawValue
+                 )])
 
         let firstStageSection = Section(title: Constants.firstStage.rawValue, type: .vertical, items: [
             .info(.engines, String(rocket.firstStage.engines)),
-            .info(.fuelAmountTons, String(rocket.firstStage.fuelAmountTons)),
+            .info(.fuelAmountTons, String(format: "%.0f", rocket.firstStage.fuelAmountTons) + " " + Constants.ton.rawValue),
             .info(.burnTimeSec, burnTimeFirstStage)])
 
         let secondStageSection = Section(title: Constants.secondStage.rawValue, type: .vertical, items: [
             .info(.engines, String(rocket.secondStage.engines)),
-            .info(.fuelAmountTons, String(rocket.secondStage.fuelAmountTons)),
+            .info(.fuelAmountTons, String(format: "%.0f", rocket.secondStage.fuelAmountTons) + " " + Constants.ton.rawValue),
             .info(.burnTimeSec, burnTimeSecondStage)])
 
         let buttonSection = Section(type: .button, items: [.button])

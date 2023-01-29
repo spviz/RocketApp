@@ -9,12 +9,15 @@ import UIKit
 
 final class LaunchesViewController: UIViewController {
 
-    private let networkManager: NetworkManagerProtocol
+    private lazy var collectionView = UICollectionView()
     private let activityIndicator = UIActivityIndicatorView()
-    private var collectionView: UICollectionView!
+    private let dateFormatter = DateFormatter()
+    private let networkManager: NetworkManagerProtocol
     private var launches: Launch?
     var selectedRocketID: String?
     var selectedRocketName: String?
+
+    private let noLaunchesLabel = UILabel()
 
     init(network: NetworkManagerProtocol) {
         self.networkManager = network
@@ -27,7 +30,9 @@ final class LaunchesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        dateFormatter.dateFormat = "d MMMM, yyyy"
         configureUI()
+        createConstraints()
         getLaunches()
     }
 
@@ -44,6 +49,9 @@ final class LaunchesViewController: UIViewController {
             case .success(let launches):
                 self.launches = launches
                 DispatchQueue.main.async {
+                    if launches.docs.isEmpty {
+                        self.noLaunchesLabel.isHidden = false
+                    }
                     self.activityIndicator.stopAnimating()
                     self.collectionView.reloadData()
                 }
@@ -71,17 +79,15 @@ extension LaunchesViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? LaunchesCell else { return UICollectionViewCell() }
 
-        if let launch = launches?.docs[indexPath.row] {
-            if let image = UIImage(named: (launch.success ?? false) ? "rocket_true": "rocket_false") {
-                DispatchQueue.main.async {
-                    cell.configureValues(
-                        for: launch.name,
-                        date: launch.dateUtc,
-                        image: image
-                    )
-                }
-            }
+        guard let launch = launches?.docs[indexPath.row],
+              let image = UIImage(named: (launch.success ?? false) ? "rocket_true": "rocket_false") else {
+            return UICollectionViewCell()
         }
+        cell.configureValues(
+            for: launch.name,
+            date: self.dateFormatter.string(from: launch.dateUtc),
+            image: image
+        )
         return cell
     }
 }
@@ -115,7 +121,25 @@ private extension LaunchesViewController {
         activityIndicator.style = .large
         activityIndicator.color = .white
 
+        noLaunchesLabel.text = "There are no launches for \(selectedRocketName ?? "selected rocket") yet..."
+        noLaunchesLabel.layer.backgroundColor = CGColor(gray: 0.1, alpha: 1)
+        noLaunchesLabel.numberOfLines = 0
+        noLaunchesLabel.font = .systemFont(ofSize: 20)
+        noLaunchesLabel.textColor = .white
+        noLaunchesLabel.translatesAutoresizingMaskIntoConstraints = false
+        noLaunchesLabel.layer.cornerRadius = 20
+        noLaunchesLabel.textAlignment = .center
+        noLaunchesLabel.isHidden = true
+
         view.addSubview(collectionView)
         view.addSubview(activityIndicator)
+        view.addSubview(noLaunchesLabel)
+    }
+
+    func createConstraints() {
+        noLaunchesLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 50).isActive = true
+        noLaunchesLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -50).isActive = true
+        noLaunchesLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        noLaunchesLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
 }

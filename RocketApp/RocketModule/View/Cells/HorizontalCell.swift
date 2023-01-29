@@ -51,9 +51,11 @@ private extension HorizontalCell {
         valueLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 28).isActive = true
         valueLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        valueLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width).isActive = true
 
         nameLabel.heightAnchor.constraint(equalToConstant: 20).isActive = true
         nameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
         nameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        nameLabel.widthAnchor.constraint(lessThanOrEqualToConstant: contentView.frame.width).isActive = true
     }
 }

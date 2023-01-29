@@ -8,9 +8,15 @@
 import Foundation
 
 struct Section: Hashable {
-    var title: String?
+    let title: String?
     let type: SectionType
     let items: [ItemType]
+
+    init(title: String? = nil, type: SectionType, items: [ItemType]) {
+        self.title = title
+        self.type = type
+        self.items = items
+    }
 
     enum SectionType {
         case header

@@ -12,7 +12,6 @@ final class LaunchesCell: UICollectionViewCell {
     private let nameLabel = UILabel()
     private let dateLabel = UILabel()
     private let rocketImage = UIImageView()
-    private let dateFormatter = DateFormatter()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,12 +23,10 @@ final class LaunchesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureValues(for name: String, date: Date, image: UIImage) {
-
+    func configureValues(for name: String, date: String, image: UIImage) {
         nameLabel.text = name
-        dateLabel.text = dateFormatter.string(from: date)
+        dateLabel.text = date
         rocketImage.image = image
-
     }
 }
 
@@ -49,7 +46,6 @@ private extension LaunchesCell {
 
         dateLabel.textColor = .lightGray
         dateLabel.font = .systemFont(ofSize: 16)
-        dateFormatter.dateFormat = "d MMMM, yyyy"
 
         contentView.addSubview(nameLabel)
         contentView.addSubview(dateLabel)

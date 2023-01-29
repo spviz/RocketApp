@@ -13,29 +13,6 @@ final class PageViewController: UIPageViewController {
     private let dataManager = DataManager()
     private var rocketViewControllersArray = [UIViewController]()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
-    private func getRocketScreens() {
-        networkManager.getRockets { result in
-            switch result {
-            case .success(let rockets):
-                DispatchQueue.main.async {
-                    self.rocketViewControllersArray = rockets.map({ rocket in
-                        let rocketVC = RocketViewController(rocket: rocket, dataManager: self.dataManager)
-                        return rocketVC
-                    })
-                    self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
-                }
-            case .failure(let failure):
-                let alert = UIAlertController(title: "Error", message: failure.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .destructive))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
-    }
-
     override init(
         transitionStyle style: UIPageViewController.TransitionStyle,
         navigationOrientation: UIPageViewController.NavigationOrientation,
@@ -50,6 +27,24 @@ final class PageViewController: UIPageViewController {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func getRocketScreens() {
+        networkManager.getRockets { result in
+            switch result {
+            case .success(let rockets):
+                DispatchQueue.main.async {
+                    self.rocketViewControllersArray = rockets.map { rocket in
+                        return RocketViewController(rocket: rocket, dataManager: self.dataManager)
+                    }
+                    self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
+                }
+            case .failure(let failure):
+                let alert = UIAlertController(title: "Error", message: failure.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .destructive))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
     }
 }
 

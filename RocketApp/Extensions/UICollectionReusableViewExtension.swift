@@ -1,5 +1,5 @@
 //
-//  UICollectionReusableView.swift
+//  UICollectionReusableViewExtension.swift
 //  RocketApp
 //
 //  Created by Podgainy Sergei on 26.01.2023.
