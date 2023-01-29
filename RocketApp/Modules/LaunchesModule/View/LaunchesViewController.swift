@@ -11,13 +11,12 @@ final class LaunchesViewController: UIViewController {
 
     private lazy var collectionView = UICollectionView()
     private let activityIndicator = UIActivityIndicatorView()
+    private let noLaunchesLabel = UILabel()
     private let dateFormatter = DateFormatter()
     private let networkManager: NetworkManagerProtocol
     private var launches: Launch?
     var selectedRocketID: String?
     var selectedRocketName: String?
-
-    private let noLaunchesLabel = UILabel()
 
     init(network: NetworkManagerProtocol) {
         self.networkManager = network
