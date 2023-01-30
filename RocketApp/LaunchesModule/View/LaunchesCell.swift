@@ -23,7 +23,7 @@ final class LaunchesCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureValues(for name: String, date: String, image: UIImage) {
+    func configureValues(name: String, date: String, image: UIImage) {
         nameLabel.text = name
         dateLabel.text = date
         rocketImage.image = image
