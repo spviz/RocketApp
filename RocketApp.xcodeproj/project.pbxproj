@@ -28,6 +28,7 @@
 		323B022229831B0C00B29CCC /* ParametersModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B022129831B0C00B29CCC /* ParametersModel.swift */; };
 		323B022E2987C86100B29CCC /* LaunchesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B022D2987C86100B29CCC /* LaunchesPresenter.swift */; };
 		323B02302987D30B00B29CCC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323B022F2987D30B00B29CCC /* Model.swift */; };
+		32539C8A2989B219008FDA59 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32539C892989B219008FDA59 /* SettingsPresenter.swift */; };
 		327240D82974369300557E0E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327240D72974369300557E0E /* DataManager.swift */; };
 		327DE6EB297828CF007BC885 /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EA297828CF007BC885 /* LaunchesViewController.swift */; };
 		327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EC29784A0E007BC885 /* LaunchesCell.swift */; };
@@ -83,6 +84,7 @@
 		323B022129831B0C00B29CCC /* ParametersModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersModel.swift; sourceTree = "<group>"; };
 		323B022D2987C86100B29CCC /* LaunchesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesPresenter.swift; sourceTree = "<group>"; };
 		323B022F2987D30B00B29CCC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		32539C892989B219008FDA59 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		327240D72974369300557E0E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		327DE6EA297828CF007BC885 /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
 		327DE6EC29784A0E007BC885 /* LaunchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesCell.swift; sourceTree = "<group>"; };
@@ -228,6 +230,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		32539C882989B200008FDA59 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				32539C892989B219008FDA59 /* SettingsPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		327240D92974500800557E0E /* DataManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +300,7 @@
 			children = (
 				32AAD8A729706EDF00B28AB1 /* Model */,
 				32AAD8A929706EF600B28AB1 /* View */,
+				32539C882989B200008FDA59 /* Presenter */,
 			);
 			path = SettingsModule;
 			sourceTree = "<group>";
@@ -520,6 +531,7 @@
 				32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */,
 				323B02192981582300B29CCC /* SectionHeader.swift in Sources */,
 				32197AA92974801000DAC758 /* UITableViewCellExtension.swift in Sources */,
+				32539C8A2989B219008FDA59 /* SettingsPresenter.swift in Sources */,
 				323B022229831B0C00B29CCC /* ParametersModel.swift in Sources */,
 				323B0220298315F000B29CCC /* Colors.swift in Sources */,
 				323B021E2982AB9400B29CCC /* UICollectionReusableViewExtension.swift in Sources */,

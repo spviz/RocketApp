@@ -9,8 +9,8 @@ import Foundation
 
 protocol DataManagerProtocol {
     var settings: [Settings] { get }
-    func setSettings(for indexPath: Int, selectedIndex: Int)
-    func getSelectedIndex(for indexPath: Int) -> SelectedUnit
+    func setSettings(row: Int, selectedIndex: Int)
+    func getSelectedIndex(row: Int) -> SelectedUnit
 }
 
 final class DataManager: DataManagerProtocol {
@@ -23,12 +23,12 @@ final class DataManager: DataManagerProtocol {
     let selectedUnit = [SelectedUnit.metric,
                         SelectedUnit.imperial]
 
-    func setSettings(for indexPath: Int, selectedIndex: Int) {
-        UserDefaults.standard.set(selectedIndex, forKey: settings[indexPath].parameterName.rawValue)
+    func setSettings(row: Int, selectedIndex: Int) {
+        UserDefaults.standard.set(selectedIndex, forKey: settings[row].parameterName.rawValue)
     }
 
-    func getSelectedIndex(for indexPath: Int) -> SelectedUnit {
-        let unitIndex = UserDefaults.standard.integer(forKey: settings[indexPath].parameterName.rawValue)
+    func getSelectedIndex(row: Int) -> SelectedUnit {
+        let unitIndex = UserDefaults.standard.integer(forKey: settings[row].parameterName.rawValue)
         return selectedUnit[unitIndex]
     }
 }
