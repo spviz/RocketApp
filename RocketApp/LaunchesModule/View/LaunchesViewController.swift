@@ -8,7 +8,7 @@
 import UIKit
 
 protocol LaunchesViewProtocol: AnyObject {
-    func present(launches: [LaunchPresenterModel])
+    func present(launchesInfo: LaunchesInfo)
     func present(alert: Error)
 }
 
@@ -17,9 +17,9 @@ final class LaunchesViewController: UIViewController {
     private lazy var collectionView = UICollectionView()
     private let activityIndicator = UIActivityIndicatorView()
     private let noLaunchesLabel = UILabel()
-    private var launchesArray = [LaunchPresenterModel]()
-    var presenter: LaunchesPresenterProtocol
-    var selectedRocketName: String?
+    private var rocketName = String()
+    private var launchesArray = [Launches]()
+    private let presenter: LaunchesPresenterProtocol
 
     init(presenter: LaunchesPresenterProtocol) {
         self.presenter = presenter
@@ -34,8 +34,6 @@ final class LaunchesViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         createConstraints()
-
-        presenter.launchesView = self
         presenter.getData()
     }
 
@@ -48,9 +46,12 @@ final class LaunchesViewController: UIViewController {
 // MARK: - LaunchesViewProtocol
 
 extension LaunchesViewController: LaunchesViewProtocol {
-    func present(launches: [LaunchPresenterModel]) {
-        launchesArray = launches
+    func present(launchesInfo: LaunchesInfo) {
+        launchesArray = launchesInfo.launches
+
         DispatchQueue.main.async {
+            self.navigationItem.title = launchesInfo.rocketName
+            self.noLaunchesLabel.text = "There are no launches for \(launchesInfo.rocketName) yet..."
             self.collectionView.reloadData()
             self.activityIndicator.stopAnimating()
             self.noLaunchesLabel.isHidden = !self.launchesArray.isEmpty
@@ -107,7 +108,6 @@ private extension LaunchesViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.barTintColor = UIColor(white: 0, alpha: 0)
-        navigationItem.title = selectedRocketName
 
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .black
@@ -119,7 +119,6 @@ private extension LaunchesViewController {
         activityIndicator.style = .large
         activityIndicator.color = .white
 
-        noLaunchesLabel.text = "There are no launches for \(selectedRocketName ?? "selected rocket") yet..."
         noLaunchesLabel.layer.backgroundColor = CGColor(gray: 0.1, alpha: 1)
         noLaunchesLabel.numberOfLines = 0
         noLaunchesLabel.font = .systemFont(ofSize: 20)

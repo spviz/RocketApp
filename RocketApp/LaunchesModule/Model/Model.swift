@@ -7,8 +7,13 @@
 
 import Foundation
 
-struct LaunchPresenterModel {
-    var name: String
-    var date: String
-    var imageName: String
+struct LaunchesInfo {
+    let rocketName: String
+    let launches: [Launches]
+}
+
+struct Launches {
+    let name: String
+    let date: String
+    let imageName: String
 }

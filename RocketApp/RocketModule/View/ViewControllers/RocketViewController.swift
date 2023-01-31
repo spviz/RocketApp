@@ -285,10 +285,9 @@ extension RocketViewController {
     }
 
     func pushLaunches() {
-        let presenter = LaunchesPresenter()
+        let presenter = LaunchesPresenter(selectedRocketID: rocket.id, selectedRocketName: rocket.name)
         let launchesViewController = LaunchesViewController(presenter: presenter)
-        presenter.selectedRocketID = rocket.id
-        launchesViewController.selectedRocketName = rocket.name
+        presenter.launchesView = launchesViewController
         self.navigationController?.pushViewController(launchesViewController, animated: true)
     }
 }

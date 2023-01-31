@@ -9,35 +9,40 @@ import Foundation
 
 protocol LaunchesPresenterProtocol {
     func getData()
-    var launchesView: LaunchesViewProtocol? { get set }
 }
 
-class LaunchesPresenter: LaunchesPresenterProtocol {
+final class LaunchesPresenter: LaunchesPresenterProtocol {
 
     private let networkManager = NetworkManager()
     private let dateFormatter = DateFormatter()
-    private var launchesModel = [LaunchPresenterModel]()
+    private let selectedRocketID: String
+    private let selectedRocketName: String
     weak var launchesView: LaunchesViewProtocol?
-    var selectedRocketID: String?
+
+    init(selectedRocketID: String, selectedRocketName: String) {
+        self.selectedRocketID = selectedRocketID
+        self.selectedRocketName = selectedRocketName
+        dateFormatter.dateFormat = "d MMMM, yyyy"
+    }
 
     func getData() {
-
-        dateFormatter.dateFormat = "d MMMM, yyyy"
-
-        guard let selectedRocket = selectedRocketID else { return }
-        networkManager.getLaunches(for: selectedRocket) { result in
+        networkManager.getLaunches(for: selectedRocketID) { [weak self] result in
             switch result {
             case .success(let launches):
-                self.launchesModel = launches.docs.map { launch in
-                    return LaunchPresenterModel(
+                let launchesArray = launches.docs.map { launch in
+                    return Launches(
                         name: launch.name,
-                        date: self.dateFormatter.string(from: launch.dateUtc),
+                        date: self?.dateFormatter.string(from: launch.dateUtc) ?? "No Data",
                         imageName: (launch.success ?? false) ? "rocket_true": "rocket_false"
                     )
                 }
-                self.launchesView?.present(launches: self.launchesModel)
+                let launchesInfo = LaunchesInfo(
+                    rocketName: self?.selectedRocketName ?? "No Data",
+                    launches: launchesArray
+                )
+                self?.launchesView?.present(launchesInfo: launchesInfo)
             case .failure(let failure):
-                self.launchesView?.present(alert: failure)
+                self?.launchesView?.present(alert: failure)
             }
         }
     }
