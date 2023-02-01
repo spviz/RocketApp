@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ParametersName: String {
+enum ParameterItemName: String {
     case heightMetric = "Высота, m"
     case heightImperial = "Высота, ft"
     case diameterMetric = "Диаметр, m"
@@ -24,7 +24,7 @@ enum ParametersName: String {
     case burnTimeSec = "Время сгорания"
 }
 
-enum Parameters {
+enum ParameterItem {
     case height
     case diameter
     case mass

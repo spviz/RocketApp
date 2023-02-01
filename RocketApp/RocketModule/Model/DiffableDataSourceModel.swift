@@ -28,6 +28,6 @@ struct Section: Hashable {
 
 enum ItemType: Hashable {
     case header(URL, String)
-    case info(ParametersName, String, UUID = UUID())
+    case info(ParameterItemName, String, UUID = UUID())
     case button
 }

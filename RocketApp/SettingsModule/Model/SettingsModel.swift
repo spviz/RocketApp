@@ -8,24 +8,24 @@
 import Foundation
 
 struct Settings {
-    let parameterName: Parameters
-    let units: [Units]
+    let settingType: SettingType
+    let units: [Unit]
 }
 
 extension Settings {
-    enum Parameters: String {
-        case height = "Высота"
-        case diameter = "Диаметр"
-        case mass = "Масса"
-        case payloadWeights = "Полезная нагрузка"
-    }
-
-    enum Units: String {
+    enum Unit: String {
         case kg
         case lb
         case m
         case ft
     }
+}
+
+enum SettingType: String {
+    case height = "Высота"
+    case diameter = "Диаметр"
+    case mass = "Масса"
+    case payloadWeights = "Полезная нагрузка"
 }
 
 enum SelectedUnit: Int {

@@ -30,7 +30,7 @@ final class LaunchesPresenter: LaunchesPresenterProtocol {
             switch result {
             case .success(let launches):
                 let launchesArray = launches.docs.map { launch in
-                    return Launches(
+                    return LaunchItem(
                         name: launch.name,
                         date: self?.dateFormatter.string(from: launch.dateUtc) ?? "No Data",
                         imageName: (launch.success ?? false) ? "rocket_true": "rocket_false"

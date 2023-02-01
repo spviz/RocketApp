@@ -18,7 +18,7 @@ final class LaunchesViewController: UIViewController {
     private let activityIndicator = UIActivityIndicatorView()
     private let noLaunchesLabel = UILabel()
     private var rocketName = String()
-    private var launchesArray = [Launches]()
+    private var launchesArray = [LaunchItem]()
     private let presenter: LaunchesPresenterProtocol
 
     init(presenter: LaunchesPresenterProtocol) {

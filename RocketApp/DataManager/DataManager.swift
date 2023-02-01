@@ -9,26 +9,31 @@ import Foundation
 
 protocol DataManagerProtocol {
     var settings: [Settings] { get }
-    func setSettings(row: Int, selectedIndex: Int)
-    func getSelectedIndex(row: Int) -> SelectedUnit
+    func setSettings(for setting: SettingType, selectedUnit: SelectedUnit)
+    func getSelectedIndex(for parameter: SettingType) -> SelectedUnit
 }
 
 final class DataManager: DataManagerProtocol {
 
-    let settings = [Settings(parameterName: .height, units: [.m, .ft]),
-                    Settings(parameterName: .diameter, units: [.m, .ft]),
-                    Settings(parameterName: .mass, units: [.kg, .lb]),
-                    Settings(parameterName: .payloadWeights, units: [.kg, .lb])]
+    let settings = [Settings(settingType: .height, units: [.m, .ft]),
+                    Settings(settingType: .diameter, units: [.m, .ft]),
+                    Settings(settingType: .mass, units: [.kg, .lb]),
+                    Settings(settingType: .payloadWeights, units: [.kg, .lb])]
 
     let selectedUnit = [SelectedUnit.metric,
                         SelectedUnit.imperial]
 
-    func setSettings(row: Int, selectedIndex: Int) {
-        UserDefaults.standard.set(selectedIndex, forKey: settings[row].parameterName.rawValue)
+    func setSettings(for setting: SettingType, selectedUnit: SelectedUnit) {
+        switch selectedUnit {
+        case .metric:
+            UserDefaults.standard.set(0, forKey: setting.rawValue)
+        case .imperial:
+            UserDefaults.standard.set(1, forKey: setting.rawValue)
+        }
     }
 
-    func getSelectedIndex(row: Int) -> SelectedUnit {
-        let unitIndex = UserDefaults.standard.integer(forKey: settings[row].parameterName.rawValue)
+    func getSelectedIndex(for setting: SettingType) -> SelectedUnit {
+        let unitIndex = UserDefaults.standard.integer(forKey: setting.rawValue)
         return selectedUnit[unitIndex]
     }
 }

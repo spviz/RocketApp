@@ -25,7 +25,7 @@ final class SettingsCell: UITableViewCell {
 
     func configureElements(with settings: Settings, selectedUnit: SelectedUnit) {
 
-        label.text = settings.parameterName.rawValue
+        label.text = settings.settingType.rawValue
 
         unitsSelector.removeAllSegments()
         unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)

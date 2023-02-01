@@ -9,10 +9,10 @@ import Foundation
 
 struct LaunchesInfo {
     let rocketName: String
-    let launches: [Launches]
+    let launches: [LaunchItem]
 }
 
-struct Launches {
+struct LaunchItem {
     let name: String
     let date: String
     let imageName: String
