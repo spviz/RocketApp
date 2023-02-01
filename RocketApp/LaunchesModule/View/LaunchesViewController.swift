@@ -7,20 +7,22 @@
 
 import UIKit
 
+protocol LaunchesViewProtocol: AnyObject {
+    func present(launchesInfo: LaunchesInfo)
+    func present(alert: Error)
+}
+
 final class LaunchesViewController: UIViewController {
 
     private lazy var collectionView = UICollectionView()
     private let activityIndicator = UIActivityIndicatorView()
-    private let dateFormatter = DateFormatter()
-    private let networkManager: NetworkManagerProtocol
-    private var launches: Launch?
-    var selectedRocketID: String?
-    var selectedRocketName: String?
-
     private let noLaunchesLabel = UILabel()
+    private var rocketName = String()
+    private var launchesArray = [Launches]()
+    private let presenter: LaunchesPresenterProtocol
 
-    init(network: NetworkManagerProtocol) {
-        self.networkManager = network
+    init(presenter: LaunchesPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -30,36 +32,38 @@ final class LaunchesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        dateFormatter.dateFormat = "d MMMM, yyyy"
         configureUI()
         createConstraints()
-        getLaunches()
+        presenter.getData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         activityIndicator.startAnimating()
     }
+}
 
-    private func getLaunches() {
-        guard let selectedRocket = selectedRocketID else { return }
+// MARK: - LaunchesViewProtocol
 
-        networkManager.getLaunches(for: selectedRocket) { result in
-            switch result {
-            case .success(let launches):
-                self.launches = launches
-                DispatchQueue.main.async {
-                    self.noLaunchesLabel.isHidden = !launches.docs.isEmpty
-                    self.activityIndicator.stopAnimating()
-                    self.collectionView.reloadData()
-                }
-            case .failure(let failure):
-                let alert = UIAlertController(title: "Error", message: failure.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .destructive))
-                self.present(alert, animated: true, completion: nil)
-                self.activityIndicator.stopAnimating()
-            }
+extension LaunchesViewController: LaunchesViewProtocol {
+    func present(launchesInfo: LaunchesInfo) {
+        launchesArray = launchesInfo.launches
+
+        DispatchQueue.main.async {
+            self.navigationItem.title = launchesInfo.rocketName
+            self.noLaunchesLabel.text = "There are no launches for \(launchesInfo.rocketName) yet..."
+            self.collectionView.reloadData()
+            self.activityIndicator.stopAnimating()
+            self.noLaunchesLabel.isHidden = !self.launchesArray.isEmpty
         }
+    }
+
+    func present(alert: Error) {
+        let alert = UIAlertController(title: "Error", message: alert.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .destructive))
+        self.present(alert, animated: true, completion: nil)
+        self.activityIndicator.stopAnimating()
+        self.activityIndicator.isHidden = true
     }
 }
 
@@ -68,7 +72,7 @@ final class LaunchesViewController: UIViewController {
 extension LaunchesViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return launches?.docs.count ?? 0
+        return launchesArray.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -77,13 +81,10 @@ extension LaunchesViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? LaunchesCell else { return UICollectionViewCell() }
 
-        guard let launch = launches?.docs[indexPath.row],
-              let image = UIImage(named: (launch.success ?? false) ? "rocket_true": "rocket_false") else {
-            return UICollectionViewCell()
-        }
+        guard let image = UIImage(named: launchesArray[indexPath.row].imageName) else { return UICollectionViewCell()}
         cell.configureValues(
-            for: launch.name,
-            date: self.dateFormatter.string(from: launch.dateUtc),
+            name: launchesArray[indexPath.row].name,
+            date: launchesArray[indexPath.row].date,
             image: image
         )
         return cell
@@ -107,7 +108,6 @@ private extension LaunchesViewController {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.barTintColor = UIColor(white: 0, alpha: 0)
-        navigationItem.title = selectedRocketName
 
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .black
@@ -119,7 +119,6 @@ private extension LaunchesViewController {
         activityIndicator.style = .large
         activityIndicator.color = .white
 
-        noLaunchesLabel.text = "There are no launches for \(selectedRocketName ?? "selected rocket") yet..."
         noLaunchesLabel.layer.backgroundColor = CGColor(gray: 0.1, alpha: 1)
         noLaunchesLabel.numberOfLines = 0
         noLaunchesLabel.font = .systemFont(ofSize: 20)

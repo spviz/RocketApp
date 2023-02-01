@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SettingsViewProtocol: AnyObject {
+    func present(settings: [Settings], selectedUnit: [SelectedUnit])
+}
+
 final class SettingsViewController: UIViewController {
 
     private enum Constants: String {
@@ -17,12 +21,14 @@ final class SettingsViewController: UIViewController {
     private let headerLabel = UILabel()
     private let closeButton = UIButton()
     private let tableView = UITableView()
-    private let dataManager: DataManagerProtocol
+    private let presenter: SettingsPresenterProtocol
+    private var settings = [Settings]()
+    private var selectedUnit = [SelectedUnit]()
 
     var reloadData: (() -> Void)?
 
-    init(dataManager: DataManagerProtocol) {
-        self.dataManager = dataManager
+    init(presenter: SettingsPresenterProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -34,13 +40,22 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         createConstraints()
+        presenter.getData()
     }
 
     @objc private func closeButtonPressed() {
         dismiss(animated: true)
         reloadData?()
     }
+}
 
+// MARK: - SettingsViewProtocol
+
+extension SettingsViewController: SettingsViewProtocol {
+    func present(settings: [Settings], selectedUnit: [SelectedUnit]) {
+        self.settings = settings
+        self.selectedUnit = selectedUnit
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -48,7 +63,7 @@ final class SettingsViewController: UIViewController {
 extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataManager.settings.count
+        settings.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,9 +73,9 @@ extension SettingsViewController: UITableViewDataSource {
             for: indexPath
         ) as? SettingsCell else { return UITableViewCell()}
 
-        cell.configureElements(with: dataManager.settings[indexPath.row], selectedUnit: dataManager.getSelectedIndex(for: indexPath.row))
-        cell.onChangeUnits = { index in
-            self.dataManager.setSettings(for: indexPath.row, selectedIndex: index)
+        cell.configureElements(with: settings[indexPath.row], selectedUnit: selectedUnit[indexPath.row])
+        cell.onChangeUnits = { [weak self] index in
+            self?.presenter.setSettings(row: indexPath.row, selectedIndex: index)
         }
         return cell
     }
