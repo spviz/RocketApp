@@ -37,6 +37,7 @@
 		32AAD8662970593D00B28AB1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD8652970593D00B28AB1 /* SettingsViewController.swift */; };
 		32AAD8682970599F00B28AB1 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD8672970599F00B28AB1 /* SettingsCell.swift */; };
 		32AAD86A297059E200B28AB1 /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32AAD869297059E200B28AB1 /* SettingsModel.swift */; };
+		32CB3F13298BD65E003E8386 /* RocketPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32CB3F12298BD65E003E8386 /* RocketPresenter.swift */; };
 		32F22054297C3F3300E1633B /* DiffableDataSourceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22053297C3F3300E1633B /* DiffableDataSourceModel.swift */; };
 		32F22056297C423A00E1633B /* HorizontalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22055297C423A00E1633B /* HorizontalCell.swift */; };
 		32F22058297C424500E1633B /* VerticalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F22057297C424500E1633B /* VerticalCell.swift */; };
@@ -93,6 +94,7 @@
 		32AAD8652970593D00B28AB1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		32AAD8672970599F00B28AB1 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		32AAD869297059E200B28AB1 /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		32CB3F12298BD65E003E8386 /* RocketPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketPresenter.swift; sourceTree = "<group>"; };
 		32F22053297C3F3300E1633B /* DiffableDataSourceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffableDataSourceModel.swift; sourceTree = "<group>"; };
 		32F22055297C423A00E1633B /* HorizontalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCell.swift; sourceTree = "<group>"; };
 		32F22057297C424500E1633B /* VerticalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalCell.swift; sourceTree = "<group>"; };
@@ -165,8 +167,8 @@
 		323A9CCE2969A2C500A2A24B /* RocketApp */ = {
 			isa = PBXGroup;
 			children = (
-				32F22050297C26F100E1633B /* RocketModule */,
 				323A9D002969A34800A2A24B /* App */,
+				32F22050297C26F100E1633B /* RocketModule */,
 				32AAD8642970591300B28AB1 /* SettingsModule */,
 				327DE6E929781CB4007BC885 /* LaunchesModule */,
 				327240D92974500800557E0E /* DataManager */,
@@ -331,11 +333,20 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		32CB3F11298BD5DE003E8386 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				32CB3F12298BD65E003E8386 /* RocketPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		32F22050297C26F100E1633B /* RocketModule */ = {
 			isa = PBXGroup;
 			children = (
 				32F22051297C3EFD00E1633B /* Model */,
 				32F22052297C3F0F00E1633B /* View */,
+				32CB3F11298BD5DE003E8386 /* Presenter */,
 			);
 			path = RocketModule;
 			sourceTree = "<group>";
@@ -517,6 +528,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32CB3F13298BD65E003E8386 /* RocketPresenter.swift in Sources */,
 				32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */,
 				327240D82974369300557E0E /* DataManager.swift in Sources */,
 				327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */,
