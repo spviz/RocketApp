@@ -8,17 +8,11 @@
 import Foundation
 
 protocol DataManagerProtocol {
-    var settings: [Settings] { get }
     func setSettings(for setting: SettingType, selectedUnit: SelectedUnit)
-    func getSelectedIndex(for parameter: SettingType) -> SelectedUnit
+    func getSelectedUnit(for parameter: SettingType) -> SelectedUnit
 }
 
 final class DataManager: DataManagerProtocol {
-
-    let settings = [Settings(settingType: .height, units: [.m, .ft]),
-                    Settings(settingType: .diameter, units: [.m, .ft]),
-                    Settings(settingType: .mass, units: [.kg, .lb]),
-                    Settings(settingType: .payloadWeights, units: [.kg, .lb])]
 
     let selectedUnit = [SelectedUnit.metric,
                         SelectedUnit.imperial]
@@ -32,7 +26,7 @@ final class DataManager: DataManagerProtocol {
         }
     }
 
-    func getSelectedIndex(for setting: SettingType) -> SelectedUnit {
+    func getSelectedUnit(for setting: SettingType) -> SelectedUnit {
         let unitIndex = UserDefaults.standard.integer(forKey: setting.rawValue)
         return selectedUnit[unitIndex]
     }

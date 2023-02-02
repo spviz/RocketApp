@@ -22,13 +22,24 @@ final class SettingsPresenter: SettingsPresenterProtocol {
     }
 
     func getData() {
-        let selectedUnit = [
-            dataManager.getSelectedIndex(for: .height),
-            dataManager.getSelectedIndex(for: .diameter),
-            dataManager.getSelectedIndex(for: .mass),
-            dataManager.getSelectedIndex(for: .payloadWeights)
-            ]
-        settingsView?.present(settings: dataManager.settings, selectedUnits: selectedUnit)
+        let settings = [Settings(
+                            settingType: .height, units: [.m, .ft],
+                            selectedUnits: dataManager.getSelectedUnit(for: .height)
+                        ),
+                        Settings(
+                            settingType: .diameter, units: [.m, .ft],
+                            selectedUnits: dataManager.getSelectedUnit(for: .diameter)
+                        ),
+                        Settings(
+                            settingType: .mass, units: [.kg, .lb],
+                            selectedUnits: dataManager.getSelectedUnit(for: .mass)
+                        ),
+                        Settings(
+                            settingType: .payloadWeights, units: [.kg, .lb],
+                            selectedUnits: dataManager.getSelectedUnit(for: .payloadWeights)
+                        )]
+
+        settingsView?.present(settings: settings)
     }
 
     func setSettings(setting: SettingType?, selectedIndex: Int) {

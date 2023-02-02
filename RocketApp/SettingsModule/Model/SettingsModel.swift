@@ -10,6 +10,13 @@ import Foundation
 struct Settings {
     let settingType: SettingType
     let units: [Unit]
+    let selectedUnits: SelectedUnit
+
+    init(settingType: SettingType, units: [Unit], selectedUnits: SelectedUnit = .metric) {
+        self.settingType = settingType
+        self.units = units
+        self.selectedUnits = selectedUnits
+    }
 }
 
 extension Settings {

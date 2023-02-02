@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SettingsViewProtocol: AnyObject {
-    func present(settings: [Settings], selectedUnits: [SelectedUnit])
+    func present(settings: [Settings])
 }
 
 final class SettingsViewController: UIViewController {
@@ -23,7 +23,6 @@ final class SettingsViewController: UIViewController {
     private let tableView = UITableView()
     private let presenter: SettingsPresenterProtocol
     private var settings = [Settings]()
-    private var selectedUnit = [SelectedUnit]()
 
     var reloadData: (() -> Void)?
 
@@ -52,9 +51,8 @@ final class SettingsViewController: UIViewController {
 // MARK: - SettingsViewProtocol
 
 extension SettingsViewController: SettingsViewProtocol {
-    func present(settings: [Settings], selectedUnits: [SelectedUnit]) {
+    func present(settings: [Settings]) {
         self.settings = settings
-        self.selectedUnit = selectedUnits
     }
 }
 
@@ -73,7 +71,7 @@ extension SettingsViewController: UITableViewDataSource {
             for: indexPath
         ) as? SettingsCell else { return UITableViewCell()}
 
-        cell.configureElements(with: settings[indexPath.row], selectedUnit: selectedUnit[indexPath.row])
+        cell.configureElements(with: settings[indexPath.row])
         cell.onChangeUnits = { [weak self] index in
             self?.presenter.setSettings(setting: self?.settings[indexPath.row].settingType, selectedIndex: index)
         }
