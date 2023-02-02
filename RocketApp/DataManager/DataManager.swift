@@ -18,12 +18,7 @@ final class DataManager: DataManagerProtocol {
                         SelectedUnit.imperial]
 
     func setSettings(for setting: SettingType, selectedUnit: SelectedUnit) {
-        switch selectedUnit {
-        case .metric:
-            UserDefaults.standard.set(0, forKey: setting.rawValue)
-        case .imperial:
-            UserDefaults.standard.set(1, forKey: setting.rawValue)
-        }
+        UserDefaults.standard.set(selectedUnit.rawValue, forKey: setting.rawValue)
     }
 
     func getSelectedUnit(for setting: SettingType) -> SelectedUnit {

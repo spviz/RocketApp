@@ -72,8 +72,9 @@ extension SettingsViewController: UITableViewDataSource {
         ) as? SettingsCell else { return UITableViewCell()}
 
         cell.configureElements(with: settings[indexPath.row])
+        let setting = self.settings[indexPath.row]
         cell.onChangeUnits = { [weak self] index in
-            self?.presenter.setSettings(setting: self?.settings[indexPath.row].settingType, selectedIndex: index)
+            self?.presenter.setSettings(setting: setting.settingType, selectedIndex: index)
         }
         return cell
     }

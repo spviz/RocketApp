@@ -9,7 +9,7 @@ import Foundation
 
 protocol SettingsPresenterProtocol {
     func getData()
-    func setSettings(setting: SettingType?, selectedIndex: Int)
+    func setSettings(setting: SettingType, selectedIndex: Int)
 }
 
 final class SettingsPresenter: SettingsPresenterProtocol {
@@ -42,14 +42,12 @@ final class SettingsPresenter: SettingsPresenterProtocol {
         settingsView?.present(settings: settings)
     }
 
-    func setSettings(setting: SettingType?, selectedIndex: Int) {
-        guard let parameter = setting else { return }
-
+    func setSettings(setting: SettingType, selectedIndex: Int) {
         let selectedUnit = selectedIndex == 0
         ? SelectedUnit.metric
         : SelectedUnit.imperial
 
-        dataManager.setSettings(for: parameter, selectedUnit: selectedUnit)
+        dataManager.setSettings(for: setting, selectedUnit: selectedUnit)
     }
 
 }
