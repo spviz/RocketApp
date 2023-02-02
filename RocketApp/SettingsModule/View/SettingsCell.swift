@@ -23,14 +23,14 @@ final class SettingsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureElements(with settings: Settings, selectedUnit: SelectedUnit) {
+    func configureElements(with setting: Settings) {
 
-        label.text = settings.parameterName.rawValue
+        label.text = setting.settingType.rawValue
 
         unitsSelector.removeAllSegments()
-        unitsSelector.insertSegment(withTitle: settings.units[0].rawValue, at: 0, animated: false)
-        unitsSelector.insertSegment(withTitle: settings.units[1].rawValue, at: 1, animated: false)
-        unitsSelector.selectedSegmentIndex = selectedUnit.rawValue
+        unitsSelector.insertSegment(withTitle: setting.units[0].rawValue, at: 0, animated: false)
+        unitsSelector.insertSegment(withTitle: setting.units[1].rawValue, at: 1, animated: false)
+        unitsSelector.selectedSegmentIndex = setting.selectedUnits.rawValue
     }
 
     @objc func tapUnitsSelector(sender: UISegmentedControl) {

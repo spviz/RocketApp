@@ -56,19 +56,19 @@ private extension RocketViewController {
 
         dateFormatter.dateFormat = "d MMMM, yyyy"
 
-        let height = dataManager.getSelectedIndex(row: 0) == .metric
+        let height = dataManager.getSelectedUnit(for: .height) == .metric
         ? String(rocket.height.meters)
         : String(rocket.height.feet)
 
-        let diameter = dataManager.getSelectedIndex(row: 1) == .metric
+        let diameter = dataManager.getSelectedUnit(for: .diameter) == .metric
         ? String(rocket.diameter.meters)
         : String(rocket.diameter.feet)
 
-        let mass = dataManager.getSelectedIndex(row: 2) == .metric
+        let mass = dataManager.getSelectedUnit(for: .mass) == .metric
         ? String(rocket.mass.kg)
         : String(rocket.mass.lb)
 
-        let payloadWeights = dataManager.getSelectedIndex(row: 3) == .metric
+        let payloadWeights = dataManager.getSelectedUnit(for: .payloadWeights) == .metric
         ? String(rocket.payloadWeights[0].kg)
         : String(rocket.payloadWeights[0].lb)
 
@@ -91,10 +91,10 @@ private extension RocketViewController {
             .header(rocket.flickrImages[Int.random(in: 0...rocket.flickrImages.count - 1)], rocket.name)])
 
         let horizontalSection = Section(type: .horizontal, items: [
-            .info(dataManager.getSelectedIndex(row: 0) == .metric ? .heightMetric : .heightImperial, height),
-            .info(dataManager.getSelectedIndex(row: 1) == .metric ? .diameterMetric : .diameterImperial, diameter),
-            .info(dataManager.getSelectedIndex(row: 2) == .metric ? .massMetric : .massImperial, mass),
-            .info(dataManager.getSelectedIndex(row: 3) == .metric ? .payloadWeightsMetric : .payloadWeightsImperial, payloadWeights)])
+            .info(dataManager.getSelectedUnit(for: .height) == .metric ? .heightMetric : .heightImperial, height),
+            .info(dataManager.getSelectedUnit(for: .diameter) == .metric ? .diameterMetric : .diameterImperial, diameter),
+            .info(dataManager.getSelectedUnit(for: .mass) == .metric ? .massMetric : .massImperial, mass),
+            .info(dataManager.getSelectedUnit(for: .payloadWeights) == .metric ? .payloadWeightsMetric : .payloadWeightsImperial, payloadWeights)])
 
         let infoSection = Section(type: .vertical, items: [
             .info(.firstFlight, dateFormatter.string(from: rocket.firstFlight)),

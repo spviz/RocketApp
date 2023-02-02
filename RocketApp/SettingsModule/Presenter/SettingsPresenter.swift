@@ -9,7 +9,7 @@ import Foundation
 
 protocol SettingsPresenterProtocol {
     func getData()
-    func setSettings(row: Int, selectedIndex: Int)
+    func setSettings(setting: SettingType, selectedIndex: Int)
 }
 
 final class SettingsPresenter: SettingsPresenterProtocol {
@@ -22,14 +22,32 @@ final class SettingsPresenter: SettingsPresenterProtocol {
     }
 
     func getData() {
-        let selectedUnit = dataManager.settings.indices.map {
-            dataManager.getSelectedIndex(row: $0)
-        }
-        settingsView?.present(settings: dataManager.settings, selectedUnit: selectedUnit)
+        let settings = [Settings(
+                            settingType: .height, units: [.m, .ft],
+                            selectedUnits: dataManager.getSelectedUnit(for: .height)
+                        ),
+                        Settings(
+                            settingType: .diameter, units: [.m, .ft],
+                            selectedUnits: dataManager.getSelectedUnit(for: .diameter)
+                        ),
+                        Settings(
+                            settingType: .mass, units: [.kg, .lb],
+                            selectedUnits: dataManager.getSelectedUnit(for: .mass)
+                        ),
+                        Settings(
+                            settingType: .payloadWeights, units: [.kg, .lb],
+                            selectedUnits: dataManager.getSelectedUnit(for: .payloadWeights)
+                        )]
+
+        settingsView?.present(settings: settings)
     }
 
-    func setSettings(row: Int, selectedIndex: Int) {
-        dataManager.setSettings(row: row, selectedIndex: selectedIndex)
+    func setSettings(setting: SettingType, selectedIndex: Int) {
+        let selectedUnit = selectedIndex == 0
+        ? SelectedUnit.metric
+        : SelectedUnit.imperial
+
+        dataManager.setSettings(for: setting, selectedUnit: selectedUnit)
     }
 
 }
