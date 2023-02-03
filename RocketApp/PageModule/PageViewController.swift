@@ -87,6 +87,8 @@ extension PageViewController: UIPageViewControllerDataSource {
 extension PageViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         let pendingViewController = pendingViewControllers[0] as? RocketViewController
-        pendingViewController?.reloadCollectionView()
+        DispatchQueue.main.async {
+            pendingViewController?.reloadCollectionView()
+        }
     }
 }
