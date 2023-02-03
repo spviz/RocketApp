@@ -35,7 +35,11 @@ final class PageViewController: UIPageViewController {
             case .success(let rockets):
                 DispatchQueue.main.async {
                     self.rocketViewControllersArray = rockets.map { rocket in
-                        return RocketViewController(rocket: rocket, dataManager: self.dataManager)
+
+                        let presenter = RocketPresenter(dataManager: self.dataManager, rocket: rocket)
+                        let rocketVC = RocketViewController(presenter: presenter)
+                        presenter.rocketView = rocketVC
+                            return rocketVC
                     }
                     self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
                 }
