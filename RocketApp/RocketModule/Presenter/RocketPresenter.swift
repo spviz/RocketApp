@@ -27,7 +27,6 @@ final class RocketPresenter: RocketPresenterProtocol {
     private let dateFormatter = DateFormatter()
 
     weak var rocketView: RocketViewProtocol?
-    private var sections = [Section]()
 
     init(dataManager: DataManagerProtocol, rocket: Rocket) {
         self.dataManager = dataManager
@@ -96,7 +95,7 @@ final class RocketPresenter: RocketPresenterProtocol {
 
         let buttonSection = Section(type: .button, items: [.button])
 
-        sections = [headSection, horizontalSection, infoSection, firstStageSection, secondStageSection, buttonSection]
+        let sections = [headSection, horizontalSection, infoSection, firstStageSection, secondStageSection, buttonSection]
 
         rocketView?.present(sections: sections)
     }
