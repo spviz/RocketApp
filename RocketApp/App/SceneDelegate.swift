@@ -16,7 +16,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
-        window?.rootViewController = UINavigationController(rootViewController: PageViewController())
+        let pagePresenter = PagePresenter()
+        let pageViewController = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, presenter: pagePresenter)
+        pagePresenter.pageView = pageViewController
+        window?.rootViewController = UINavigationController(rootViewController: pageViewController)
         window?.backgroundColor = .black
     }
 }
