@@ -33,6 +33,11 @@ final class RocketViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        reloadCollectionView()
+    }
+
     func reloadCollectionView() {
         presenter.getData()
     }
@@ -205,7 +210,7 @@ private extension RocketViewController {
 
 extension RocketViewController {
     func presentSettings() {
-        let presenter = SettingsPresenter(dataManager: DataManager())
+        let presenter = SettingsPresenter()
         let settingsViewController = SettingsViewController(presenter: presenter)
         presenter.settingsView = settingsViewController
         settingsViewController.reloadData = { [weak self] in

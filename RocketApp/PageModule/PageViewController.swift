@@ -27,7 +27,6 @@ final class PageViewController: UIPageViewController {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         view.backgroundColor = Colors.settingsBackgroundColor
         self.dataSource = self
-        self.delegate = self
     }
 
     required init?(coder: NSCoder) {
@@ -80,15 +79,5 @@ extension PageViewController: UIPageViewControllerDataSource {
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         0
-    }
-}
-
-// MARK: - UIPageViewControllerDelegate
-extension PageViewController: UIPageViewControllerDelegate {
-    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
-        let pendingViewController = pendingViewControllers[0] as? RocketViewController
-        DispatchQueue.main.async {
-            pendingViewController?.reloadCollectionView()
-        }
     }
 }

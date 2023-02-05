@@ -14,12 +14,8 @@ protocol SettingsPresenterProtocol {
 
 final class SettingsPresenter: SettingsPresenterProtocol {
 
-    private let dataManager: DataManagerProtocol
+    private let dataManager: DataManagerProtocol = DataManager()
     weak var settingsView: SettingsViewProtocol?
-
-    init(dataManager: DataManagerProtocol) {
-        self.dataManager = dataManager
-    }
 
     func getData() {
         let settings = [Settings(
