@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3205E7C7296B12E000844EAE /* LaunchRequest.swift */; };
 		32197AA92974801000DAC758 /* UITableViewCellExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32197AA82974801000DAC758 /* UITableViewCellExtension.swift */; };
+		3224410B298CF5520017F64A /* PagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3224410A298CF5520017F64A /* PagePresenter.swift */; };
 		32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F782969ABD600EEE8D2 /* RocketViewController.swift */; };
 		32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */; };
 		32349F7E2969AD5800EEE8D2 /* RocketModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7D2969AD5800EEE8D2 /* RocketModel.swift */; };
@@ -63,6 +64,7 @@
 /* Begin PBXFileReference section */
 		3205E7C7296B12E000844EAE /* LaunchRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchRequest.swift; sourceTree = "<group>"; };
 		32197AA82974801000DAC758 /* UITableViewCellExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableViewCellExtension.swift; sourceTree = "<group>"; };
+		3224410A298CF5520017F64A /* PagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePresenter.swift; sourceTree = "<group>"; };
 		32349F782969ABD600EEE8D2 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
 		32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		32349F7D2969AD5800EEE8D2 /* RocketModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketModel.swift; sourceTree = "<group>"; };
@@ -135,6 +137,31 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		32244109298CF50C0017F64A /* PageModule */ = {
+			isa = PBXGroup;
+			children = (
+				3224410F298D1D6F0017F64A /* View */,
+				3224410E298D1D670017F64A /* Presenter */,
+			);
+			path = PageModule;
+			sourceTree = "<group>";
+		};
+		3224410E298D1D670017F64A /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				3224410A298CF5520017F64A /* PagePresenter.swift */,
+			);
+			name = Presenter;
+			sourceTree = "<group>";
+		};
+		3224410F298D1D6F0017F64A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				323A9CD32969A2C500A2A24B /* PageViewController.swift */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		32349F7A2969AC6800EEE8D2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +195,7 @@
 			isa = PBXGroup;
 			children = (
 				323A9D002969A34800A2A24B /* App */,
+				32244109298CF50C0017F64A /* PageModule */,
 				32F22050297C26F100E1633B /* RocketModule */,
 				32AAD8642970591300B28AB1 /* SettingsModule */,
 				327DE6E929781CB4007BC885 /* LaunchesModule */,
@@ -291,7 +319,6 @@
 		328E3387297EC45E00247722 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				323A9CD32969A2C500A2A24B /* PageViewController.swift */,
 				32349F782969ABD600EEE8D2 /* RocketViewController.swift */,
 			);
 			path = ViewControllers;
@@ -551,6 +578,7 @@
 				323A9CD02969A2C500A2A24B /* AppDelegate.swift in Sources */,
 				323A9CD22969A2C500A2A24B /* SceneDelegate.swift in Sources */,
 				328E3383297EC3FD00247722 /* HeaderCell.swift in Sources */,
+				3224410B298CF5520017F64A /* PagePresenter.swift in Sources */,
 				323B022E2987C86100B29CCC /* LaunchesPresenter.swift in Sources */,
 				3205E7C8296B12E000844EAE /* LaunchRequest.swift in Sources */,
 				32F22058297C424500E1633B /* VerticalCell.swift in Sources */,

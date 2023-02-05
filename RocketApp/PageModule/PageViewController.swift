@@ -7,48 +7,51 @@
 
 import UIKit
 
+protocol PageViewProtocol: AnyObject {
+    func present(rocketViewControllers: [RocketViewController])
+    func present(alert: Error)
+}
+
 final class PageViewController: UIPageViewController {
 
-    private let networkManager = NetworkManager()
-    private let dataManager = DataManager()
-    private var rocketViewControllersArray = [UIViewController]()
+    private var rocketViewControllers = [RocketViewController]()
+    private let presenter: PagePresenterProtocol
 
-    override init(
+    init(
         transitionStyle style: UIPageViewController.TransitionStyle,
         navigationOrientation: UIPageViewController.NavigationOrientation,
-        options: [UIPageViewController.OptionsKey: Any]? = nil
+        options: [UIPageViewController.OptionsKey: Any]? = nil,
+        presenter: PagePresenterProtocol
     ) {
+        self.presenter = presenter
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal)
         view.backgroundColor = Colors.settingsBackgroundColor
         self.dataSource = self
         self.delegate = self
-        getRocketScreens()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func getRocketScreens() {
-        networkManager.getRockets { result in
-            switch result {
-            case .success(let rockets):
-                DispatchQueue.main.async {
-                    self.rocketViewControllersArray = rockets.map { rocket in
+    override func viewDidLoad() {
+        presenter.getData()
+    }
+}
 
-                        let presenter = RocketPresenter(dataManager: self.dataManager, rocket: rocket)
-                        let rocketVC = RocketViewController(presenter: presenter)
-                        presenter.rocketView = rocketVC
-                            return rocketVC
-                    }
-                    self.setViewControllers([self.rocketViewControllersArray[0]], direction: .forward, animated: true)
-                }
-            case .failure(let failure):
-                let alert = UIAlertController(title: "Error", message: failure.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .destructive))
-                self.present(alert, animated: true, completion: nil)
-            }
-        }
+// MARK: - PageViewProtocol
+
+extension PageViewController: PageViewProtocol {
+
+    func present(rocketViewControllers: [RocketViewController]) {
+        self.rocketViewControllers = rocketViewControllers
+        self.setViewControllers([self.rocketViewControllers[0]], direction: .forward, animated: true)
+    }
+
+    func present(alert: Error) {
+        let alert = UIAlertController(title: "Error", message: alert.localizedDescription, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .destructive))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
@@ -57,22 +60,22 @@ final class PageViewController: UIPageViewController {
 extension PageViewController: UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
-        if let index = rocketViewControllersArray.firstIndex(of: viewController), index > 0 {
-            return rocketViewControllersArray[index - 1]
+        if let index = rocketViewControllers.firstIndex(of: viewController), index > 0 {
+            return rocketViewControllers[index - 1]
         }
         return nil
     }
 
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         guard let viewController = viewController as? RocketViewController else { return nil }
-        if let index = rocketViewControllersArray.firstIndex(of: viewController), index < rocketViewControllersArray.count - 1 {
-            return rocketViewControllersArray[index + 1]
+        if let index = rocketViewControllers.firstIndex(of: viewController), index < rocketViewControllers.count - 1 {
+            return rocketViewControllers[index + 1]
         }
         return nil
     }
 
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
-        rocketViewControllersArray.count
+        rocketViewControllers.count
     }
 
     func presentationIndex(for pageViewController: UIPageViewController) -> Int {
@@ -84,6 +87,8 @@ extension PageViewController: UIPageViewControllerDataSource {
 extension PageViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         let pendingViewController = pendingViewControllers[0] as? RocketViewController
-        pendingViewController?.reloadCollectionView()
+        DispatchQueue.main.async {
+            pendingViewController?.reloadCollectionView()
+        }
     }
 }
