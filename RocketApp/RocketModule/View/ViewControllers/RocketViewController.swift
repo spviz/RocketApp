@@ -18,6 +18,9 @@ final class RocketViewController: UIViewController {
     private let presenter: RocketPresenterProtocol
     private var sections = [Section]()
 
+    var presentSettingsClosure: (() -> Void)?
+    var pushLaunchesClosure: (() -> Void)?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -79,35 +82,36 @@ private extension RocketViewController {
             collectionView: collectionView,
             cellProvider: { collectionView, indexPath, itemIdentifier in
 
-            switch itemIdentifier {
+                switch itemIdentifier {
 
-            case let .header(url, name):
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCell.identifier, for: indexPath) as? HeaderCell
-                cell?.configure(with: url, name: name)
-                cell?.onPresentSettings = {
-                    self.presentSettings()
-                }
-                return cell
-
-            case let .info(name, value, _):
-                if self.sections[indexPath.section].type == .horizontal {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell
-                    cell?.configure(with: name.rawValue, value: value)
+                case let .header(url, name):
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCell.identifier, for: indexPath) as? HeaderCell
+                    cell?.configure(with: url, name: name)
+                    cell?.onPresentSettings = {
+                        self.presentSettingsClosure?()
+                    }
                     return cell
-                } else {
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCell.identifier, for: indexPath) as? VerticalCell
-                    cell?.configure(with: name.rawValue, value: value)
+
+                case let .info(name, value, _):
+                    if self.sections[indexPath.section].type == .horizontal {
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HorizontalCell.identifier, for: indexPath) as? HorizontalCell
+                        cell?.configure(with: name.rawValue, value: value)
+                        return cell
+                    } else {
+                        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VerticalCell.identifier, for: indexPath) as? VerticalCell
+                        cell?.configure(with: name.rawValue, value: value)
+                        return cell
+                    }
+
+                case .button:
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell
+                    cell?.onPushLaunches = {
+                        self.pushLaunchesClosure?()
+                    }
+
                     return cell
                 }
-
-            case .button:
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell
-                cell?.onPushLaunches = { [weak self] in
-                    self?.pushLaunches()
-                }
-                return cell
-            }
-        })
+            })
 
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
             guard let sectionHeader = collectionView.dequeueReusableSupplementaryView(
@@ -203,26 +207,5 @@ private extension RocketViewController {
                                                                               elementKind: UICollectionView.elementKindSectionHeader,
                                                                               alignment: .top)
         return layoutSectionHeader
-    }
-}
-
-// MARK: - Navigation Methods
-
-extension RocketViewController {
-    func presentSettings() {
-        let presenter = SettingsPresenter()
-        let settingsViewController = SettingsViewController(presenter: presenter)
-        presenter.settingsView = settingsViewController
-        settingsViewController.reloadData = { [weak self] in
-            self?.reloadCollectionView()
-        }
-        present(settingsViewController, animated: true)
-    }
-
-    func pushLaunches() {
-        let presenter = LaunchesPresenter(selectedRocketID: "rocket.id", selectedRocketName: "rocket.name")
-        let launchesViewController = LaunchesViewController(presenter: presenter)
-        presenter.launchesView = launchesViewController
-        self.navigationController?.pushViewController(launchesViewController, animated: true)
     }
 }

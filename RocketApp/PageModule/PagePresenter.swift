@@ -15,6 +15,9 @@ final class PagePresenter: PagePresenterProtocol {
 
     private let networkManager = NetworkManager()
     weak var pageView: PageViewProtocol?
+    var presentSettingsClosure: (() -> Void)?
+    var onChangeSettings: (() -> Void)?
+    var pushLaunchesClosure: ((String, String) -> Void)?
 
     func getData() {
         networkManager.getRockets { result in
@@ -23,10 +26,19 @@ final class PagePresenter: PagePresenterProtocol {
                 DispatchQueue.main.async {
                     let rocketViewControllersArray = rockets.map { rocket in
 
-                        let presenter = RocketPresenter(rocket: rocket)
-                        let rocketVC = RocketViewController(presenter: presenter)
-                        presenter.rocketView = rocketVC
-                        return rocketVC
+                        let rocketPresenter = RocketPresenter(rocket: rocket)
+                        let rocketView = RocketViewController(presenter: rocketPresenter)
+                        rocketView.pushLaunchesClosure = {
+                            self.pushLaunchesClosure?(rocket.id, rocket.name)
+                        }
+                        rocketView.presentSettingsClosure = self.presentSettingsClosure
+
+                        self.onChangeSettings = {
+                            rocketPresenter.getData()
+                        }
+
+                        rocketPresenter.rocketView = rocketView
+                        return rocketView
                     }
                     self.pageView?.present(rocketViewControllers: rocketViewControllersArray)
                 }

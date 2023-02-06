@@ -16,10 +16,28 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
+
         let pagePresenter = PagePresenter()
         let pageViewController = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, presenter: pagePresenter)
         pagePresenter.pageView = pageViewController
-        window?.rootViewController = UINavigationController(rootViewController: pageViewController)
-        window?.backgroundColor = .black
+
+        let navigationController = UINavigationController(rootViewController: pageViewController)
+
+            pagePresenter.presentSettingsClosure = {
+                let settingsPresenter = SettingsPresenter()
+                let settingsView = SettingsViewController(presenter: settingsPresenter)
+                settingsPresenter.settingsView = settingsView
+                settingsView.onChangeSettings = pagePresenter.onChangeSettings
+                pageViewController.present(settingsView, animated: true)
+            }
+
+            pagePresenter.pushLaunchesClosure = { id, name in
+                let launchesPresenter = LaunchesPresenter(selectedRocketID: id, selectedRocketName: name)
+                let launchesView = LaunchesViewController(presenter: launchesPresenter)
+                launchesPresenter.launchesView = launchesView
+                navigationController.pushViewController(launchesView, animated: true)
+            }
+
+        window?.rootViewController = navigationController
     }
 }
