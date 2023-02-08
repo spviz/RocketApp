@@ -25,20 +25,18 @@ final class PagePresenter: PagePresenterProtocol {
             case .success(let rockets):
                 DispatchQueue.main.async {
                     let rocketViewControllersArray = rockets.map { rocket in
-
                         let rocketPresenter = RocketPresenter(rocket: rocket)
                         let rocketView = RocketViewController(presenter: rocketPresenter)
                         rocketView.pushLaunchesClosure = {
                             self.pushLaunchesClosure?(rocket.id, rocket.name)
                         }
                         rocketView.presentSettingsClosure = self.presentSettingsClosure
-
                         rocketPresenter.rocketView = rocketView
                         return rocketView
                     }
                     self.onChangeSettings = {
-                        for vc in rocketViewControllersArray {
-                            vc.reloadCollectionView()
+                        for rocketView in rocketViewControllersArray {
+                            rocketView.reloadCollectionView()
                         }
                     }
                     self.pageView?.present(rocketViewControllers: rocketViewControllersArray)
