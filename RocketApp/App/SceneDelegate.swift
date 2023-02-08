@@ -40,11 +40,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             pageView?.present(settingsView, animated: true)
         }
 
-        pagePresenter.pushLaunchesClosure = { [weak navigationController] id, name in
+        pagePresenter.pushLaunchesClosure = { id, name in
             let launchesPresenter = LaunchesPresenter(selectedRocketID: id, selectedRocketName: name)
             let launchesView = LaunchesViewController(presenter: launchesPresenter)
             launchesPresenter.launchesView = launchesView
-            navigationController?.pushViewController(launchesView, animated: true)
+            navigationController.pushViewController(launchesView, animated: true)
         }
 
         return navigationController
