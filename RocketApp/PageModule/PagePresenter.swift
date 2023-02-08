@@ -33,12 +33,13 @@ final class PagePresenter: PagePresenterProtocol {
                         }
                         rocketView.presentSettingsClosure = self.presentSettingsClosure
 
-                        self.onChangeSettings = {
-                            rocketPresenter.getData()
-                        }
-
                         rocketPresenter.rocketView = rocketView
                         return rocketView
+                    }
+                    self.onChangeSettings = {
+                        for vc in rocketViewControllersArray {
+                            vc.reloadCollectionView()
+                        }
                     }
                     self.pageView?.present(rocketViewControllers: rocketViewControllersArray)
                 }

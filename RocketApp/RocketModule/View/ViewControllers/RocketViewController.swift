@@ -20,11 +20,10 @@ final class RocketViewController: UIViewController {
 
     var presentSettingsClosure: (() -> Void)?
     var pushLaunchesClosure: (() -> Void)?
-    var onChangeSettings: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.getData()
+        reloadCollectionView()
     }
 
     init(presenter: RocketPresenterProtocol) {
@@ -38,6 +37,10 @@ final class RocketViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        reloadCollectionView()
+    }
+
+    func reloadCollectionView() {
         presenter.getData()
     }
 }
