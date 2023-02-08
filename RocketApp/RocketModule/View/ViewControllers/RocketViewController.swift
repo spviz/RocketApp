@@ -13,17 +13,17 @@ protocol RocketViewProtocol: AnyObject {
 
 final class RocketViewController: UIViewController {
 
-    private lazy var collectionView = UICollectionView()
-    private lazy var dataSource = setupDataSource()
+    private lazy var collectionView = makeCollectionView()
+    private lazy var dataSource = makeDataSource()
     private let presenter: RocketPresenterProtocol
     private var sections = [Section]()
 
     var presentSettingsClosure: (() -> Void)?
     var pushLaunchesClosure: (() -> Void)?
+    var onChangeSettings: (() -> Void)?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionView()
         presenter.getData()
     }
 
@@ -38,10 +38,6 @@ final class RocketViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        reloadCollectionView()
-    }
-
-    func reloadCollectionView() {
         presenter.getData()
     }
 }
@@ -58,8 +54,8 @@ extension RocketViewController: RocketViewProtocol {
 // MARK: - Configure CollectionView
 
 private extension RocketViewController {
-    func setupCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+    func makeCollectionView() -> UICollectionView {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.backgroundColor = .black
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.contentInsetAdjustmentBehavior = .never
@@ -75,9 +71,10 @@ private extension RocketViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: SectionHeader.identifier
         )
+        return collectionView
     }
 
-    func setupDataSource() -> UICollectionViewDiffableDataSource<Section, ItemType> {
+    func makeDataSource() -> UICollectionViewDiffableDataSource<Section, ItemType> {
         let dataSource = UICollectionViewDiffableDataSource<Section, ItemType>(
             collectionView: collectionView,
             cellProvider: { collectionView, indexPath, itemIdentifier in
