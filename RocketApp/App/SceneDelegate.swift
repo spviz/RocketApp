@@ -16,28 +16,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         window?.makeKeyAndVisible()
+        window?.rootViewController = makeNavigationController()
+    }
+
+    private func makeNavigationController() -> UINavigationController {
 
         let pagePresenter = PagePresenter()
-        let pageViewController = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, presenter: pagePresenter)
-        pagePresenter.pageView = pageViewController
+        let pageView = PageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, presenter: pagePresenter)
+        pagePresenter.pageView = pageView
 
-        let navigationController = UINavigationController(rootViewController: pageViewController)
+        let navigationController = UINavigationController(rootViewController: pageView)
 
-            pagePresenter.presentSettingsClosure = {
-                let settingsPresenter = SettingsPresenter()
-                let settingsView = SettingsViewController(presenter: settingsPresenter)
-                settingsPresenter.settingsView = settingsView
-                settingsView.onChangeSettings = pagePresenter.onChangeSettings
-                pageViewController.present(settingsView, animated: true)
+        pagePresenter.presentSettingsClosure = { [weak pageView] in
+            let settingsPresenter = SettingsPresenter()
+            let settingsView = SettingsViewController(presenter: settingsPresenter)
+            settingsPresenter.settingsView = settingsView
+            settingsView.onChangeSettings = {
+                guard let rocketViewControllersArray = pageView?.viewControllers as? [RocketViewController] else { return }
+                for rocketView in rocketViewControllersArray {
+                    rocketView.reloadCollectionView()
+                }
             }
+            pageView?.present(settingsView, animated: true)
+        }
 
-            pagePresenter.pushLaunchesClosure = { id, name in
-                let launchesPresenter = LaunchesPresenter(selectedRocketID: id, selectedRocketName: name)
-                let launchesView = LaunchesViewController(presenter: launchesPresenter)
-                launchesPresenter.launchesView = launchesView
-                navigationController.pushViewController(launchesView, animated: true)
-            }
+        pagePresenter.pushLaunchesClosure = { [weak navigationController] id, name in
+            let launchesPresenter = LaunchesPresenter(selectedRocketID: id, selectedRocketName: name)
+            let launchesView = LaunchesViewController(presenter: launchesPresenter)
+            launchesPresenter.launchesView = launchesView
+            navigationController?.pushViewController(launchesView, animated: true)
+        }
 
-        window?.rootViewController = navigationController
+        return navigationController
     }
 }
