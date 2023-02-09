@@ -87,8 +87,8 @@ private extension RocketViewController {
                 case let .header(url, name):
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HeaderCell.identifier, for: indexPath) as? HeaderCell
                     cell?.configure(with: url, name: name)
-                    cell?.onPresentSettings = { [weak self] in
-                        self?.presentSettingsClosure?()
+                    cell?.onPresentSettings = {
+                        self.presentSettingsClosure?()
                     }
                     return cell
 
@@ -105,8 +105,8 @@ private extension RocketViewController {
 
                 case .button:
                     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell
-                    cell?.onPushLaunches = { [weak self] in
-                        self?.pushLaunchesClosure?()
+                    cell?.onPushLaunches = {
+                        self.pushLaunchesClosure?()
                     }
 
                     return cell
