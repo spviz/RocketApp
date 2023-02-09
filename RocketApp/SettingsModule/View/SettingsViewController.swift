@@ -24,7 +24,7 @@ final class SettingsViewController: UIViewController {
     private let presenter: SettingsPresenterProtocol
     private var settings = [Settings]()
 
-    var reloadData: (() -> Void)?
+    var onChangeSettings: (() -> Void)?
 
     init(presenter: SettingsPresenterProtocol) {
         self.presenter = presenter
@@ -44,7 +44,7 @@ final class SettingsViewController: UIViewController {
 
     @objc private func closeButtonPressed() {
         dismiss(animated: true)
-        reloadData?()
+        onChangeSettings?()
     }
 }
 

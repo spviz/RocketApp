@@ -22,7 +22,7 @@ final class RocketPresenter: RocketPresenterProtocol {
         case sec = "sec"
     }
 
-    private let dataManager = DataManager()
+    private let dataManager: DataManagerProtocol = DataManager()
     private let rocket: Rocket
     private let dateFormatter = DateFormatter()
 
