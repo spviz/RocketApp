@@ -16,8 +16,8 @@ final class NetworkManagerTests: XCTestCase {
 
     private var networkManager: NetworkManagerProtocol!
     private var dateFormatter: DateFormatter!
-    private var rocketsUrl = URL(string: API.rockets)!
-    private var launchesUrl = URL(string: API.launches)!
+    private let rocketsUrl = URL(string: API.rockets)!
+    private let launchesUrl = URL(string: API.launches)!
 
     override func setUp() {
         super.setUp()
