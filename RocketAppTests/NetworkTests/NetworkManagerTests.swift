@@ -14,15 +14,10 @@ final class NetworkManagerTests: XCTestCase {
 
     }
 
-    private enum MockAPI {
-        static let rockets = Bundle.main.url(forResource: "rockets", withExtension: "json")
-        static let rocketsFail = Bundle.main.url(forResource: "rocketsFail", withExtension: "json")
-        static let launches = Bundle.main.url(forResource: "launches", withExtension: "json")
-        static let launchesFail = Bundle.main.url(forResource: "launchesFail", withExtension: "json")
-    }
-
     private var networkManager: NetworkManagerProtocol!
     private var dateFormatter: DateFormatter!
+    private var rocketsUrl = URL(string: API.rockets)!
+    private var launchesUrl = URL(string: API.launches)!
 
     override func setUp() {
         super.setUp()
@@ -33,19 +28,14 @@ final class NetworkManagerTests: XCTestCase {
         networkManager = NetworkManager(session: session)
         dateFormatter = DateFormatter()
     }
-}
 
-// MARK: - getRockets method tests
-
-extension NetworkManagerTests {
     func testGetRocketsParsedSuccessfully() {
 
-        guard let rocketsUrl = URL(string: API.rockets) else { return }
-        guard let rocketsMockDataURL = MockAPI.rockets else { return }
-        guard let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else { return }
-
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        guard let firstFlightDate = dateFormatter.date(from: "2006-03-24") else { return }
+        guard let rocketsMockDataURL = Bundle.main.url(forResource: "rockets", withExtension: "json"),
+              let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else {
+            XCTFail("Error creating rocketsMockData")
+            return
+        }
 
         MockURLProtocol.mockURLs[rocketsUrl] = (
             error: nil,
@@ -69,16 +59,18 @@ extension NetworkManagerTests {
         wait(for: [expectation], timeout: 5)
 
         XCTAssertEqual(actualRockets[0].name, "Falcon 1")
-        XCTAssertEqual(actualRockets[0].firstFlight, firstFlightDate)
+        XCTAssertEqual("\(actualRockets[0].firstFlight)", "2006-03-23 20:00:00 +0000")
         XCTAssertEqual(actualRockets[0].costPerLaunch, 6700000)
         XCTAssertEqual(actualRockets[0].country, "Republic of the Marshall Islands")
     }
 
     func testGetRocketsFailWithDecodingError() {
 
-        guard let rocketsUrl = URL(string: API.rockets) else { return }
-        guard let rocketsMockDataURL = MockAPI.rocketsFail else { return }
-        guard let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else { return }
+        guard let rocketsMockDataURL = Bundle.main.url(forResource: "rocketsFail", withExtension: "json"),
+              let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else {
+            XCTFail("Error creating rocketsMockData")
+            return
+        }
 
         MockURLProtocol.mockURLs[rocketsUrl] = (
             error: nil,
@@ -94,7 +86,7 @@ extension NetworkManagerTests {
                 XCTFail("\(#function) unexpected result")
             case let .failure(error):
                 guard let error = error as? NetworkError else { return }
-                XCTAssertEqual(error.description, "decodingError")
+                XCTAssertEqual(error, NetworkError.decodingError)
                 expectation.fulfill()
             }
         }
@@ -103,9 +95,11 @@ extension NetworkManagerTests {
 
     func testGetRocketsFailWithServerError() {
 
-        guard let rocketsUrl = URL(string: API.rockets) else { return }
-        guard let rocketsMockDataURL = MockAPI.rockets else { return }
-        guard let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else { return }
+        guard let rocketsMockDataURL = Bundle.main.url(forResource: "rockets", withExtension: "json"),
+              let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else {
+            XCTFail("Error creating rocketsMockData")
+            return
+        }
 
         MockURLProtocol.mockURLs[rocketsUrl] = (
             error: MockError(),
@@ -121,25 +115,20 @@ extension NetworkManagerTests {
                 XCTFail("\(#function) unexpected result")
             case let .failure(error):
                 guard let error = error as? NetworkError else { return }
-                XCTAssertEqual(error.description, "serverError")
+                XCTAssertEqual(error, NetworkError.serverError)
                 expectation.fulfill()
             }
         }
         wait(for: [expectation], timeout: 5)
     }
-}
 
-// MARK: - getLaunches method tests
-
-extension NetworkManagerTests {
     func testGetLaunchesParsedSuccessfully() {
 
-        guard let launchesUrl = URL(string: API.launches) else { return }
-        guard let launchesMockDataURL = MockAPI.launches else { return }
-        guard let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else { return }
-
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-        guard let firstFlightDate = dateFormatter.date(from: "2009-07-13T03:35:00.000Z") else { return }
+        guard let launchesMockDataURL = Bundle.main.url(forResource: "launches", withExtension: "json"),
+              let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else {
+            XCTFail("Error creating launchesMockData")
+            return
+        }
 
         MockURLProtocol.mockURLs[launchesUrl] = (
             error: nil,
@@ -163,16 +152,18 @@ extension NetworkManagerTests {
         wait(for: [expectation], timeout: 5)
 
         XCTAssertEqual(actualLaunches[0].name, "RazakSat")
-        XCTAssertEqual(actualLaunches[0].dateUtc, firstFlightDate)
+        XCTAssertEqual("\(actualLaunches[0].dateUtc)", "2009-07-13 03:35:00 +0000")
         XCTAssertEqual(actualLaunches[0].rocket, "5e9d0d95eda69955f709d1eb")
         XCTAssertEqual(actualLaunches[0].success, true)
     }
 
     func testGetLaunchesFailWithDecodingError() {
 
-        guard let launchesUrl = URL(string: API.launches) else { return }
-        guard let launchesMockDataURL = MockAPI.launchesFail else { return }
-        guard let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else { return }
+        guard let launchesMockDataURL = Bundle.main.url(forResource: "launchesFail", withExtension: "json"),
+              let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else {
+            XCTFail("Error creating launchesMockData")
+            return
+        }
 
         MockURLProtocol.mockURLs[launchesUrl] = (
             error: nil,
@@ -188,7 +179,7 @@ extension NetworkManagerTests {
                 XCTFail("\(#function) unexpected result")
             case let .failure(error):
                 guard let error = error as? NetworkError else { return }
-                XCTAssertEqual(error.description, "decodingError")
+                XCTAssertEqual(error, NetworkError.decodingError)
                 expectation.fulfill()
             }
         }
@@ -197,9 +188,11 @@ extension NetworkManagerTests {
 
     func testGetLaunchesFailWithServerError() {
 
-        guard let launchesUrl = URL(string: API.launches) else { return }
-        guard let launchesMockDataURL = MockAPI.launches else { return }
-        guard let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else { return }
+        guard let launchesMockDataURL = Bundle.main.url(forResource: "launches", withExtension: "json"),
+              let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else {
+            XCTFail("Error creating launchesMockData")
+            return
+        }
 
         MockURLProtocol.mockURLs[launchesUrl] = (
             error: MockError(),
@@ -215,7 +208,7 @@ extension NetworkManagerTests {
                 XCTFail("\(#function) unexpected result")
             case let .failure(error):
                 guard let error = error as? NetworkError else { return }
-                XCTAssertEqual(error.description, "serverError")
+                XCTAssertEqual(error, NetworkError.serverError)
                 expectation.fulfill()
             }
         }

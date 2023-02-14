@@ -20,15 +20,6 @@ enum API {
 enum NetworkError: Error {
     case decodingError
     case serverError
-
-    var description: String {
-        switch self {
-        case .decodingError:
-            return "decodingError"
-        case .serverError:
-            return "serverError"
-        }
-    }
 }
 
 final class NetworkManager: NetworkManagerProtocol {
