@@ -12,18 +12,28 @@ protocol NetworkManagerProtocol {
     func getLaunches(for rocketID: String, completionHandler: @escaping (Result<Launch, Error>) -> Void)
 }
 
-private enum API {
+enum API {
     static let rockets = "https://api.spacexdata.com/v4/rockets"
     static let launches = "https://api.spacexdata.com/v4/launches/query/"
 }
 
-private enum NetworkError: Error {
-    case invalidURL
-    case invalidState
+enum NetworkError: Error {
+    case decodingError
     case serverError
+
+    var description: String {
+        switch self {
+        case .decodingError:
+            return "decodingError"
+        case .serverError:
+            return "serverError"
+        }
+    }
 }
 
 final class NetworkManager: NetworkManagerProtocol {
+
+    private let session: URLSession
 
     private let rocketsDecoder: JSONDecoder = {
         let decoder = JSONDecoder()
@@ -43,27 +53,27 @@ final class NetworkManager: NetworkManagerProtocol {
         return decoder
     }()
 
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+
     func getRockets(completionHandler: @escaping (Result<[Rocket], Error>) -> Void) {
 
-        guard let url = URL(string: API.rockets) else {
-            completionHandler(.failure(NetworkError.invalidURL))
-            return
-        }
+        guard let url = URL(string: API.rockets) else { return }
 
         let request = URLRequest(url: url)
 
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+        let task = session.dataTask(with: request) { data, _, error in
 
             if error != nil {
-                if let error = error {
-                    completionHandler(.failure(error))
-                }
+                completionHandler(.failure(NetworkError.serverError))
+                return
             }
 
             if let data = data, let rocket = try? self.rocketsDecoder.decode([Rocket].self, from: data) {
                 completionHandler(.success(rocket))
             } else {
-                completionHandler(.failure(NetworkError.invalidState))
+                completionHandler(.failure(NetworkError.decodingError))
             }
         }
         task.resume()
@@ -71,10 +81,7 @@ final class NetworkManager: NetworkManagerProtocol {
 
     func getLaunches(for rocketID: String, completionHandler: @escaping (Result<Launch, Error>) -> Void) {
 
-        guard let url = URL(string: API.launches) else {
-            completionHandler(.failure(NetworkError.invalidURL))
-            return
-        }
+        guard let url = URL(string: API.launches) else { return }
 
         let body = LaunchRequest(query: .init(rocket: rocketID, upcoming: false), options: .init(limit: 200, sort: "-date_local"))
         let bodyData = try? JSONEncoder().encode(body)
@@ -84,18 +91,17 @@ final class NetworkManager: NetworkManagerProtocol {
         request.httpBody = bodyData
         request.setValue("Application/json", forHTTPHeaderField: "Content-Type")
 
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+        let task = session.dataTask(with: request) { data, _, error in
 
             if error != nil {
-                if let error = error {
-                    completionHandler(.failure(error))
-                }
+                completionHandler(.failure(NetworkError.serverError))
+                return
             }
 
             if let data = data, let launches = try? self.launchesDecoder.decode(Launch.self, from: data) {
                 completionHandler(.success(launches))
             } else {
-                completionHandler(.failure(NetworkError.invalidState))
+                completionHandler(.failure(NetworkError.decodingError))
             }
         }
         task.resume()
