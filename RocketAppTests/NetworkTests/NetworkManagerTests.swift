@@ -31,17 +31,9 @@ final class NetworkManagerTests: XCTestCase {
 
     func testGetRocketsParsedSuccessfully() {
 
-        guard let rocketsMockDataURL = Bundle.main.url(forResource: "rockets", withExtension: "json"),
-              let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else {
-            XCTFail("Error creating rocketsMockData")
-            return
-        }
+        let rocketsMockData = Bundle.main.getJSON(filename: "rockets")
 
-        MockURLProtocol.mockURLs[rocketsUrl] = (
-            error: nil,
-            data: rocketsMockData,
-            response: nil
-        )
+        MockURLProtocol.mockURLs[rocketsUrl] = (error: nil, data: rocketsMockData, response: nil)
 
         let expectation = expectation(description: #function)
         var actualRockets = [Rocket]()
@@ -66,17 +58,9 @@ final class NetworkManagerTests: XCTestCase {
 
     func testGetRocketsFailWithDecodingError() {
 
-        guard let rocketsMockDataURL = Bundle.main.url(forResource: "rocketsFail", withExtension: "json"),
-              let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else {
-            XCTFail("Error creating rocketsMockData")
-            return
-        }
+        let rocketsMockData = Bundle.main.getJSON(filename: "rocketsFail")
 
-        MockURLProtocol.mockURLs[rocketsUrl] = (
-            error: nil,
-            data: rocketsMockData,
-            response: nil
-        )
+        MockURLProtocol.mockURLs[rocketsUrl] = (error: nil, data: rocketsMockData, response: nil)
 
         let expectation = expectation(description: #function)
 
@@ -95,17 +79,9 @@ final class NetworkManagerTests: XCTestCase {
 
     func testGetRocketsFailWithServerError() {
 
-        guard let rocketsMockDataURL = Bundle.main.url(forResource: "rockets", withExtension: "json"),
-              let rocketsMockData = try? Data(contentsOf: rocketsMockDataURL) else {
-            XCTFail("Error creating rocketsMockData")
-            return
-        }
+        let rocketsMockData = Bundle.main.getJSON(filename: "rockets")
 
-        MockURLProtocol.mockURLs[rocketsUrl] = (
-            error: MockError(),
-            data: rocketsMockData,
-            response: nil
-        )
+        MockURLProtocol.mockURLs[rocketsUrl] = (error: MockError(), data: rocketsMockData, response: nil)
 
         let expectation = expectation(description: #function)
 
@@ -124,17 +100,9 @@ final class NetworkManagerTests: XCTestCase {
 
     func testGetLaunchesParsedSuccessfully() {
 
-        guard let launchesMockDataURL = Bundle.main.url(forResource: "launches", withExtension: "json"),
-              let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else {
-            XCTFail("Error creating launchesMockData")
-            return
-        }
+        let launchesMockData = Bundle.main.getJSON(filename: "launches")
 
-        MockURLProtocol.mockURLs[launchesUrl] = (
-            error: nil,
-            data: launchesMockData,
-            response: nil
-        )
+        MockURLProtocol.mockURLs[launchesUrl] = (error: nil, data: launchesMockData, response: nil)
 
         let expectation = expectation(description: #function)
         var actualLaunches = [Launch.Doc]()
@@ -159,17 +127,9 @@ final class NetworkManagerTests: XCTestCase {
 
     func testGetLaunchesFailWithDecodingError() {
 
-        guard let launchesMockDataURL = Bundle.main.url(forResource: "launchesFail", withExtension: "json"),
-              let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else {
-            XCTFail("Error creating launchesMockData")
-            return
-        }
+        let launchesMockData = Bundle.main.getJSON(filename: "launchesFail")
 
-        MockURLProtocol.mockURLs[launchesUrl] = (
-            error: nil,
-            data: launchesMockData,
-            response: nil
-        )
+        MockURLProtocol.mockURLs[launchesUrl] = (error: nil, data: launchesMockData, response: nil)
 
         let expectation = expectation(description: #function)
 
@@ -188,17 +148,9 @@ final class NetworkManagerTests: XCTestCase {
 
     func testGetLaunchesFailWithServerError() {
 
-        guard let launchesMockDataURL = Bundle.main.url(forResource: "launches", withExtension: "json"),
-              let launchesMockData = try? Data(contentsOf: launchesMockDataURL) else {
-            XCTFail("Error creating launchesMockData")
-            return
-        }
+        let launchesMockData = Bundle.main.getJSON(filename: "launches")
 
-        MockURLProtocol.mockURLs[launchesUrl] = (
-            error: MockError(),
-            data: launchesMockData,
-            response: nil
-        )
+        MockURLProtocol.mockURLs[launchesUrl] = (error: MockError(), data: launchesMockData, response: nil)
 
         let expectation = expectation(description: #function)
 
