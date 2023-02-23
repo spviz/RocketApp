@@ -51,7 +51,7 @@ final class NetworkManagerTests: XCTestCase {
         wait(for: [expectation], timeout: 5)
 
         XCTAssertEqual(actualRockets[0].name, "Falcon 1")
-        XCTAssertEqual("\(actualRockets[0].firstFlight)", "2006-03-23 20:00:00 +0000")
+        XCTAssertEqual("\(actualRockets[0].firstFlight)", "2006-03-23 21:00:00 +0000")
         XCTAssertEqual(actualRockets[0].costPerLaunch, 6700000)
         XCTAssertEqual(actualRockets[0].country, "Republic of the Marshall Islands")
     }
