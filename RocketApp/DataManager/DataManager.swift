@@ -14,15 +14,21 @@ protocol DataManagerProtocol {
 
 final class DataManager: DataManagerProtocol {
 
+    private let userDefaults: UserDefaults
+
     let selectedUnit = [SelectedUnit.metric,
                         SelectedUnit.imperial]
 
+    init(userDefaults: UserDefaults = .standard) {
+        self.userDefaults = userDefaults
+    }
+
     func setSettings(for setting: SettingType, selectedUnit: SelectedUnit) {
-        UserDefaults.standard.set(selectedUnit.rawValue, forKey: setting.rawValue)
+        userDefaults.set(selectedUnit.rawValue, forKey: setting.rawValue)
     }
 
     func getSelectedUnit(for setting: SettingType) -> SelectedUnit {
-        let unitIndex = UserDefaults.standard.integer(forKey: setting.rawValue)
+        let unitIndex = userDefaults.integer(forKey: setting.rawValue)
         return selectedUnit[unitIndex]
     }
 }
