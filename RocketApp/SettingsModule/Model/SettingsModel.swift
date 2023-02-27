@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Settings {
+struct Settings: Equatable {
     let settingType: SettingType
     let units: [Unit]
     let selectedUnits: SelectedUnit
