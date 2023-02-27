@@ -8,6 +8,7 @@
 import Foundation
 
 protocol SettingsPresenterProtocol {
+    var settingsView: SettingsViewProtocol? { get set }
     func getData()
     func setSettings(setting: SettingType, selectedIndex: Int)
 }
