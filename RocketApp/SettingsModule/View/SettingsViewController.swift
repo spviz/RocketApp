@@ -74,7 +74,7 @@ extension SettingsViewController: UITableViewDataSource {
         cell.configureElements(with: settings[indexPath.row])
         let setting = self.settings[indexPath.row]
         cell.onChangeUnits = { [weak self] index in
-            self?.presenter.setSettings(setting: setting.settingType, selectedIndex: index)
+            self?.presenter.setSettings(setting: setting.settingType, selectedUnit: SelectedUnit(rawValue: index) ?? .metric)
         }
         return cell
     }

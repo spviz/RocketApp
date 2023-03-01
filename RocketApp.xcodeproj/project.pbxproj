@@ -35,6 +35,7 @@
 		3257BA68299BDDAF004CF2EA /* rocketsFail.json in Resources */ = {isa = PBXBuildFile; fileRef = 3204B214299ABE33002352FA /* rocketsFail.json */; };
 		3257BA69299BDDAF004CF2EA /* launchesFail.json in Resources */ = {isa = PBXBuildFile; fileRef = 321CAC15299BA361004D0DC6 /* launchesFail.json */; };
 		3257BA6C299D333C004CF2EA /* BundleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3257BA6B299D333C004CF2EA /* BundleExtension.swift */; };
+		325ACC6229AD149C00A23416 /* SettingsPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325ACC6129AD149C00A23416 /* SettingsPresenterTests.swift */; };
 		327240D82974369300557E0E /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327240D72974369300557E0E /* DataManager.swift */; };
 		327DE6EB297828CF007BC885 /* LaunchesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EA297828CF007BC885 /* LaunchesViewController.swift */; };
 		327DE6ED29784A0E007BC885 /* LaunchesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327DE6EC29784A0E007BC885 /* LaunchesCell.swift */; };
@@ -90,6 +91,7 @@
 		323B022F2987D30B00B29CCC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		32539C892989B219008FDA59 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 		3257BA6B299D333C004CF2EA /* BundleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundleExtension.swift; sourceTree = "<group>"; };
+		325ACC6129AD149C00A23416 /* SettingsPresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenterTests.swift; sourceTree = "<group>"; };
 		327240D72974369300557E0E /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		327DE6EA297828CF007BC885 /* LaunchesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesViewController.swift; sourceTree = "<group>"; };
 		327DE6EC29784A0E007BC885 /* LaunchesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchesCell.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 			children = (
 				322CCAC0299FA98F005C0D7F /* DataManagerTests */,
 				32D467402998FBD5000EAF68 /* NetworkTests */,
+				325ACC6329AD1A1C00A23416 /* SettingsPresenterTests */,
 			);
 			path = RocketAppTests;
 			sourceTree = "<group>";
@@ -274,6 +277,14 @@
 				321CAC15299BA361004D0DC6 /* launchesFail.json */,
 			);
 			path = JSONs;
+			sourceTree = "<group>";
+		};
+		325ACC6329AD1A1C00A23416 /* SettingsPresenterTests */ = {
+			isa = PBXGroup;
+			children = (
+				325ACC6129AD149C00A23416 /* SettingsPresenterTests.swift */,
+			);
+			path = SettingsPresenterTests;
 			sourceTree = "<group>";
 		};
 		327240D92974500800557E0E /* DataManager */ = {
@@ -593,6 +604,7 @@
 				32D467442998FC23000EAF68 /* MockURLSessionProtocol.swift in Sources */,
 				322CCAC2299FA9AC005C0D7F /* DataManagerTests.swift in Sources */,
 				32D467422998FC02000EAF68 /* NetworkManagerTests.swift in Sources */,
+				325ACC6229AD149C00A23416 /* SettingsPresenterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
