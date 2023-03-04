@@ -17,8 +17,8 @@ struct Rocket: Decodable {
     let firstFlight: Date
     let country: String
     let costPerLaunch: Int
-    let firstStage: FirstStage
-    let secondStage: SecondStage
+    var firstStage: FirstStage
+    var secondStage: SecondStage
     let id: String
 }
 
@@ -30,7 +30,7 @@ extension Rocket {
     struct FirstStage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
-        let burnTimeSec: Int?
+        var burnTimeSec: Int?
     }
 
     struct Mass: Decodable {
@@ -44,6 +44,6 @@ extension Rocket {
     struct SecondStage: Decodable {
         let engines: Int
         let fuelAmountTons: Double
-        let burnTimeSec: Int?
+        var burnTimeSec: Int?
     }
 }

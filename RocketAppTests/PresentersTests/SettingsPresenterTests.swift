@@ -11,16 +11,17 @@ import XCTest
 final class SettingsPresenterTests: XCTestCase {
 
     private var presenter: SettingsPresenter!
-    private var view: MockView!
+    private var view: SettingsMockView!
 
     override func setUp() {
         super.setUp()
         presenter = SettingsPresenter()
-        view = MockView()
+        view = SettingsMockView()
         presenter.settingsView = view
     }
 
     func testSetSettingsAndGetData() {
+
         presenter.setSettings(setting: .height, selectedUnit: .metric)
         presenter.setSettings(setting: .diameter, selectedUnit: .imperial)
         presenter.setSettings(setting: .mass, selectedUnit: .metric)
@@ -28,17 +29,11 @@ final class SettingsPresenterTests: XCTestCase {
 
         presenter.getData()
 
-        XCTAssertEqual(view.settings.count, 4)
-
         XCTAssertEqual(view.settings, [
-            Settings(settingType: .height, units: [.m, .ft],
-                     selectedUnits: SelectedUnit.metric),
-            Settings(settingType: .diameter, units: [.m, .ft],
-                     selectedUnits: SelectedUnit.imperial),
-            Settings(settingType: .mass, units: [.kg, .lb],
-                     selectedUnits: SelectedUnit.metric),
-            Settings(settingType: .payloadWeights, units: [.kg, .lb],
-                     selectedUnits: SelectedUnit.imperial)
+            Settings(settingType: .height, units: [.m, .ft], selectedUnits: .metric),
+            Settings(settingType: .diameter, units: [.m, .ft], selectedUnits: .imperial),
+            Settings(settingType: .mass, units: [.kg, .lb], selectedUnits: .metric),
+            Settings(settingType: .payloadWeights, units: [.kg, .lb], selectedUnits: .imperial)
         ])
     }
 
@@ -47,7 +42,7 @@ final class SettingsPresenterTests: XCTestCase {
 // MARK: - MockView
 
 private extension SettingsPresenterTests {
-    final class MockView: SettingsViewProtocol {
+    final class SettingsMockView: SettingsViewProtocol {
 
         var settings = [Settings]()
 

@@ -22,8 +22,8 @@ final class RocketPresenter: RocketPresenterProtocol {
         case sec = "sec"
     }
 
-    private let dataManager: DataManagerProtocol = DataManager()
-    private let rocket: Rocket
+    var dataManager: DataManagerProtocol = DataManager()
+    var rocket: Rocket
     private let dateFormatter = DateFormatter()
 
     weak var rocketView: RocketViewProtocol?
