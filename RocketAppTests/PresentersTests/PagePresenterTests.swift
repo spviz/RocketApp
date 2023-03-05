@@ -17,7 +17,6 @@ final class PagePresenterTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-
         mockNetwork = MockNetworkManager()
         mockView = PageMockView()
         presenter = PagePresenter(networkManager: mockNetwork)
@@ -25,6 +24,8 @@ final class PagePresenterTests: XCTestCase {
     }
 
     func testGetDataSuccessfully() {
+
+        let expectation = XCTestExpectation()
         let rocket = Rocket(
             flickrImages: [URL(string: "https://imgur.com/DaCfMsj.jpg")!],
             name: "rocket.name",
@@ -39,11 +40,14 @@ final class PagePresenterTests: XCTestCase {
             secondStage: .init(engines: 1, fuelAmountTons: 1, burnTimeSec: 1),
             id: "878077"
         )
-        mockNetwork.resultRockets = .success([rocket])
 
+        mockNetwork.resultRockets = .success([rocket])
+        mockView.expectation = expectation
         presenter.getData()
 
-//        XCTAssertNotNil(mockView.controllers)
+        wait(for: [expectation], timeout: 3)
+
+        XCTAssertEqual(mockView.controllers?.count, 1)
     }
 
     func testGetDataWithError() {
@@ -60,9 +64,11 @@ private extension PagePresenterTests {
 
         var controllers: [RocketViewController]?
         var alertError: Error?
+        var expectation: XCTestExpectation?
 
         func present(rocketViewControllers: [RocketViewController]) {
             controllers = rocketViewControllers
+            expectation!.fulfill()
         }
 
         func present(alert: Error) {

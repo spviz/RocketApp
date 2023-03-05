@@ -10,8 +10,8 @@ import Foundation
 
 final class MockNetworkManager: NetworkManagerProtocol {
 
-    var resultRockets: (Result<[Rocket], Error>)?
-    var resultLaunch: (Result<Launch, Error>)?
+    var resultRockets: Result<[Rocket], Error>?
+    var resultLaunch: Result<Launch, Error>?
 
     func getRockets(completionHandler: @escaping (Result<[Rocket], Error>) -> Void) {
         completionHandler(resultRockets!)

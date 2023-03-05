@@ -10,19 +10,13 @@ import XCTest
 
 final class LaunchesPresenterTests: XCTestCase {
 
-    struct ActualResult {
-        let name: String
-        let imageName: String
-        let date: String
-    }
-
     private var presenter: LaunchesPresenter!
     private var mockView = LaunchesMockView()
     private var mockNetwork = MockNetworkManager()
 
     override func setUp() {
         super.setUp()
-        let (rocketId, rocketName) = ("rocketId", "rocketName")
+        let rocketId = "rocketId", rocketName = "rocketName"
         presenter = LaunchesPresenter(selectedRocketID: rocketId, selectedRocketName: rocketName, networkManager: mockNetwork)
         presenter.launchesView = mockView
     }
@@ -35,14 +29,13 @@ final class LaunchesPresenterTests: XCTestCase {
             name: "launchName",
             dateUtc: Date(timeIntervalSince1970: 0)
         )])
-        mockNetwork.resultLaunch = .success(launch)
-        //        mockNetwork.launches =
+        let actualLaunchItem = [LaunchItem(name: "launchName", date: "1 января, 1970", imageName: "rocket_true")]
 
+        mockNetwork.resultLaunch = .success(launch)
         presenter.getData()
 
-        let actualLaunchItem = LaunchItem(name: "launchName", date: "1 января, 1970", imageName: "rocket_true")
         XCTAssertEqual(mockView.launchesInfo?.rocketName, "rocketName")
-        XCTAssertEqual(mockView.launchesInfo?.launches[0], actualLaunchItem)
+        XCTAssertEqual(mockView.launchesInfo?.launches, actualLaunchItem)
     }
 
     func testGetDataWithError() {
