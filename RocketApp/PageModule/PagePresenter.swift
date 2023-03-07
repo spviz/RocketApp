@@ -13,10 +13,14 @@ protocol PagePresenterProtocol {
 
 final class PagePresenter: PagePresenterProtocol {
 
-    private let networkManager = NetworkManager()
+    private let networkManager: NetworkManagerProtocol
     weak var pageView: PageViewProtocol?
     var presentSettingsClosure: (() -> Void)?
     var pushLaunchesClosure: ((String, String) -> Void)?
+
+    init(networkManager: NetworkManagerProtocol = NetworkManager()) {
+        self.networkManager = networkManager
+    }
 
     func getData() {
         networkManager.getRockets { result in

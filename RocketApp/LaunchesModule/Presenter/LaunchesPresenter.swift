@@ -13,15 +13,16 @@ protocol LaunchesPresenterProtocol {
 
 final class LaunchesPresenter: LaunchesPresenterProtocol {
 
-    private let networkManager = NetworkManager()
+    private let networkManager: NetworkManagerProtocol
     private let dateFormatter = DateFormatter()
     private let selectedRocketID: String
     private let selectedRocketName: String
     weak var launchesView: LaunchesViewProtocol?
 
-    init(selectedRocketID: String, selectedRocketName: String) {
+    init(selectedRocketID: String, selectedRocketName: String, networkManager: NetworkManagerProtocol = NetworkManager()) {
         self.selectedRocketID = selectedRocketID
         self.selectedRocketName = selectedRocketName
+        self.networkManager = networkManager
         dateFormatter.dateFormat = "d MMMM, yyyy"
     }
 

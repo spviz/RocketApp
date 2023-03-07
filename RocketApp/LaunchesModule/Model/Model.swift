@@ -12,7 +12,7 @@ struct LaunchesInfo {
     let launches: [LaunchItem]
 }
 
-struct LaunchItem {
+struct LaunchItem: Equatable {
     let name: String
     let date: String
     let imageName: String
