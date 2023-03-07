@@ -25,20 +25,20 @@ final class PagePresenterTests: XCTestCase {
 
     func testGetDataSuccessfully() {
 
-        let expectation = XCTestExpectation()
+        let expectation = XCTestExpectation(description: #function)
         let rocket = Rocket(
-            flickrImages: [URL(string: "https://imgur.com/DaCfMsj.jpg")!],
-            name: "rocket.name",
-            height: .init(meters: 1, feet: 1),
-            diameter: .init(meters: 1, feet: 1),
-            mass: .init(kg: 1, lb: 1),
-            payloadWeights: [.init(kg: 1, lb: 1)],
+            flickrImages: [URL(string: TestConstants.url.rawValue)!],
+            name: TestConstants.rocketName.rawValue,
+            height: .init(meters: 20, feet: 20),
+            diameter: .init(meters: 20, feet: 20),
+            mass: .init(kg: 20, lb: 20),
+            payloadWeights: [.init(kg: 20, lb: 20)],
             firstFlight: Date(timeIntervalSince1970: 0),
-            country: "USA",
+            country: TestConstants.country.rawValue,
             costPerLaunch: 1000000,
-            firstStage: .init(engines: 1, fuelAmountTons: 1, burnTimeSec: 1),
-            secondStage: .init(engines: 1, fuelAmountTons: 1, burnTimeSec: 1),
-            id: "878077"
+            firstStage: .init(engines: 20, fuelAmountTons: 20, burnTimeSec: 20),
+            secondStage: .init(engines: 20, fuelAmountTons: 20, burnTimeSec: 20),
+            id: TestConstants.rocketId.rawValue
         )
 
         mockNetwork.resultRockets = .success([rocket])

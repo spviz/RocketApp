@@ -16,6 +16,7 @@
 		322208A329AFE7F200DBE860 /* PagePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322208A229AFE7F200DBE860 /* PagePresenterTests.swift */; };
 		322208A529AFEA1400DBE860 /* MockNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322208A429AFEA1400DBE860 /* MockNetworkManager.swift */; };
 		3224410B298CF5520017F64A /* PagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3224410A298CF5520017F64A /* PagePresenter.swift */; };
+		322507CC29B7800E00FA0AA7 /* TestConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322507CB29B7800E00FA0AA7 /* TestConstants.swift */; };
 		322CCAC2299FA9AC005C0D7F /* DataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 322CCAC1299FA9AC005C0D7F /* DataManagerTests.swift */; };
 		32349F792969ABD600EEE8D2 /* RocketViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F782969ABD600EEE8D2 /* RocketViewController.swift */; };
 		32349F7C2969AD2F00EEE8D2 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */; };
@@ -79,6 +80,7 @@
 		322208A229AFE7F200DBE860 /* PagePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePresenterTests.swift; sourceTree = "<group>"; };
 		322208A429AFEA1400DBE860 /* MockNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkManager.swift; sourceTree = "<group>"; };
 		3224410A298CF5520017F64A /* PagePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagePresenter.swift; sourceTree = "<group>"; };
+		322507CB29B7800E00FA0AA7 /* TestConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestConstants.swift; sourceTree = "<group>"; };
 		322CCAC1299FA9AC005C0D7F /* DataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerTests.swift; sourceTree = "<group>"; };
 		32349F782969ABD600EEE8D2 /* RocketViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RocketViewController.swift; sourceTree = "<group>"; };
 		32349F7B2969AD2F00EEE8D2 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -193,6 +195,14 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		322507CD29B7804300FA0AA7 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				322507CB29B7800E00FA0AA7 /* TestConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
 		32349F7A2969AC6800EEE8D2 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -239,6 +249,7 @@
 		323A9CE52969A2C500A2A24B /* RocketAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				322507CD29B7804300FA0AA7 /* Constants */,
 				3257BA6A299BDDC5004CF2EA /* JSONs */,
 				32BBFF3929B3A132003E5344 /* Mocks */,
 				3222089E29AFDB9800DBE860 /* ManagersTests */,
@@ -623,6 +634,7 @@
 				322CCAC2299FA9AC005C0D7F /* DataManagerTests.swift in Sources */,
 				3222089729AE7FEB00DBE860 /* LaunchesPresenterTests.swift in Sources */,
 				32D467422998FC02000EAF68 /* NetworkManagerTests.swift in Sources */,
+				322507CC29B7800E00FA0AA7 /* TestConstants.swift in Sources */,
 				325ACC6229AD149C00A23416 /* SettingsPresenterTests.swift in Sources */,
 				322208A329AFE7F200DBE860 /* PagePresenterTests.swift in Sources */,
 			);

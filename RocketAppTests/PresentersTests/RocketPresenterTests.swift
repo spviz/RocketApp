@@ -21,52 +21,38 @@ final class RocketPresenterTests: XCTestCase {
     }
 
     func testGetDataForMetric() {
-        let rocket = Rocket(
-            flickrImages: [URL(string: "https://imgur.com/DaCfMsj.jpg")!],
-            name: "rocketName",
-            height: .init(meters: 1, feet: 2),
-            diameter: .init(meters: 3, feet: 4),
-            mass: .init(kg: 5, lb: 6),
-            payloadWeights: [.init(kg: 7, lb: 8)],
-            firstFlight: Date(timeIntervalSince1970: 0),
-            country: "USA",
-            costPerLaunch: 1000000,
-            firstStage: .init(engines: 9, fuelAmountTons: 10, burnTimeSec: 11),
-            secondStage: .init(engines: 12, fuelAmountTons: 13, burnTimeSec: 14),
-            id: "rocketID"
-        )
 
-        presenter = RocketPresenter(rocket: rocket, dataManager: mockDataManager)
+        presenter = RocketPresenter(rocket: makeStubRocket(burnTimeSec: 20), dataManager: mockDataManager)
         presenter.rocketView = mockView
 
         mockDataManager.selectedUnit = .metric
         presenter.getData()
 
         let headSection = Section(type: .header, items: [
-            .header(URL(string: "https://imgur.com/DaCfMsj.jpg")!, "rocketName")])
+            .header(URL(string: TestConstants.url.rawValue)!, TestConstants.rocketName.rawValue)])
 
         let horizontalSection = Section(type: .horizontal, items: [
-            .info(.heightMetric, "1.0"),
-            .info(.diameterMetric, "3.0"),
-            .info(.massMetric, "5"),
-            .info(.payloadWeightsMetric, "7")])
+            .info(.heightMetric, TestConstants.checkNumberDouble.rawValue),
+            .info(.diameterMetric, TestConstants.checkNumberDouble.rawValue),
+            .info(.massMetric, TestConstants.checkNumberInt.rawValue),
+            .info(.payloadWeightsMetric, TestConstants.checkNumberInt.rawValue)])
 
         let infoSection = Section(type: .vertical, items: [
-            .info(.firstFlight, "1 января, 1970"),
-            .info(.country, "USA"),
-            .info(.costPerLaunch, "$1 млн")
+            .info(.firstFlight, TestConstants.date.rawValue),
+            .info(.country, TestConstants.country.rawValue),
+            .info(.costPerLaunch, TestConstants.million.rawValue)
         ])
 
-        let firstStageSection = Section(title: "firstStageSection", type: .vertical, items: [
-            .info(.engines, "9"),
-            .info(.fuelAmountTons, "10 ton"),
-            .info(.burnTimeSec, "11 sec")
+        let firstStageSection = Section(title: TestConstants.firstStageSection.rawValue, type: .vertical, items: [
+            .info(.engines, TestConstants.checkNumberInt.rawValue),
+            .info(.fuelAmountTons, TestConstants.checkFuel.rawValue),
+            .info(.burnTimeSec, TestConstants.checkSec.rawValue)
         ])
 
-        let secondStageSection = Section(title: "secondStageSection", type: .vertical, items: [
-            .info(.engines, "12"),
-            .info(.fuelAmountTons, "13 ton"),
-            .info(.burnTimeSec, "14 sec")
+        let secondStageSection = Section(title: TestConstants.secondStageSection.rawValue, type: .vertical, items: [
+            .info(.engines, TestConstants.checkNumberInt.rawValue),
+            .info(.fuelAmountTons, TestConstants.checkFuel.rawValue),
+            .info(.burnTimeSec, TestConstants.checkSec.rawValue)
         ])
 
         let buttonSection = Section(type: .button, items: [.button])
@@ -74,27 +60,12 @@ final class RocketPresenterTests: XCTestCase {
         let sections = mockView.sections
         let actualSections = [headSection, horizontalSection, infoSection, firstStageSection, secondStageSection, buttonSection]
 
-        sectionСomparison(sections, actualSections)
+        compareSection(sections, actualSections)
     }
 
     func testGetDataForImperial() {
 
-        let rocket = Rocket(
-            flickrImages: [URL(string: "https://imgur.com/DaCfMsj.jpg")!],
-            name: "rocketName",
-            height: .init(meters: 1, feet: 2),
-            diameter: .init(meters: 3, feet: 4),
-            mass: .init(kg: 5, lb: 6),
-            payloadWeights: [.init(kg: 7, lb: 8)],
-            firstFlight: Date(timeIntervalSince1970: 0),
-            country: "USA",
-            costPerLaunch: 1000000,
-            firstStage: .init(engines: 9, fuelAmountTons: 10, burnTimeSec: 11),
-            secondStage: .init(engines: 12, fuelAmountTons: 13, burnTimeSec: 14),
-            id: "rocketID"
-        )
-
-        presenter = RocketPresenter(rocket: rocket, dataManager: mockDataManager)
+        presenter = RocketPresenter(rocket: makeStubRocket(burnTimeSec: 20), dataManager: mockDataManager)
         presenter.rocketView = mockView
 
         mockDataManager.selectedUnit = .imperial
@@ -102,54 +73,39 @@ final class RocketPresenterTests: XCTestCase {
 
         let sections = [mockView.sections[1]]
         let actualSections = [Section(type: .horizontal, items: [
-            .info(.heightImperial, "2.0"),
-            .info(.diameterImperial, "4.0"),
-            .info(.massImperial, "6"),
-            .info(.payloadWeightsImperial, "8")
+            .info(.heightImperial, TestConstants.checkNumberDouble.rawValue),
+            .info(.diameterImperial, TestConstants.checkNumberDouble.rawValue),
+            .info(.massImperial, TestConstants.checkNumberInt.rawValue),
+            .info(.payloadWeightsImperial, TestConstants.checkNumberInt.rawValue)
         ])]
 
-        sectionСomparison(sections, actualSections)
+        compareSection(sections, actualSections)
     }
 
     func testGetDataWithNoBurnTime() {
 
-        let rocket = Rocket(
-            flickrImages: [URL(string: "https://imgur.com/DaCfMsj.jpg")!],
-            name: "rocketName",
-            height: .init(meters: 1, feet: 2),
-            diameter: .init(meters: 3, feet: 4),
-            mass: .init(kg: 5, lb: 6),
-            payloadWeights: [.init(kg: 7, lb: 8)],
-            firstFlight: Date(timeIntervalSince1970: 0),
-            country: "USA",
-            costPerLaunch: 1000000,
-            firstStage: .init(engines: 9, fuelAmountTons: 10, burnTimeSec: nil),
-            secondStage: .init(engines: 12, fuelAmountTons: 13, burnTimeSec: nil),
-            id: "rocketID"
-        )
-
-        presenter = RocketPresenter(rocket: rocket, dataManager: mockDataManager)
+        presenter = RocketPresenter(rocket: makeStubRocket(burnTimeSec: nil), dataManager: mockDataManager)
         presenter.rocketView = mockView
 
         mockDataManager.selectedUnit = .metric
         presenter.getData()
 
-        let firstStageSection = Section(title: "firstStageSection", type: .vertical, items: [
-            .info(.engines, "9"),
-            .info(.fuelAmountTons, "10 ton"),
-            .info(.burnTimeSec, "Нет данных")
+        let firstStageSection = Section(title: TestConstants.firstStageSection.rawValue, type: .vertical, items: [
+            .info(.engines, TestConstants.checkNumberInt.rawValue),
+            .info(.fuelAmountTons, TestConstants.checkFuel.rawValue),
+            .info(.burnTimeSec, TestConstants.noData.rawValue)
         ])
 
-        let secondStageSection = Section(title: "secondStageSection", type: .vertical, items: [
-            .info(.engines, "12"),
-            .info(.fuelAmountTons, "13 ton"),
-            .info(.burnTimeSec, "Нет данных")
+        let secondStageSection = Section(title: TestConstants.firstStageSection.rawValue, type: .vertical, items: [
+            .info(.engines, TestConstants.checkNumberInt.rawValue),
+            .info(.fuelAmountTons, TestConstants.checkFuel.rawValue),
+            .info(.burnTimeSec, TestConstants.noData.rawValue)
         ])
 
         let sections = [mockView.sections[3], mockView.sections[4]]
         let actualSections = [firstStageSection, secondStageSection]
 
-        sectionСomparison(sections, actualSections)
+        compareSection(sections, actualSections)
     }
 }
 
@@ -162,15 +118,33 @@ private extension RocketPresenterTests {
 
         func present(sections: [Section]) {
             self.sections = sections
-
         }
     }
 }
 
-// MARK: - sectionСomparison
+// MARK: - functions
 
 private extension RocketPresenterTests {
-    func sectionСomparison(_ section1: [Section], _ section2: [Section]) {
+    func makeStubRocket(burnTimeSec: Int?) -> Rocket {
+        let rocket = Rocket(
+            flickrImages: [URL(string: TestConstants.url.rawValue)!],
+            name: TestConstants.rocketName.rawValue,
+            height: .init(meters: 20, feet: 20),
+            diameter: .init(meters: 20, feet: 20),
+            mass: .init(kg: 20, lb: 20),
+            payloadWeights: [.init(kg: 20, lb: 20)],
+            firstFlight: Date(timeIntervalSince1970: 0),
+            country: TestConstants.country.rawValue,
+            costPerLaunch: 1000000,
+            firstStage: .init(engines: 20, fuelAmountTons: 20, burnTimeSec: burnTimeSec),
+            secondStage: .init(engines: 20, fuelAmountTons: 20, burnTimeSec: burnTimeSec),
+            id: TestConstants.rocketId.rawValue
+        )
+        return rocket
+    }
+
+    // this is needed because of the UUID in the model
+    func compareSection(_ section1: [Section], _ section2: [Section]) {
 
         for (section1, section2) in zip(section1, section2) {
             for (element1, element2) in zip( section1.items, section2.items) {
@@ -188,7 +162,7 @@ private extension RocketPresenterTests {
                     XCTAssertEqual(element1, element2)
 
                 default:
-                    XCTFail("Unexpected result")
+                    XCTFail(TestConstants.unexpectedResult.rawValue)
                 }
             }
         }
