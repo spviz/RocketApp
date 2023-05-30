@@ -4,7 +4,7 @@
 - Shows information about all SpaceX rockets, including key specifications, first flight date, launch cost, and more.
 - Displays all rocket launches with detailed information.
 - Implemented a feature to change the unit of measurement for rocket specifications.
-- 
+
 # Preview
 | Rocket Screen  | Settings Screen | Launches Screen |
 | -------------- | --------------- | --------------- |
